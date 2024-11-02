@@ -77,28 +77,39 @@ public class testingtylerteley extends LinearOpMode {
 
     private DcMotor intakie = null;
     private DcMotor droppie = null;
+    private DcMotor hangie = null;
 
     private Servo flipity = null;
     private Servo flopity = null;
-//  private Servo indulgey = null;
+    //private CRServo indulgey = null;
     private CRServo bobby = null;
+
+//    double FRPower;
+//    double FLPower;
+//    double BRPower;
+//    double BLPower;
+//    double speedMode = 0.7;
+
+//    double stopBuffer = 0;
+
 
     @Override
     public void runOpMode() {
 
         // Initialize the hardware variables. Note that the strings used here must correspond
         // to the names assigned during the robot configuration step on the DS or RC devices.
-        FLMotor  = hardwareMap.get(DcMotor.class, "FL");
+        FLMotor = hardwareMap.get(DcMotor.class, "FL");
         BLMotor = hardwareMap.get(DcMotor.class, "BL");
         FRMotor = hardwareMap.get(DcMotor.class, "FR");
         BRMotor = hardwareMap.get(DcMotor.class, "BR");
 
         intakie = hardwareMap.get(DcMotor.class, "intakie");
         droppie = hardwareMap.get(DcMotor.class, "droppie");
+        hangie = hardwareMap.get(DcMotor.class, "hangie");
 
         flipity = hardwareMap.get(Servo.class, "flipity");
         flopity = hardwareMap.get(Servo.class, "flopity");
-//      indulgey = hardwareMap.get(Servo.class, "indulgey");
+        //indulgey = hardwareMap.get(CRServo.class, "indulgey");
         bobby = hardwareMap.get(CRServo.class, "bobby");
 
         // ########################################################################################
@@ -126,6 +137,15 @@ public class testingtylerteley extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
+        int startPos = 0;
+        int specimenRack = 700;
+        int wall = 300;
+        int topBasket = 1500;
+
+        droppie.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        droppie.setTargetPosition(startPos);
+        droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
         waitForStart();
         runtime.reset();
 
@@ -134,18 +154,39 @@ public class testingtylerteley extends LinearOpMode {
             double max;
 
             // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
-            double axial   = -gamepad1.left_stick_y/2;  // Note: pushing stick forward gives negative value
-            double lateral =  gamepad1.left_stick_x/2;
-            double yaw     =  gamepad1.right_stick_x/2;
+            double axial = -gamepad1.left_stick_y / 2;  // Note: pushing stick forward gives negative value
+            double lateral = gamepad1.left_stick_x / 2;
+            double yaw = gamepad1.right_stick_x / 2;
 
-            double extendArm = gamepad2.left_stick_y;
+            double extendArm = gamepad2.right_stick_y / 2;
+            double extendLeg = -gamepad2.left_stick_y;
+
+//            double extendLeg;
+            if (gamepad2.y) {
+                droppie.setTargetPosition(specimenRack);
+                droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                droppie.setPower(0.5);
+            }else if(gamepad2.b) {
+                droppie.setTargetPosition(wall);
+                droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                droppie.setPower(0.5);
+            }else if(gamepad2.a) {
+                droppie.setTargetPosition(topBasket);
+                droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                droppie.setPower(0.5);
+
+//            }else if(gamepad2.left_stick_y) {
+//                extendLeg = gamepad2.left_stick_y;
+            }
 
             // Combine the joystick requests for each axis-motion to determine each wheel's power.
             // Set up a variable for each drive wheel to save the power level for telemetry.
-            double leftFrontPower  = axial + lateral + yaw;
+            double leftFrontPower = axial + lateral + yaw;
             double rightFrontPower = axial - lateral - yaw;
-            double leftBackPower   = axial - lateral + yaw;
-            double rightBackPower  = axial + lateral - yaw;
+            double leftBackPower = axial - lateral + yaw;
+            double rightBackPower = axial + lateral - yaw;
+
+//            double[] powers = {FLPower, BLPower, FRPower, BRPower};
 
             // Normalize the values so no wheel power exceeds 100%
             // This ensures that the robot maintains the desired motion.
@@ -154,42 +195,141 @@ public class testingtylerteley extends LinearOpMode {
             max = Math.max(max, Math.abs(rightBackPower));
 
             if (max > 1.0) {
-                leftFrontPower  /= max;
+                leftFrontPower /= max;
                 rightFrontPower /= max;
-                leftBackPower   /= max;
-                rightBackPower  /= max;
+                leftBackPower /= max;
+                rightBackPower /= max;
 
+
+//                if (gamepad1.left_trigger > 0.5) {
+//                    speedMode = 0.4;
+//                } else if (gamepad1.right_trigger > 0.5) {
+//                    speedMode = 1;
+//                } else {
+//                    speedMode = .6;
+//                }
+//
+//                //Added by Leo for Game d pad -- Begin
+//                if (gamepad1.dpad_down) {
+//                    FRMotor.setPower(speedMode);
+//                    FLMotor.setPower(speedMode);
+//                    BLMotor.setPower(speedMode);
+//                    BRMotor.setPower(speedMode);
+//                } else if (gamepad1.dpad_up) {
+//                    FLMotor.setPower(-speedMode);
+//                    FRMotor.setPower(-speedMode);
+//                    BLMotor.setPower(-speedMode);
+//                    BRMotor.setPower(-speedMode);
+//                } else if (gamepad1.dpad_left) {
+//                    FLMotor.setPower(speedMode);
+//                    BRMotor.setPower(speedMode);
+//                    FRMotor.setPower(-speedMode);
+//                    BLMotor.setPower(-speedMode);
+//                } else if (gamepad1.dpad_right) {
+//                    FLMotor.setPower(-speedMode);
+//                    BRMotor.setPower(-speedMode);
+//                    FRMotor.setPower(speedMode);
+//                    BLMotor.setPower(speedMode);
+//                } else {
+//                    //Added by Leo for Game d pad -- End
+//                    boolean needToScale = false;
+//                    for (double power : powers) {
+//                        if (Math.abs(power) > 1) {
+//                            needToScale = true;
+//                            break;
+//                        }
+//
+//                    }
+//                    if (needToScale) {
+//                        double greatest = 0;
+//                        for (double power : powers) {
+//                            if (Math.abs(power) > greatest) {
+//                                greatest = Math.abs(power);
+//                            }
+//                        }
+//                        FLPower /= greatest;
+//                        BLPower /= greatest;
+//                        FRPower /= greatest;
+//                        BRPower /= greatest;
+//
+//
+//                    }
 
 
             }
 
-            intakie.setPower(extendArm);
+
+//            {
+//                if (gamepad2.y) {
+//                    droppie.setTargetPosition(specimenRack);
+//                    droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                    droppie.setPower(0.5);
+//                }
+//                if (gamepad2.b) {
+//                    droppie.setTargetPosition(wall);
+//                    droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                    droppie.setPower(0.5);
+//                }
+//                if (gamepad2.a) {
+//                    droppie.setTargetPosition(topBasket);
+//                    droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                    droppie.setPower(0.5);
+//
+//                }
+//
+//            }
+
+                intakie.setPower(extendArm);
+                droppie.setPower(extendLeg);
+                extendLeg = -extendLeg;
+
+//            if (gamepad2.right_trigger > 0.3) {
+//                indulgey.setPower(gamepad2.right_trigger);
+//            }else if (gamepad2.left_trigger > 0.3) {
+//                indulgey.setPower(gamepad2.left_trigger);
+//            }else{
+//                indulgey.setPower(0);
+//            }
+
+                if (gamepad2.dpad_up) {
+                    flopity.setPosition(0.1);
+                } else if (gamepad2.dpad_down) {
+                    flopity.setPosition(0.6);
+                }
 
 
-            if (gamepad2.dpad_up) {
-                droppie.setPower(0.8);
-            }else if (gamepad2.dpad_down) {
-                droppie.setPower(-0.8);
-            }
-            else {
-                droppie.setPower(0);
-            }
-            if(gamepad2.right_trigger > .3) {
-                bobby.setPower(.5);
-            }else if (gamepad2.left_trigger > .3) {
-                bobby.setPower(-.5);
-            }else{
-                bobby.setPower(0);
-            }
-            // This is test code:
-            //
-            // Uncomment the following code to test your motor directions.
-            // Each button should make the corresponding motor run FORWARD.
-            //   1) First get all the motors to take to correct positions on the robot
-            //      by adjusting your Robot Configuration if necessary.
-            //   2) Then make sure they run in the correct direction by modifying the
-            //      the setDirection() calls above.
-            // Once the correct motors move in the correct direction re-comment this code.
+                if (gamepad2.dpad_right) {
+                    flipity.setPosition(0.1);
+                } else if (gamepad2.dpad_left) {
+                    flipity.setPosition(0.9);
+                }
+
+
+                if (gamepad2.right_bumper) {
+                    bobby.setPower(.5);
+                } else if (gamepad2.left_bumper) {
+                    bobby.setPower(-.5);
+                } else {
+                    bobby.setPower(0);
+                }
+
+                if (gamepad1.y) {
+                    hangie.setPower(1);
+                } else if (gamepad1.a) {
+                    hangie.setPower(-1);
+                } else {
+                    hangie.setPower(0);
+                }
+
+                // This is test code:
+                //
+                // Uncomment the following code to test your motor directions.
+                // Each button should make the corresponding motor run FORWARD.
+                //   1) First get all the motors to take to correct positions on the robot
+                //      by adjusting your Robot Configuration if necessary.
+                //   2) Then make sure they run in the correct direction by modifying the
+                //      the setDirection() calls above.
+                // Once the correct motors move in the correct direction re-comment this code.
 
             /*
             leftFrontPower  = gamepad1.x ? 1.0 : 0.0;  // X gamepad
@@ -198,21 +338,55 @@ public class testingtylerteley extends LinearOpMode {
             rightBackPower  = gamepad1.b ? 1.0 : 0.0;  // B gamepad
             */
 
-            // Send calculated power to wheels
-            FLMotor.setPower(leftFrontPower);
-            FRMotor.setPower(rightFrontPower);
-            BLMotor.setPower(leftBackPower);
-            BRMotor.setPower(rightBackPower);
+                // Send calculated power to wheels
+                FLMotor.setPower(leftFrontPower);
+                FRMotor.setPower(rightFrontPower);
+                BLMotor.setPower(leftBackPower);
+                BRMotor.setPower(rightBackPower);
 
 
+                // Show the elapsed game time and wheel power.
+                telemetry.addData("Status", "Run Time: " + runtime.toString());
+                telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
+                telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
+                telemetry.update();
 
-            // Show the elapsed game time and wheel power.
-            telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
-            telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
-            telemetry.update();
 
-
+            }
 
         }
-    }}
+
+//    public void preset() throws InterruptedException {
+//
+//        int startPos = 0;
+//        int specimenRack = 700;
+//        int wall = 300;
+//        int topBasket = 1500;
+//
+//        droppie.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        droppie.setTargetPosition(startPos);
+//        droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//
+//        waitForStart();
+//
+//        while (opModeIsActive()) {
+//
+//            if (gamepad2.y) {
+//                droppie.setTargetPosition(specimenRack);
+//                droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                droppie.setPower(0.5);
+//            }
+//            if (gamepad2.b) {
+//                droppie.setTargetPosition(wall);
+//                droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                droppie.setPower(0.5);
+//            }
+//            if (gamepad2.a) {
+//                droppie.setTargetPosition(topBasket);
+//                droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                droppie.setPower(0.5);
+//
+//            }
+//
+//        }
+    }
