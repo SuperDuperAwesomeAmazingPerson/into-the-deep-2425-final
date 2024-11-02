@@ -108,6 +108,17 @@ public class OdometryPathTesting extends LinearOpMode {
         FRMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         BRMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        FLMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        FRMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        BRMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        BLMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        FLMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        FRMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        BRMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        BLMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+
         //intakie.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         /*
@@ -119,7 +130,8 @@ public class OdometryPathTesting extends LinearOpMode {
         backwards is a negative number.
          */
         //  odo.setOffsets(-84.0, -224.0); //these are tuned for 3110-0002-0001 Product Insight #1
-        odo.setOffsets(-153.71, -215.019);
+        //odo.setOffsets(-153.71, -215.019);
+        odo.setOffsets(-153.71, -76.7);
         /*
         Set the kind of pods used by your robot. If you're using goBILDA odometry pods, select either
         the goBILDA_SWINGARM_POD, or the goBILDA_4_BAR_POD.
@@ -159,7 +171,16 @@ public class OdometryPathTesting extends LinearOpMode {
         // Wait for the game to start (driver presses START)
         waitForStart();
 
-        goToPos(1000, 0, Math.toRadians(90), .6, 25, Math.toRadians(5));
+        //goToPos(3000, 0, Math.toRadians(0), .4, 25, Math.toRadians(5));
+        //goToPos(0, 500 , Math.toRadians(0), .6, 15, Math.toRadians(5));
+        //Y OFFSET SHOULD BE 76.7 mm
+        goToPos(-670, 0 , Math.toRadians(0), .5, 15, Math.toRadians(1));
+        // Motor power is based on gyro angle/rotation
+       // sleep(5000);
+        //goToPos(-670, -110 , Math.toRadians(0), .5, 15, Math.toRadians(1));
+        //goToPos(1092.2, 673.1 , Math.toRadians(180), .6, 15, Math.toRadians(5));
+        //673.1-91.4 = 581.7
+        //goToPos(1092.2, 581.7 , Math.toRadians(180), .6, 15, Math.toRadians(5));
 //        resetRuntime();
 
 //        /*
@@ -214,7 +235,7 @@ public class OdometryPathTesting extends LinearOpMode {
         Pose2D pos = odo.getPosition();
         GlobalX = pos.getX(DistanceUnit.MM);
         GlobalY = pos.getY(DistanceUnit.MM);
-        GlobalH = pos.getHeading(AngleUnit.RADIANS);
+        GlobalH = -pos.getHeading(AngleUnit.RADIANS);
     }
 
     public void goToPosSingle(double x, double y, double h, double speed){
@@ -238,10 +259,10 @@ public class OdometryPathTesting extends LinearOpMode {
         double reletiveTurnAngle = angleWrapRad(h - GlobalH);
         double movementTurnPower = Range.clip(reletiveTurnAngle / Math.toRadians(10), -speed, speed);
 
-        FLMotor.setPower(movementXpower + movementYpower + movementTurnPower);
-        BLMotor.setPower(movementXpower - movementYpower + movementTurnPower);
-        FRMotor.setPower(movementXpower - movementYpower - movementTurnPower);
-        BRMotor.setPower(movementXpower + movementYpower - movementTurnPower);
+        FLMotor.setPower(movementXpower + movementYpower - movementTurnPower);
+        BLMotor.setPower(movementXpower - movementYpower - movementTurnPower);
+        FRMotor.setPower(movementXpower - movementYpower + movementTurnPower);
+        BRMotor.setPower(movementXpower + movementYpower + movementTurnPower);
 
     }
 
@@ -266,3 +287,8 @@ public class OdometryPathTesting extends LinearOpMode {
 //        BRMotor.setPower(0);
 
 }}
+
+// vertical distance 43 inches 109.22 cm - 1092.2 mm
+// horizontal distance  odometer at 26.5 inches 67.31 cm - 673.1 mm
+//                      start of wheel 31 inches 78.74 - 787.4 mm
+//Angle 180 degrees - pi

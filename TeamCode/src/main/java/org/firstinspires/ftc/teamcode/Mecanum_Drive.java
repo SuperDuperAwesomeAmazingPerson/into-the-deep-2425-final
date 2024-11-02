@@ -25,10 +25,10 @@ public class Mecanum_Drive extends OpMode
     public void init() {
         telemetry.addData("Status", "Init in progress");
 //put initialization code here
-        frontleft = hardwareMap.get(DcMotor.class,"fl");
-        frontright = hardwareMap.get(DcMotor.class, "fr");
-        backleft   = hardwareMap.get(DcMotor.class, "bl");
-        backright  = hardwareMap.get(DcMotor.class, "br");
+        frontleft = hardwareMap.get(DcMotor.class,"FL");
+        frontright = hardwareMap.get(DcMotor.class, "FR");
+        backleft   = hardwareMap.get(DcMotor.class, "BL");
+        backright  = hardwareMap.get(DcMotor.class, "BR");
 
         frontright.setDirection(DcMotor.Direction.REVERSE);
         frontleft.setDirection(DcMotor.Direction.REVERSE);

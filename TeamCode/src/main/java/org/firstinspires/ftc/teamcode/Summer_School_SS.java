@@ -39,17 +39,16 @@ import java.util.Locale;
 
 
 @TeleOp(name="TeleOp", group="Iterative OpMode")
-public class Summer_School_SS extends OpMode
-{
+public class Summer_School_SS extends OpMode {
     //put variables here
     private DcMotor FRMotor = null;
     private DcMotor FLMotor = null;
     private DcMotor BRMotor = null;
     private DcMotor BLMotor = null;
 
-    private DcMotor intakie;  // Motor for the extending/retracting mechanism
+//    private DcMotor intakie;  // Motor for the extending/retracting mechanism
 
-//    GoBildaPinpointDriver odo; // Declare OpMode member for the Odometry Computer
+    GoBildaPinpointDriver odo; // Declare OpMode member for the Odometry Computer
 
     double oldTime = 0;
 
@@ -68,20 +67,18 @@ public class Summer_School_SS extends OpMode
     public void init() {
         telemetry.addData("Status", "Init in progress");
 //put initialization code here
-        FRMotor  = hardwareMap.get(DcMotor.class, "FR");
+        FRMotor = hardwareMap.get(DcMotor.class, "FR");
         FLMotor = hardwareMap.get(DcMotor.class, "FL");
         BRMotor = hardwareMap.get(DcMotor.class, "BR");
         BLMotor = hardwareMap.get(DcMotor.class, "BL");
 
-        intakie = hardwareMap.get(DcMotor.class, "intakie");
+//        intakie = hardwareMap.get(DcMotor.class, "intakie");
 
 // Set the motor direction and zero power behavior
 
 
-
         telemetry.addData("Status", "Initialized");
         telemetry.update();
-
 
 
         FRMotor.setDirection(DcMotor.Direction.REVERSE);
@@ -89,7 +86,7 @@ public class Summer_School_SS extends OpMode
         BRMotor.setDirection(DcMotor.Direction.REVERSE);
         BLMotor.setDirection(DcMotor.Direction.FORWARD);
 
-        intakie.setDirection(DcMotor.Direction.FORWARD);
+//        intakie.setDirection(DcMotor.Direction.FORWARD);
 
 
         FLMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -97,8 +94,7 @@ public class Summer_School_SS extends OpMode
         FRMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         BRMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        intakie.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
+//        intakie.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
         telemetry.addData("Status", "Initialized");
@@ -106,7 +102,7 @@ public class Summer_School_SS extends OpMode
         // Initialize the hardware variables. Note that the strings used here must correspond
         // to the names assigned during the robot configuration step on the DS or RC devices.
 
-//        odo = hardwareMap.get(GoBildaPinpointDriver.class,"odo");
+        odo = hardwareMap.get(GoBildaPinpointDriver.class, "odo");
 //
 //        /*
 //        Set the odometry pod positions relative to the point that the odometry computer tracks around.
@@ -116,16 +112,16 @@ public class Summer_School_SS extends OpMode
 //        the tracking point the Y (strafe) odometry pod is. forward of center is a positive number,
 //        backwards is a negative number.
 //         */
-//        //  odo.setOffsets(-84.0, -224.0); //these are tuned for 3110-0002-0001 Product Insight #1
-//        odo.setOffsets(-153.71, -215.019);
+        //odo.setOffsets(-84.0, -224.0); //these are tuned for 3110-0002-0001 Product Insight #1
+        odo.setOffsets(-153.71, -215.019);
 //        /*
 //        Set the kind of pods used by your robot. If you're using goBILDA odometry pods, select either
 //        the goBILDA_SWINGARM_POD, or the goBILDA_4_BAR_POD.
 //        If you're using another kind of odometry pod, uncomment setEncoderResolution and input the
 //        number of ticks per mm of your odometry pod.
 //         */
-//        odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
-//        //odo.setEncoderResolution(13.26291192);
+        odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
+        odo.setEncoderResolution(13.26291192);
 //
 //
 //        /*
@@ -133,7 +129,7 @@ public class Summer_School_SS extends OpMode
 //        increase when you move the robot forward. And the Y (strafe) pod should increase when
 //        you move the robot to the left.
 //         */
-//        odo.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.FORWARD);
+        odo.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.FORWARD);
 //
 //
 //        /*
@@ -144,51 +140,51 @@ public class Summer_School_SS extends OpMode
 //        This is recommended before you run your autonomous, as a bad initial calibration can cause
 //        an incorrect starting value for x, y, and heading.
 //         */
-//        //odo.recalibrateIMU();
-//        odo.resetPosAndIMU();
+        odo.recalibrateIMU();
+        odo.resetPosAndIMU();
 
-//        telemetry.addData("Status", "Initialized");
-//        telemetry.addData("X offset", odo.getXOffset());
-//        telemetry.addData("Y offset", odo.getYOffset());
-//        telemetry.addData("Device Version Number:", odo.getDeviceVersion());
-//        telemetry.addData("Device Scalar", odo.getYawScalar());
-//        telemetry.update();
+        telemetry.addData("Status", "Initialized");
+        telemetry.addData("X offset", odo.getXOffset());
+        telemetry.addData("Y offset", odo.getYOffset());
+        telemetry.addData("Device Version Number:", odo.getDeviceVersion());
+        telemetry.addData("Device Scalar", odo.getYawScalar());
+        telemetry.update();
     }
 
     @Override
     public void loop() {
 //put main loop code here
-    double forward = Math.pow(gamepad1.left_stick_y, 3);
-    double right = Math.pow(gamepad1.left_stick_x, 3);
-    double turn = Math.pow(gamepad1.right_stick_x, 3);
+        double forward = Math.pow(gamepad1.left_stick_y, 3);
+        double right = Math.pow(gamepad1.left_stick_x, 3);
+        double turn = Math.pow(gamepad1.right_stick_x, 3);
 // Get the left stick Y-axis input from gamepad1 (values range from -1 to 1)
-    double extendArm = gamepad2.left_stick_y;
+//        double extendArm = gamepad2.left_stick_y;
 
 
-    double FLPower = speedMode * forward - right - turn;
-    double BLPower = speedMode * forward + right - turn;
-    double FRPower = speedMode * forward + right + turn;
-    double BRPower = speedMode * forward - right + turn;
-    double[] powers = {FLPower, BLPower, FRPower, BRPower};
+        double FLPower = speedMode * forward - right - turn;
+        double BLPower = speedMode * forward + right - turn;
+        double FRPower = speedMode * forward + right + turn;
+        double BRPower = speedMode * forward - right + turn;
+        double[] powers = {FLPower, BLPower, FRPower, BRPower};
 
 //    /*
 //        Request an update from the Pinpoint odometry computer. This checks almost all outputs
 //        from the device in a single I2C read.
 //         */
-//    odo.update();
+        odo.update();
 //
 //        /*
 //        Optionally, you can update only the heading of the device. This takes less time to read, but will not
 //        pull any other data. Only the heading (which you can pull with getHeading() or in getPosition().
 //         */
-//    //odo.update(GoBildaPinpointDriver.readData.ONLY_UPDATE_HEADING);
+        odo.update(GoBildaPinpointDriver.readData.ONLY_UPDATE_HEADING);
 //
 //
-//    if (gamepad1.a){
+        if (gamepad1.a) {
 //        odo.resetPosAndIMU(); //resets the position to 0 and recalibrates the IMU
 //    }
 //
-//    if (gamepad1.b){
+            if (gamepad1.b) {
 //        odo.recalibrateIMU(); //recalibrates the IMU without resetting position
 //    }
 
@@ -198,23 +194,23 @@ public class Summer_School_SS extends OpMode
         of time each cycle takes and finds the frequency (number of updates per second) from
         that cycle time.
          */
-    double newTime = getRuntime();
-    double loopTime = newTime-oldTime;
-    double frequency = 1/loopTime;
-    oldTime = newTime;
+                double newTime = getRuntime();
+                double loopTime = newTime - oldTime;
+                double frequency = 1 / loopTime;
+                oldTime = newTime;
 
-    //Move forward
-    intakie.setPower(extendArm);
-    // Telemetry to monitor arm motor power
-    telemetry.addData("Arm Motor Power Extend", extendArm);
-    telemetry.update();
+                //Move forward
+//    intakie.setPower(extendArm);
+                // Telemetry to monitor arm motor power
+//                telemetry.addData("Arm Motor Power Extend", extendArm);
+//                telemetry.update();
 
 //        /*
 //        gets the current Position (x & y in mm, and heading in degrees) of the robot, and prints it.
 //         */
-//    Pose2D pos = odo.getPosition();
-//    String data = String.format(Locale.US, "{X: %.3f, Y: %.3f, H: %.3f}", pos.getX(DistanceUnit.MM), pos.getY(DistanceUnit.MM), pos.getHeading(AngleUnit.DEGREES));
-//    telemetry.addData("Position", data);
+                Pose2D pos = odo.getPosition();
+                String data = String.format(Locale.US, "{X: %.3f, Y: %.3f, H: %.3f}", pos.getX(DistanceUnit.MM), pos.getY(DistanceUnit.MM), pos.getHeading(AngleUnit.DEGREES));
+                telemetry.addData("Position", data);
 //
 //        /*
 //        gets the current Velocity (x & y in mm/sec and heading in degrees/sec) and prints it.
@@ -233,92 +229,89 @@ public class Summer_School_SS extends OpMode
 //        FAULT_X_POD_NOT_DETECTED - The device does not detect an X pod plugged in
 //        FAULT_Y_POD_NOT_DETECTED - The device does not detect a Y pod plugged in
 //        */
-//    telemetry.addData("Status", odo.getDeviceStatus());
-//
-//    telemetry.addData("Pinpoint Frequency", odo.getFrequency()); //prints/gets the current refresh rate of the Pinpoint
-//
-//    telemetry.addData("REV Hub Frequency: ", frequency); //prints the control system refresh rate
-//    telemetry.update();
+                telemetry.addData("Status", odo.getDeviceStatus());
 
-    if (gamepad1.left_trigger > 0.5) {
-        speedMode = 0.4;
-    } else if (gamepad1.right_trigger > 0.5) {
-        speedMode = 1;
-    }
-    else {
-        speedMode = .6;
-    }
+                telemetry.addData("Pinpoint Frequency", odo.getFrequency()); //prints/gets the current refresh rate of the Pinpoint
 
-    //Added by Leo for Game d pad -- Begin
-    if (gamepad1.dpad_down){
-        FRMotor.setPower(speedMode);
-        FLMotor.setPower(speedMode);
-        BLMotor.setPower(speedMode);
-        BRMotor.setPower(speedMode);
-    }
-    else if ( gamepad1.dpad_up) {
-        FLMotor.setPower(-speedMode);
-        FRMotor.setPower(-speedMode);
-        BLMotor.setPower(-speedMode);
-        BRMotor.setPower(-speedMode);
-    }
-    else if (gamepad1.dpad_left) {
-        FLMotor.setPower(speedMode);
-        BRMotor.setPower(speedMode);
-        FRMotor.setPower(-speedMode);
-        BLMotor.setPower(-speedMode);
-    }
-    else if (gamepad1.dpad_right) {
-        FLMotor.setPower(-speedMode);
-        BRMotor.setPower(-speedMode);
-        FRMotor.setPower(speedMode);
-        BLMotor.setPower(speedMode);
-    }
-    else {
-        //Added by Leo for Game d pad -- End
-        boolean needToScale = false;
-        for (double power : powers) {
-            if (Math.abs(power) > 1) {
-                needToScale = true;
-                break;
-            }
-        }
-        if (needToScale) {
-            double greatest = 0;
-            for (double power : powers) {
-                if (Math.abs(power) > greatest) {
-                    greatest = Math.abs(power);
+                telemetry.addData("REV Hub Frequency: ", frequency); //prints the control system refresh rate
+                telemetry.update();
+
+                if (gamepad1.left_trigger > 0.5) {
+                    speedMode = 0.4;
+                } else if (gamepad1.right_trigger > 0.5) {
+                    speedMode = 1;
+                } else {
+                    speedMode = .6;
                 }
+
+                //Added by Leo for Game d pad -- Begin
+                if (gamepad1.dpad_down) {
+                    FRMotor.setPower(speedMode);
+                    FLMotor.setPower(speedMode);
+                    BLMotor.setPower(speedMode);
+                    BRMotor.setPower(speedMode);
+                } else if (gamepad1.dpad_up) {
+                    FLMotor.setPower(-speedMode);
+                    FRMotor.setPower(-speedMode);
+                    BLMotor.setPower(-speedMode);
+                    BRMotor.setPower(-speedMode);
+                } else if (gamepad1.dpad_left) {
+                    FLMotor.setPower(speedMode);
+                    BRMotor.setPower(speedMode);
+                    FRMotor.setPower(-speedMode);
+                    BLMotor.setPower(-speedMode);
+                } else if (gamepad1.dpad_right) {
+                    FLMotor.setPower(-speedMode);
+                    BRMotor.setPower(-speedMode);
+                    FRMotor.setPower(speedMode);
+                    BLMotor.setPower(speedMode);
+                } else {
+                    //Added by Leo for Game d pad -- End
+                    boolean needToScale = false;
+                    for (double power : powers) {
+                        if (Math.abs(power) > 1) {
+                            needToScale = true;
+                            break;
+                        }
+                    }
+                    if (needToScale) {
+                        double greatest = 0;
+                        for (double power : powers) {
+                            if (Math.abs(power) > greatest) {
+                                greatest = Math.abs(power);
+                            }
+                        }
+                        FLPower /= greatest;
+                        BLPower /= greatest;
+                        FRPower /= greatest;
+                        BRPower /= greatest;
+                    }
+
+
+                    boolean Stop = true;
+                    for (double power : powers) {
+                        if (Math.abs(power) > stopBuffer) {
+                            Stop = false;
+                            break;
+                        }
+                    }
+                    if (Stop) {
+                        FLPower = 0;
+                        BLPower = 0;
+                        FRPower = 0;
+                        BRPower = 0;
+                    }
+
+
+                    FLMotor.setPower(FLPower * (speedMode + .2));
+                    BLMotor.setPower(BLPower * (speedMode + .2));
+                    FRMotor.setPower(FRPower * (speedMode + .2));
+                    BRMotor.setPower(BRPower * (speedMode + .2));
+
+
+                }
+
             }
-            FLPower /= greatest;
-            BLPower /= greatest;
-            FRPower /= greatest;
-            BRPower /= greatest;
         }
-
-
-        boolean Stop = true;
-        for (double power : powers) {
-            if (Math.abs(power) > stopBuffer) {
-                Stop = false;
-                break;
-            }
-        }
-        if (Stop) {
-            FLPower = 0;
-            BLPower = 0;
-            FRPower = 0;
-            BRPower = 0;
-        }
-
-
-        FLMotor.setPower(FLPower * (speedMode + .2));
-        BLMotor.setPower(BLPower * (speedMode  + .2));
-        FRMotor.setPower(FRPower * (speedMode  + .2));
-        BRMotor.setPower(BRPower * (speedMode  + .2));
-
-
-    }
-
     }
 }
