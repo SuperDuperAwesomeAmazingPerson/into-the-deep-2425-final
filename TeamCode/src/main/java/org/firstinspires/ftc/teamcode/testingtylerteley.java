@@ -132,6 +132,8 @@ public class testingtylerteley extends LinearOpMode {
         FRMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         BRMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        droppie.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
 
         // Wait for the game to start (driver presses START)
         telemetry.addData("Status", "Initialized");
@@ -142,9 +144,9 @@ public class testingtylerteley extends LinearOpMode {
         int wall = 300;
         int topBasket = 1500;
 
-        droppie.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        droppie.setTargetPosition(startPos);
-        droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        droppie.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        droppie.setTargetPosition(startPos);
+//        droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         waitForStart();
         runtime.reset();
@@ -159,25 +161,25 @@ public class testingtylerteley extends LinearOpMode {
             double yaw = gamepad1.right_stick_x / 2;
 
             double extendArm = gamepad2.right_stick_y / 2;
-            double extendLeg = -gamepad2.left_stick_y;
+            double extendLeg = gamepad2.left_stick_y;
 
-//            double extendLeg;
-            if (gamepad2.y) {
-                droppie.setTargetPosition(specimenRack);
-                droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                droppie.setPower(0.5);
-            }else if(gamepad2.b) {
-                droppie.setTargetPosition(wall);
-                droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                droppie.setPower(0.5);
-            }else if(gamepad2.a) {
-                droppie.setTargetPosition(topBasket);
-                droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                droppie.setPower(0.5);
-
-//            }else if(gamepad2.left_stick_y) {
-//                extendLeg = gamepad2.left_stick_y;
-            }
+////            double extendLeg;
+//            if (gamepad2.y) {
+//                droppie.setTargetPosition(specimenRack);
+//                droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                droppie.setPower(0.5);
+//            }else if(gamepad2.b) {
+//                droppie.setTargetPosition(wall);
+//                droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                droppie.setPower(0.5);
+//            }else if(gamepad2.a) {
+//                droppie.setTargetPosition(topBasket);
+//                droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                droppie.setPower(0.5);
+//
+////            }else if(gamepad2.left_stick_y) {
+////                extendLeg = gamepad2.left_stick_y;
+//            }
 
             // Combine the joystick requests for each axis-motion to determine each wheel's power.
             // Set up a variable for each drive wheel to save the power level for telemetry.
@@ -281,7 +283,7 @@ public class testingtylerteley extends LinearOpMode {
 
                 intakie.setPower(extendArm);
                 droppie.setPower(extendLeg);
-                extendLeg = -extendLeg;
+//                extendLeg = -extendLeg;
 
 //            if (gamepad2.right_trigger > 0.3) {
 //                indulgey.setPower(gamepad2.right_trigger);
@@ -313,13 +315,13 @@ public class testingtylerteley extends LinearOpMode {
                     bobby.setPower(0);
                 }
 
-                if (gamepad1.y) {
-                    hangie.setPower(1);
-                } else if (gamepad1.a) {
-                    hangie.setPower(-1);
-                } else {
-                    hangie.setPower(0);
-                }
+//                if (gamepad1.y) {
+//                    hangie.setPower(1);
+//                } else if (gamepad1.a) {
+//                    hangie.setPower(-1);
+//                } else {
+//                    hangie.setPower(0);
+//                }
 
                 // This is test code:
                 //
