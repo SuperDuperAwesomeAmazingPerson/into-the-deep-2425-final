@@ -81,7 +81,7 @@ public class testingtylerteley extends LinearOpMode {
 
     private Servo flipity = null;
     private Servo flopity = null;
-    //private CRServo indulgey = null;
+    private CRServo indulgey = null;
     private CRServo bobby = null;
 
 //    double FRPower;
@@ -109,7 +109,7 @@ public class testingtylerteley extends LinearOpMode {
 
         flipity = hardwareMap.get(Servo.class, "flipity");
         flopity = hardwareMap.get(Servo.class, "flopity");
-        //indulgey = hardwareMap.get(CRServo.class, "indulgey");
+        indulgey = hardwareMap.get(CRServo.class, "indulgey");
         bobby = hardwareMap.get(CRServo.class, "bobby");
 
         // ########################################################################################
@@ -281,7 +281,85 @@ public class testingtylerteley extends LinearOpMode {
 //
 //            }
 
-                intakie.setPower(extendArm);
+            //Added by Aish
+            intakie.setPower(extendArm);
+//            if (extendArm>0){
+//                //Move forward
+////                int position = intakie.getCurrentPosition();
+//////                if (position<-1200){
+//////                    intakie.setPower(extendArm);
+//////                }
+////                intakie.setPower(extendArm);
+//
+//                double CPR = 1000;
+//
+//                double diameter = 1.0; // Replace with your wheel/spool's diameter
+//                double circumference = Math.PI * diameter;
+//
+//                // Get the current position of the motor
+//                int position = intakie.getCurrentPosition();
+//                double revolutions = position/CPR;
+//
+//                double angle = revolutions * 360;
+//                double angleNormalized = angle % 360;
+//
+//                double distance = circumference * revolutions;
+//
+////                intakie.setPower(extendArm);
+//                if (distance<=0 && distance>-5){
+//                    intakie.setPower(extendArm);
+//                }
+//                //Show the position of the motor on telemetry
+//                telemetry.addData("Encoder Position", position);
+//                telemetry.addData("Encoder Revolutions", revolutions);
+//                telemetry.addData("Encoder Angle (Degrees)", angle);
+//                telemetry.addData("Encoder Angle - Normalized (Degrees)", angleNormalized);
+//                telemetry.addData("Linear Distance", distance);
+//
+//                // Telemetry to monitor arm motor power
+//                telemetry.addData("Arm Motor Power Extend", extendArm);
+//                telemetry.addData("position", position);
+//                telemetry.update();
+//
+//            }else if (extendArm<0){
+////                int position = intakie.getCurrentPosition();
+//////                if (position<1200){
+//////                    intakie.setPower(extendArm);
+//////                }
+////                intakie.setPower(extendArm);
+//
+//                double CPR = 1000;//384.5;
+//
+//                double diameter = 1.0; // Replace with your wheel/spool's diameter
+//                double circumference = Math.PI * diameter;
+//
+//                // Get the current position of the motor
+//                int position = intakie.getCurrentPosition();
+//                double revolutions = position/CPR;
+//
+//                double angle = revolutions * 360;
+//                double angleNormalized = angle % 360;
+//
+//                double distance = circumference * revolutions;
+//                if (distance<=0 && distance>-5){
+//                    intakie.setPower(extendArm);
+//                }
+//                //intakie.setPower(extendArm);
+//
+//                //Show the position of the motor on telemetry
+//                telemetry.addData("Encoder Position", position);
+//                telemetry.addData("Encoder Revolutions", revolutions);
+//                telemetry.addData("Encoder Angle (Degrees)", angle);
+//                telemetry.addData("Encoder Angle - Normalized (Degrees)", angleNormalized);
+//                telemetry.addData("Linear Distance", distance);
+//                // Telemetry to monitor arm motor power
+//                telemetry.addData("Arm Motor Power Pullback", extendArm);
+//                telemetry.addData("position", position);
+//                telemetry.update();
+//            }
+            //End
+
+//                intakie.setPower(extendArm);
                 droppie.setPower(extendLeg);
 //                extendLeg = -extendLeg;
 
@@ -303,7 +381,7 @@ public class testingtylerteley extends LinearOpMode {
                 if (gamepad2.dpad_right) {
                     flipity.setPosition(0.1);
                 } else if (gamepad2.dpad_left) {
-                    flipity.setPosition(0.9);
+                    flipity.setPosition(0.8387);
                 }
 
 
@@ -313,6 +391,14 @@ public class testingtylerteley extends LinearOpMode {
                     bobby.setPower(-.5);
                 } else {
                     bobby.setPower(0);
+                }
+
+                if (gamepad2.left_trigger > 0.3) {
+                    indulgey.setPower(-1);
+                } else if (gamepad2.right_trigger > 0.3) {
+                    indulgey.setPower(1);
+                } else {
+                    indulgey.setPower(0);
                 }
 
 //                if (gamepad1.y) {
