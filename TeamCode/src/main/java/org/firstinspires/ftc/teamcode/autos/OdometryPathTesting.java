@@ -25,6 +25,7 @@ package org.firstinspires.ftc.teamcode.autos;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.Range;
 
@@ -70,6 +71,8 @@ public class OdometryPathTesting extends LinearOpMode {
     private DcMotor FLMotor = null;
     private DcMotor BRMotor = null;
     private DcMotor BLMotor = null;
+    private DcMotor droppie = null;
+    private CRServo bobby = null;
 
     //private DcMotor intakie;  // Motor for the extending/retracting mechanism
 
@@ -90,6 +93,8 @@ public class OdometryPathTesting extends LinearOpMode {
         FLMotor = hardwareMap.get(DcMotor.class, "FL");
         BRMotor = hardwareMap.get(DcMotor.class, "BR");
         BLMotor = hardwareMap.get(DcMotor.class, "BL");
+        droppie = hardwareMap.get(DcMotor.class, "droppie");
+        bobby = hardwareMap.get(CRServo.class, "bobby");
 
         //intakie = hardwareMap.get(DcMotor.class, "intakie");
 
@@ -107,16 +112,19 @@ public class OdometryPathTesting extends LinearOpMode {
         BLMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         FRMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         BRMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        droppie.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         FLMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         FRMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         BRMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         BLMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        droppie.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         FLMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         FRMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         BRMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         BLMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        droppie.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
         //intakie.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -131,7 +139,7 @@ public class OdometryPathTesting extends LinearOpMode {
          */
         //  odo.setOffsets(-84.0, -224.0); //these are tuned for 3110-0002-0001 Product Insight #1
         //odo.setOffsets(-153.71, -215.019);
-        odo.setOffsets(-153.71, -76.7);
+        odo.setOffsets(-192, -68);
         /*
         Set the kind of pods used by your robot. If you're using goBILDA odometry pods, select either
         the goBILDA_SWINGARM_POD, or the goBILDA_4_BAR_POD.
@@ -174,7 +182,33 @@ public class OdometryPathTesting extends LinearOpMode {
         //goToPos(3000, 0, Math.toRadians(0), .4, 25, Math.toRadians(5));
         //goToPos(0, 500 , Math.toRadians(0), .6, 15, Math.toRadians(5));
         //Y OFFSET SHOULD BE 76.7 mm
-        goToPos(-670, 0 , Math.toRadians(0), .5, 15, Math.toRadians(1));
+        //HANG A SPECIMEN!!!
+        //Lift goes up
+        droppie.setTargetPosition(1500);
+        droppie.setPower(0.8);
+        droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //Robot drives forward (Movement #1)
+        goToPos(-742.95, -127 , Math.toRadians(0), .5, 25, Math.toRadians(2));
+        //Lift goes on and specimen hooks onto the bar
+        droppie.setTargetPosition(1400);
+        droppie.setPower(0.6);
+        droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //Wait
+        sleep(500);
+        //Claw releases specimen
+        bobby.setPower(0.6);
+        sleep(250);
+        bobby.setPower(0);
+        //Robot moves to diagonal midpoint (Movement #2)
+        goToPos(-609.6, 374.65 , Math.toRadians(-90), .5, 25, Math.toRadians(2));
+        //Lift drops down all the way
+        droppie.setTargetPosition(0);
+        droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //Robot moves to first spike mark (Movement #3)
+        goToPos(-1295.4, 914.4 , Math.toRadians(180), .5, 25, Math.toRadians(2));
+        //Robot pushes sample into Observation Zone (Movement #4)
+        goToPos(-88.9, 914.4 , Math.toRadians(180), .5, 25, Math.toRadians(2));
+
         // Motor power is based on gyro angle/rotation
        // sleep(5000);
         //goToPos(-670, -110 , Math.toRadians(0), .5, 15, Math.toRadians(1));

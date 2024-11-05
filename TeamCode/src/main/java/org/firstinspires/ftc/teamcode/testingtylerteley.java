@@ -36,6 +36,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
 
 /*
  * This file contains an example of a Linear "OpMode".
@@ -91,6 +92,27 @@ public class testingtylerteley extends LinearOpMode {
 //    double speedMode = 0.7;
 
 //    double stopBuffer = 0;
+
+    public void intakieLimit(double power){
+        //Get current position
+        int motor_pos = intakie.getCurrentPosition();
+        int extended_pos = -1500;
+        int retracted_pos = 0;
+        if ((motor_pos<= extended_pos) && (motor_pos>= retracted_pos))
+        {
+            intakie.setPower(power);
+        }
+        else if (motor_pos> extended_pos){
+            //set to max range
+            intakie.setPower(Range.clip(power, -1, 0));
+        }
+        else{
+            //set to max range
+            intakie.setPower(Range.clip(power, 0, 1));
+        }
+
+
+    }
 
 
     @Override
@@ -282,82 +304,9 @@ public class testingtylerteley extends LinearOpMode {
 //            }
 
             //Added by Aish
-            intakie.setPower(extendArm);
-//            if (extendArm>0){
-//                //Move forward
-////                int position = intakie.getCurrentPosition();
-//////                if (position<-1200){
-//////                    intakie.setPower(extendArm);
-//////                }
-////                intakie.setPower(extendArm);
+            //intakie.setPower(extendArm);
+            intakieLimit(extendArm);
 //
-//                double CPR = 1000;
-//
-//                double diameter = 1.0; // Replace with your wheel/spool's diameter
-//                double circumference = Math.PI * diameter;
-//
-//                // Get the current position of the motor
-//                int position = intakie.getCurrentPosition();
-//                double revolutions = position/CPR;
-//
-//                double angle = revolutions * 360;
-//                double angleNormalized = angle % 360;
-//
-//                double distance = circumference * revolutions;
-//
-////                intakie.setPower(extendArm);
-//                if (distance<=0 && distance>-5){
-//                    intakie.setPower(extendArm);
-//                }
-//                //Show the position of the motor on telemetry
-//                telemetry.addData("Encoder Position", position);
-//                telemetry.addData("Encoder Revolutions", revolutions);
-//                telemetry.addData("Encoder Angle (Degrees)", angle);
-//                telemetry.addData("Encoder Angle - Normalized (Degrees)", angleNormalized);
-//                telemetry.addData("Linear Distance", distance);
-//
-//                // Telemetry to monitor arm motor power
-//                telemetry.addData("Arm Motor Power Extend", extendArm);
-//                telemetry.addData("position", position);
-//                telemetry.update();
-//
-//            }else if (extendArm<0){
-////                int position = intakie.getCurrentPosition();
-//////                if (position<1200){
-//////                    intakie.setPower(extendArm);
-//////                }
-////                intakie.setPower(extendArm);
-//
-//                double CPR = 1000;//384.5;
-//
-//                double diameter = 1.0; // Replace with your wheel/spool's diameter
-//                double circumference = Math.PI * diameter;
-//
-//                // Get the current position of the motor
-//                int position = intakie.getCurrentPosition();
-//                double revolutions = position/CPR;
-//
-//                double angle = revolutions * 360;
-//                double angleNormalized = angle % 360;
-//
-//                double distance = circumference * revolutions;
-//                if (distance<=0 && distance>-5){
-//                    intakie.setPower(extendArm);
-//                }
-//                //intakie.setPower(extendArm);
-//
-//                //Show the position of the motor on telemetry
-//                telemetry.addData("Encoder Position", position);
-//                telemetry.addData("Encoder Revolutions", revolutions);
-//                telemetry.addData("Encoder Angle (Degrees)", angle);
-//                telemetry.addData("Encoder Angle - Normalized (Degrees)", angleNormalized);
-//                telemetry.addData("Linear Distance", distance);
-//                // Telemetry to monitor arm motor power
-//                telemetry.addData("Arm Motor Power Pullback", extendArm);
-//                telemetry.addData("position", position);
-//                telemetry.update();
-//            }
-            //End
 
 //                intakie.setPower(extendArm);
                 droppie.setPower(extendLeg);
