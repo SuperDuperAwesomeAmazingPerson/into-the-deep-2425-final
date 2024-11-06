@@ -182,32 +182,47 @@ public class OdometryPathTesting extends LinearOpMode {
         //goToPos(3000, 0, Math.toRadians(0), .4, 25, Math.toRadians(5));
         //goToPos(0, 500 , Math.toRadians(0), .6, 15, Math.toRadians(5));
         //Y OFFSET SHOULD BE 76.7 mm
-        //HANG A SPECIMEN!!!
+
+        //*******************************************
+        //HANG A SPECIMEN AND PARK WITH A SAMPLE!!!
+        //*******************************************
+
         //Lift goes up
-        droppie.setTargetPosition(1500);
-        droppie.setPower(0.8);
+        droppie.setTargetPosition(-1700);
+        droppie.setPower(-0.8);
         droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        sleep(2000);
         //Robot drives forward (Movement #1)
-        goToPos(-742.95, -127 , Math.toRadians(0), .5, 25, Math.toRadians(2));
+        goToPos(-760, -127 , Math.toRadians(0), .35, 30, Math.toRadians(2));
+        telemetry.addData("Finished",0);
+        telemetry.update();
+        sleep(3000);
         //Lift goes on and specimen hooks onto the bar
-        droppie.setTargetPosition(1400);
-        droppie.setPower(0.6);
+        droppie.setTargetPosition(-1400);
+        droppie.setPower(-0.6);
         droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         //Wait
-        sleep(500);
+        //sleep(500);
         //Claw releases specimen
-        bobby.setPower(0.6);
-        sleep(250);
+        bobby.setPower(-0.6);
+        sleep(2000);
         bobby.setPower(0);
+        goToPos(-650.6, -127 , Math.toRadians(0), .35, 25, Math.toRadians(2));
+        sleep(2000);
         //Robot moves to diagonal midpoint (Movement #2)
-        goToPos(-609.6, 374.65 , Math.toRadians(-90), .5, 25, Math.toRadians(2));
+        goToPos(-88.9, 914.4 , Math.toRadians(0), .35, 25, Math.toRadians(5));
+//        goToPos(-609.6, 374.65 , Math.toRadians(-180), .35, 25, Math.toRadians(5));
+        sleep(2000);
         //Lift drops down all the way
         droppie.setTargetPosition(0);
         droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        //Robot moves to first spike mark (Movement #3)
-        goToPos(-1295.4, 914.4 , Math.toRadians(180), .5, 25, Math.toRadians(2));
-        //Robot pushes sample into Observation Zone (Movement #4)
-        goToPos(-88.9, 914.4 , Math.toRadians(180), .5, 25, Math.toRadians(2));
+        sleep(2000);
+//        //Robot moves to first spike mark (Movement #3)
+//        goToPos(-1295.4, 914.4 , Math.toRadians(180), .35, 25, Math.toRadians(2));
+//        sleep(2000);
+//        //Robot pushes sample into Observation Zone (Movement #4)
+//        goToPos(-88.9, 914.4 , Math.toRadians(180), .35, 25, Math.toRadians(2));
+
 
         // Motor power is based on gyro angle/rotation
        // sleep(5000);
@@ -293,10 +308,10 @@ public class OdometryPathTesting extends LinearOpMode {
         double reletiveTurnAngle = angleWrapRad(h - GlobalH);
         double movementTurnPower = Range.clip(reletiveTurnAngle / Math.toRadians(10), -speed, speed);
 
-        FLMotor.setPower(movementXpower + movementYpower - movementTurnPower);
-        BLMotor.setPower(movementXpower - movementYpower - movementTurnPower);
-        FRMotor.setPower(movementXpower - movementYpower + movementTurnPower);
-        BRMotor.setPower(movementXpower + movementYpower + movementTurnPower);
+        FLMotor.setPower(-movementYpower - movementXpower - movementTurnPower);
+        BLMotor.setPower(-movementYpower + movementXpower - movementTurnPower);
+        FRMotor.setPower(-movementYpower + movementXpower + movementTurnPower);
+        BRMotor.setPower(-movementYpower - movementXpower + movementTurnPower);
 
     }
 
@@ -315,10 +330,10 @@ public class OdometryPathTesting extends LinearOpMode {
         }
 
         //stop all movement at the end of while loop
-//        FLMotor.setPower(0);
-//        BLMotor.setPower(0);
-//        FRMotor.setPower(0);
-//        BRMotor.setPower(0);
+        FLMotor.setPower(0);
+        BLMotor.setPower(0);
+        FRMotor.setPower(0);
+        BRMotor.setPower(0);
 
 }}
 
