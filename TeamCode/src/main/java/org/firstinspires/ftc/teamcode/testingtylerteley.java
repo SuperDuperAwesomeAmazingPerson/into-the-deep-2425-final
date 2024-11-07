@@ -66,7 +66,7 @@ import com.qualcomm.robotcore.util.Range;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Basic: Omni Linear OpMode", group="Linear OpMode")
+@TeleOp(name="REAL_Teleop", group="Linear OpMode")
 public class testingtylerteley extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors.
@@ -93,26 +93,26 @@ public class testingtylerteley extends LinearOpMode {
 
 //    double stopBuffer = 0;
 
-    public void intakieLimit(double power){
-        //Get current position
-        int motor_pos = intakie.getCurrentPosition();
-        int extended_pos = -1500;
-        int retracted_pos = 0;
-        if ((motor_pos<= extended_pos) && (motor_pos>= retracted_pos))
-        {
-            intakie.setPower(power);
-        }
-        else if (motor_pos> extended_pos){
-            //set to max range
-            intakie.setPower(Range.clip(power, -1, 0));
-        }
-        else{
-            //set to max range
-            intakie.setPower(Range.clip(power, 0, 1));
-        }
-
-
-    }
+//    public void intakieLimit(double power){
+//        //Get current position
+//        int motor_pos = intakie.getCurrentPosition();
+//        int extended_pos = -1500;
+//        int retracted_pos = 0;
+//        if ((motor_pos<= extended_pos) && (motor_pos>= retracted_pos))
+//        {
+//            intakie.setPower(power);
+//        }
+//        else if (motor_pos> extended_pos){
+//            //set to max range
+//            intakie.setPower(Range.clip(power, 0, -1));
+//        }
+//        else{
+//            //set to max range
+//            intakie.setPower(Range.clip(power, 1, 0));
+//        }
+//
+//
+//    }
 
 
     @Override
@@ -304,13 +304,9 @@ public class testingtylerteley extends LinearOpMode {
 //            }
 
             //Added by Aish
-            //intakie.setPower(extendArm);
-            intakieLimit(extendArm);
-//
 
-//                intakie.setPower(extendArm);
+                intakie.setPower(extendArm);
                 droppie.setPower(extendLeg);
-//                extendLeg = -extendLeg;
 
 //            if (gamepad2.right_trigger > 0.3) {
 //                indulgey.setPower(gamepad2.right_trigger);
@@ -349,6 +345,7 @@ public class testingtylerteley extends LinearOpMode {
                 } else {
                     indulgey.setPower(0);
                 }
+
 
 //                if (gamepad1.y) {
 //                    hangie.setPower(1);

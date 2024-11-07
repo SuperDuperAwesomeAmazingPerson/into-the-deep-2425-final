@@ -24,9 +24,9 @@ package org.firstinspires.ftc.teamcode.autos;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -62,19 +62,21 @@ For support, contact tech@gobilda.com
 -Ethan Doak
  */
 
-@Autonomous(name="OdometryPathTesting", group="Linear OpMode")
+@Autonomous(name="BlueLeft", group="Linear OpMode")
 //@Disabled
 
-public class OdometryPathTesting extends LinearOpMode {
+public class BlueLeft extends LinearOpMode {
 
     private DcMotor FRMotor = null;
     private DcMotor FLMotor = null;
     private DcMotor BRMotor = null;
     private DcMotor BLMotor = null;
+    private DcMotor intakie;  // Motor for the extending/retracting mechanism
     private DcMotor droppie = null;
     private CRServo bobby = null;
-
-    //private DcMotor intakie;  // Motor for the extending/retracting mechanism
+    private Servo flopity = null;
+    private Servo flipity = null;
+    private CRServo indulgey = null;
 
     GoBildaPinpointDriver odo; // Declare OpMode member for the Odometry Computer
 
@@ -95,8 +97,10 @@ public class OdometryPathTesting extends LinearOpMode {
         BLMotor = hardwareMap.get(DcMotor.class, "BL");
         droppie = hardwareMap.get(DcMotor.class, "droppie");
         bobby = hardwareMap.get(CRServo.class, "bobby");
-
-        //intakie = hardwareMap.get(DcMotor.class, "intakie");
+        flopity = hardwareMap.get(Servo.class, "flopity");
+        flipity = hardwareMap.get(Servo.class, "flipity");
+        indulgey = hardwareMap.get(CRServo.class, "indulgey");
+        intakie = hardwareMap.get(DcMotor.class, "intakie");
 
         odo = hardwareMap.get(GoBildaPinpointDriver.class,"odo");
 
@@ -105,7 +109,7 @@ public class OdometryPathTesting extends LinearOpMode {
         BRMotor.setDirection(DcMotor.Direction.REVERSE);
         BLMotor.setDirection(DcMotor.Direction.FORWARD);
 
-        //intakie.setDirection(DcMotor.Direction.FORWARD);
+        intakie.setDirection(DcMotor.Direction.FORWARD);
 
 
         FLMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -113,21 +117,21 @@ public class OdometryPathTesting extends LinearOpMode {
         FRMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         BRMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         droppie.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        intakie.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         FLMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         FRMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         BRMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         BLMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         droppie.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        intakie.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         FLMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         FRMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         BRMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         BLMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         droppie.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-
-        //intakie.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        intakie.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         /*
         Set the odometry pod positions relative to the point that the odometry computer tracks around.
@@ -183,54 +187,47 @@ public class OdometryPathTesting extends LinearOpMode {
         //goToPos(0, 500 , Math.toRadians(0), .6, 15, Math.toRadians(5));
         //Y OFFSET SHOULD BE 76.7 mm
 
-        //*******************************************
-        //HANG A SPECIMEN AND PARK WITH A SAMPLE!!!
-        //*******************************************
+//        *******************************************
+//        GRAB SAMPLES AND DROP INTO HIGH BASKET!!!
+//        *******************************************
 
         //Lift goes up
-        droppie.setTargetPosition(-1700);
+        droppie.setTargetPosition(-2400);
         droppie.setPower(-0.8);
         droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        sleep(1000);
+        goToPos(-279.4, -76.2 , Math.toRadians(0), .35, 25, Math.toRadians(2));
         sleep(2000);
-        //Robot drives forward (Movement #1)
-        goToPos(-760, -127 , Math.toRadians(0), .35, 30, Math.toRadians(2));
-        telemetry.addData("Finished",0);
-        telemetry.update();
-        sleep(3000);
-        //Lift goes on and specimen hooks onto the bar
-        droppie.setTargetPosition(-1400);
+        flopity.setPosition(0.1);
+        sleep(1000);
+        droppie.setTargetPosition(0);
         droppie.setPower(-0.6);
         droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        //Wait
-        //sleep(500);
-        //Claw releases specimen
-        bobby.setPower(-0.6);
-        sleep(2000);
-        bobby.setPower(0);
-        goToPos(-650.6, -127 , Math.toRadians(0), .35, 25, Math.toRadians(2));
-        sleep(2000);
-        //Robot moves to diagonal midpoint (Movement #2)
-        goToPos(-88.9, 914.4 , Math.toRadians(0), .35, 25, Math.toRadians(5));
-//        goToPos(-609.6, 374.65 , Math.toRadians(-180), .35, 25, Math.toRadians(5));
-        sleep(2000);
-        //Lift drops down all the way
-        droppie.setTargetPosition(0);
+        sleep(1000);
+        goToPos(-304.8, -76.2 , Math.toRadians(90), .35, 25, Math.toRadians(2));
+        intakie.setTargetPosition(1891);
+        flipity.setPosition(0.85);
+        sleep(1500);
+        indulgey.setPower(1);
+        sleep(1500);
+        indulgey.setPower(0);
+        flipity.setPosition(0.1);
+        intakie.setTargetPosition(0);
+        intakie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        indulgey.setPower(-1);
+        sleep(1500);
+        indulgey.setPower(0);
+        droppie.setTargetPosition(-839);
+        droppie.setPower(-0.8);
         droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        sleep(2000);
-//        //Robot moves to first spike mark (Movement #3)
-//        goToPos(-1295.4, 914.4 , Math.toRadians(180), .35, 25, Math.toRadians(2));
-//        sleep(2000);
-//        //Robot pushes sample into Observation Zone (Movement #4)
-//        goToPos(-88.9, 914.4 , Math.toRadians(180), .35, 25, Math.toRadians(2));
-
+        flopity.setPosition(0.1);
+        sleep(1000);
+        flopity.setPosition(0.6);
+        droppie.setTargetPosition(0);
+        droppie.setPower(-0.6);
+        droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         // Motor power is based on gyro angle/rotation
-       // sleep(5000);
-        //goToPos(-670, -110 , Math.toRadians(0), .5, 15, Math.toRadians(1));
-        //goToPos(1092.2, 673.1 , Math.toRadians(180), .6, 15, Math.toRadians(5));
-        //673.1-91.4 = 581.7
-        //goToPos(1092.2, 581.7 , Math.toRadians(180), .6, 15, Math.toRadians(5));
-//        resetRuntime();
 
 //        /*
 //        gets the current Position (x & y in mm, and heading in degrees) of the robot, and prints it.
@@ -318,7 +315,7 @@ public class OdometryPathTesting extends LinearOpMode {
     public void goToPos(double x, double y, double h, double speed, double moveAccuracy, double angleAccuracy){
         //while loop makes the code keep running till the desired location is reached. (within the accuracy constraints)
         while(Math.abs(x-GlobalX) > moveAccuracy || Math.abs(y-GlobalY) > moveAccuracy || Math.abs(angleWrapRad(h - GlobalH)) > angleAccuracy) {
-       // while(true){
+            // while(true){
             goToPosSingle(x, y, h, speed);
 
             Pose2D pos = odo.getPosition();
@@ -335,7 +332,7 @@ public class OdometryPathTesting extends LinearOpMode {
         FRMotor.setPower(0);
         BRMotor.setPower(0);
 
-}}
+    }}
 
 // vertical distance 43 inches 109.22 cm - 1092.2 mm
 // horizontal distance  odometer at 26.5 inches 67.31 cm - 673.1 mm
