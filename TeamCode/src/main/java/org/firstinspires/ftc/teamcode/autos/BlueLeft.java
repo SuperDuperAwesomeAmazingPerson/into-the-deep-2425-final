@@ -26,7 +26,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -71,12 +70,10 @@ public class BlueLeft extends LinearOpMode {
     private DcMotor FLMotor = null;
     private DcMotor BRMotor = null;
     private DcMotor BLMotor = null;
-    private DcMotor intakie;  // Motor for the extending/retracting mechanism
     private DcMotor droppie = null;
     private CRServo bobby = null;
-    private Servo flopity = null;
-    private Servo flipity = null;
-    private CRServo indulgey = null;
+
+    //private DcMotor intakie;  // Motor for the extending/retracting mechanism
 
     GoBildaPinpointDriver odo; // Declare OpMode member for the Odometry Computer
 
@@ -97,10 +94,8 @@ public class BlueLeft extends LinearOpMode {
         BLMotor = hardwareMap.get(DcMotor.class, "BL");
         droppie = hardwareMap.get(DcMotor.class, "droppie");
         bobby = hardwareMap.get(CRServo.class, "bobby");
-        flopity = hardwareMap.get(Servo.class, "flopity");
-        flipity = hardwareMap.get(Servo.class, "flipity");
-        indulgey = hardwareMap.get(CRServo.class, "indulgey");
-        intakie = hardwareMap.get(DcMotor.class, "intakie");
+
+        //intakie = hardwareMap.get(DcMotor.class, "intakie");
 
         odo = hardwareMap.get(GoBildaPinpointDriver.class,"odo");
 
@@ -109,7 +104,7 @@ public class BlueLeft extends LinearOpMode {
         BRMotor.setDirection(DcMotor.Direction.REVERSE);
         BLMotor.setDirection(DcMotor.Direction.FORWARD);
 
-        intakie.setDirection(DcMotor.Direction.FORWARD);
+        //intakie.setDirection(DcMotor.Direction.FORWARD);
 
 
         FLMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -117,21 +112,21 @@ public class BlueLeft extends LinearOpMode {
         FRMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         BRMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         droppie.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        intakie.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         FLMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         FRMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         BRMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         BLMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         droppie.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        intakie.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         FLMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         FRMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         BRMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         BLMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         droppie.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        intakie.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
+        //intakie.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         /*
         Set the odometry pod positions relative to the point that the odometry computer tracks around.
@@ -187,47 +182,44 @@ public class BlueLeft extends LinearOpMode {
         //goToPos(0, 500 , Math.toRadians(0), .6, 15, Math.toRadians(5));
         //Y OFFSET SHOULD BE 76.7 mm
 
-//        *******************************************
-//        GRAB SAMPLES AND DROP INTO HIGH BASKET!!!
-//        *******************************************
+        //*******************************************
+        //HANG A SPECIMEN AND PARK WITH A SAMPLE!!!
+        //*******************************************
 
         //Lift goes up
-        droppie.setTargetPosition(-2400);
+        droppie.setTargetPosition(-1700);
         droppie.setPower(-0.8);
         droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        sleep(1000);
-        goToPos(-279.4, -76.2 , Math.toRadians(0), .35, 25, Math.toRadians(2));
+        sleep(1500);
+        //Robot drives forward (Movement #1)
+        goToPos(-760, 127 , Math.toRadians(0), 0.6, 30, Math.toRadians(2));
+        telemetry.addData("Finished",0);
+        telemetry.update();
         sleep(2000);
-        flopity.setPosition(0.1);
-        sleep(1000);
-        droppie.setTargetPosition(0);
+        //Lift goes down and specimen hooks onto the bar
+        droppie.setTargetPosition(-1400);
         droppie.setPower(-0.6);
         droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        sleep(1000);
-        goToPos(-304.8, -76.2 , Math.toRadians(90), .35, 25, Math.toRadians(2));
-        intakie.setTargetPosition(1891);
-        flipity.setPosition(0.85);
+        //Claw releases specimen
+        bobby.setPower(-0.6);
         sleep(1500);
-        indulgey.setPower(1);
+        bobby.setPower(0);
+        //Back up (Movement #2)
+        goToPos(-650.6, 127 , Math.toRadians(0), 0.6, 25, Math.toRadians(2));
         sleep(1500);
-        indulgey.setPower(0);
-        flipity.setPosition(0.1);
-        intakie.setTargetPosition(0);
-        intakie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        indulgey.setPower(-1);
-        sleep(1500);
-        indulgey.setPower(0);
-        droppie.setTargetPosition(-839);
-        droppie.setPower(-0.8);
-        droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        flopity.setPosition(0.1);
-        sleep(1000);
-        flopity.setPosition(0.6);
+        //Lift drops down all the way
         droppie.setTargetPosition(0);
-        droppie.setPower(-0.6);
         droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        sleep(1500);
+        //Robot moves to midpoint and lines up for parking (Movement #3)
+        goToPos(-635, -660.4 , Math.toRadians(0), 0.4, 20, Math.toRadians(2));
+        sleep(1500);
+        //Robot moves forward and parks in the ascension zone (Movement #4)
+        goToPos(-1651, -660.4 , Math.toRadians(0), 0.6, 25, Math.toRadians(2));
+
 
         // Motor power is based on gyro angle/rotation
+//        resetRuntime();
 
 //        /*
 //        gets the current Position (x & y in mm, and heading in degrees) of the robot, and prints it.
@@ -315,7 +307,7 @@ public class BlueLeft extends LinearOpMode {
     public void goToPos(double x, double y, double h, double speed, double moveAccuracy, double angleAccuracy){
         //while loop makes the code keep running till the desired location is reached. (within the accuracy constraints)
         while(Math.abs(x-GlobalX) > moveAccuracy || Math.abs(y-GlobalY) > moveAccuracy || Math.abs(angleWrapRad(h - GlobalH)) > angleAccuracy) {
-            // while(true){
+       // while(true){
             goToPosSingle(x, y, h, speed);
 
             Pose2D pos = odo.getPosition();
@@ -332,7 +324,7 @@ public class BlueLeft extends LinearOpMode {
         FRMotor.setPower(0);
         BRMotor.setPower(0);
 
-    }}
+}}
 
 // vertical distance 43 inches 109.22 cm - 1092.2 mm
 // horizontal distance  odometer at 26.5 inches 67.31 cm - 673.1 mm

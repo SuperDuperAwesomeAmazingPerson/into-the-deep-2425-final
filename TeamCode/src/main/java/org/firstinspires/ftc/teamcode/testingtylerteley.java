@@ -205,10 +205,10 @@ public class testingtylerteley extends LinearOpMode {
 
             // Combine the joystick requests for each axis-motion to determine each wheel's power.
             // Set up a variable for each drive wheel to save the power level for telemetry.
-            double leftFrontPower = axial + lateral + yaw;
-            double rightFrontPower = axial - lateral - yaw;
-            double leftBackPower = axial - lateral + yaw;
-            double rightBackPower = axial + lateral - yaw;
+            double leftFrontPower = (axial + lateral + yaw);
+            double rightFrontPower = (axial - lateral - yaw);
+            double leftBackPower = (axial - lateral + yaw);
+            double rightBackPower = (axial + lateral - yaw);
 
 //            double[] powers = {FLPower, BLPower, FRPower, BRPower};
 
@@ -230,7 +230,7 @@ public class testingtylerteley extends LinearOpMode {
 //                } else if (gamepad1.right_trigger > 0.5) {
 //                    speedMode = 1;
 //                } else {
-//                    speedMode = .6;
+//                    speedMode = 0.7;
 //                }
 //
 //                //Added by Leo for Game d pad -- Begin
@@ -338,9 +338,9 @@ public class testingtylerteley extends LinearOpMode {
                     bobby.setPower(0);
                 }
 
-                if (gamepad2.left_trigger > 0.3) {
+                if (gamepad2.right_trigger > 0.3) {
                     indulgey.setPower(-1);
-                } else if (gamepad2.right_trigger > 0.3) {
+                } else if (gamepad2.left_trigger > 0.3) {
                     indulgey.setPower(1);
                 } else {
                     indulgey.setPower(0);

@@ -61,10 +61,9 @@ For support, contact tech@gobilda.com
 -Ethan Doak
  */
 
-@Autonomous(name="BlueRight", group="Linear OpMode")
-//@Disabled
+@Autonomous(name="BlueLefttester", group="Linear OpMode")
 
-public class BlueRight extends LinearOpMode {
+public class BlueLefttester extends LinearOpMode {
 
     private DcMotor FRMotor = null;
     private DcMotor FLMotor = null;
@@ -192,12 +191,12 @@ public class BlueRight extends LinearOpMode {
         droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         sleep(2000);
         //Robot drives forward (Movement #1)
-        goToPos(-760, -127 , Math.toRadians(0), .35, 30, Math.toRadians(2));
+        goToPos(-760, 127 , Math.toRadians(0), 0.6, 30, Math.toRadians(2));
         telemetry.addData("Finished",0);
         telemetry.update();
-        sleep(2000);
+        sleep(3000);
         //Lift goes on and specimen hooks onto the bar
-        droppie.setTargetPosition(-1300);
+        droppie.setTargetPosition(-1400);
         droppie.setPower(-0.6);
         droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         //Wait
@@ -206,12 +205,10 @@ public class BlueRight extends LinearOpMode {
         bobby.setPower(-0.6);
         sleep(2000);
         bobby.setPower(0);
-        goToPos(-650.6, -127 , Math.toRadians(0), .35, 25, Math.toRadians(2));
+        goToPos(-650.6, -127 , Math.toRadians(0), 0.6, 25, Math.toRadians(2));
         sleep(2000);
         //Robot moves to diagonal midpoint (Movement #2)
-        goToPos(-88.9, -127 , Math.toRadians(0), .35, 25, Math.toRadians(5));
-        sleep(2000);
-        goToPos(-88.9, 870 , Math.toRadians(0), .35, 25, Math.toRadians(5));
+        goToPos(-88.9, -914.4 , Math.toRadians(0), 0.6, 25, Math.toRadians(5));
 //        goToPos(-609.6, 374.65 , Math.toRadians(-180), .35, 25, Math.toRadians(5));
         sleep(2000);
         //Lift drops down all the way
@@ -226,7 +223,7 @@ public class BlueRight extends LinearOpMode {
 
 
         // Motor power is based on gyro angle/rotation
-       // sleep(5000);
+        // sleep(5000);
         //goToPos(-670, -110 , Math.toRadians(0), .5, 15, Math.toRadians(1));
         //goToPos(1092.2, 673.1 , Math.toRadians(180), .6, 15, Math.toRadians(5));
         //673.1-91.4 = 581.7
@@ -319,7 +316,7 @@ public class BlueRight extends LinearOpMode {
     public void goToPos(double x, double y, double h, double speed, double moveAccuracy, double angleAccuracy){
         //while loop makes the code keep running till the desired location is reached. (within the accuracy constraints)
         while(Math.abs(x-GlobalX) > moveAccuracy || Math.abs(y-GlobalY) > moveAccuracy || Math.abs(angleWrapRad(h - GlobalH)) > angleAccuracy) {
-       // while(true){
+            // while(true){
             goToPosSingle(x, y, h, speed);
 
             Pose2D pos = odo.getPosition();
@@ -336,7 +333,7 @@ public class BlueRight extends LinearOpMode {
         FRMotor.setPower(0);
         BRMotor.setPower(0);
 
-}}
+    }}
 
 // vertical distance 43 inches 109.22 cm - 1092.2 mm
 // horizontal distance  odometer at 26.5 inches 67.31 cm - 673.1 mm
