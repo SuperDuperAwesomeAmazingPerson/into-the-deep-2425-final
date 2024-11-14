@@ -190,12 +190,12 @@ public class BlueRight extends LinearOpMode {
         droppie.setTargetPosition(-1700);
         droppie.setPower(-0.8);
         droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        sleep(2000);
+        sleep(1000);
         //Robot drives forward (Movement #1)
         goToPos(-760, -127 , Math.toRadians(0), .35, 30, Math.toRadians(2));
         telemetry.addData("Finished",0);
         telemetry.update();
-        sleep(2000);
+        sleep(1000);
         //Lift goes on and specimen hooks onto the bar
         droppie.setTargetPosition(-1300);
         droppie.setPower(-0.6);
@@ -204,20 +204,21 @@ public class BlueRight extends LinearOpMode {
         //sleep(500);
         //Claw releases specimen
         bobby.setPower(-0.6);
-        sleep(2000);
+        sleep(1000);
         bobby.setPower(0);
         goToPos(-650.6, -127 , Math.toRadians(0), .35, 25, Math.toRadians(2));
-        sleep(2000);
-        //Robot moves to diagonal midpoint (Movement #2)
-        goToPos(-88.9, -127 , Math.toRadians(0), .35, 25, Math.toRadians(5));
-        sleep(2000);
-        goToPos(-88.9, 870 , Math.toRadians(0), .35, 25, Math.toRadians(5));
-//        goToPos(-609.6, 374.65 , Math.toRadians(-180), .35, 25, Math.toRadians(5));
-        sleep(2000);
+        sleep(1000);
         //Lift drops down all the way
         droppie.setTargetPosition(0);
         droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        sleep(2000);
+        sleep(1000);
+        //Robot moves to diagonal midpoint (Movement #2)
+        goToPos(-88.9, -127 , Math.toRadians(0), .35, 25, Math.toRadians(5));
+        sleep(1000);
+        goToPos(-88.9, 950 , Math.toRadians(0), .35, 25, Math.toRadians(5));
+//        goToPos(-609.6, 374.65 , Math.toRadians(-180), .35, 25, Math.toRadians(5));
+        sleep(1000);
+
 //        //Robot moves to first spike mark (Movement #3)
 //        goToPos(-1295.4, 914.4 , Math.toRadians(180), .35, 25, Math.toRadians(2));
 //        sleep(2000);

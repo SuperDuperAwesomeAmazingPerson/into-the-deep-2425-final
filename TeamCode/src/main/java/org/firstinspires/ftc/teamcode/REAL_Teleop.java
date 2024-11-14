@@ -29,14 +29,14 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import static java.lang.Math.round;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
 /*
  * This file contains an example of a Linear "OpMode".
@@ -67,7 +67,7 @@ import com.qualcomm.robotcore.util.Range;
  */
 
 @TeleOp(name="REAL_Teleop", group="Linear OpMode")
-public class testingtylerteley extends LinearOpMode {
+public class REAL_Teleop extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors.
     private ElapsedTime runtime = new ElapsedTime();
@@ -85,13 +85,13 @@ public class testingtylerteley extends LinearOpMode {
     private CRServo indulgey = null;
     private CRServo bobby = null;
 
-//    double FRPower;
-//    double FLPower;
-//    double BRPower;
-//    double BLPower;
-//    double speedMode = 0.7;
+    double FRPower;
+    double FLPower;
+    double BRPower;
+    double BLPower;
+    double speedMode = 0.7;
 
-//    double stopBuffer = 0;
+    double stopBuffer = 0;
 
 //    public void intakieLimit(double power){
 //        //Get current position
@@ -155,7 +155,10 @@ public class testingtylerteley extends LinearOpMode {
         BRMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         droppie.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        droppie.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        droppie.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+        int droppiePos = 0;
 
         // Wait for the game to start (driver presses START)
         telemetry.addData("Status", "Initialized");
@@ -178,14 +181,13 @@ public class testingtylerteley extends LinearOpMode {
             double max;
 
             // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
-            double axial = -gamepad1.left_stick_y / 2;  // Note: pushing stick forward gives negative value
-            double lateral = gamepad1.left_stick_x / 2;
-            double yaw = gamepad1.right_stick_x / 2;
+            double axial = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
+            double lateral = gamepad1.left_stick_x;
+            double yaw = gamepad1.right_stick_x;
 
-            double extendArm = gamepad2.right_stick_y / 2;
-            double extendLeg = gamepad2.left_stick_y;
+            double extendArm = gamepad2.right_stick_y;
+            double extendLeg = gamepad2.left_stick_y/1.5;
 
-////            double extendLeg;
 //            if (gamepad2.y) {
 //                droppie.setTargetPosition(specimenRack);
 //                droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -205,12 +207,12 @@ public class testingtylerteley extends LinearOpMode {
 
             // Combine the joystick requests for each axis-motion to determine each wheel's power.
             // Set up a variable for each drive wheel to save the power level for telemetry.
-            double leftFrontPower = (axial + lateral + yaw);
-            double rightFrontPower = (axial - lateral - yaw);
-            double leftBackPower = (axial - lateral + yaw);
-            double rightBackPower = (axial + lateral - yaw);
+            double leftFrontPower = speedMode * (axial + lateral + yaw);
+            double rightFrontPower = speedMode * (axial - lateral - yaw);
+            double leftBackPower = speedMode * (axial - lateral + yaw);
+            double rightBackPower = speedMode * (axial + lateral - yaw);
 
-//            double[] powers = {FLPower, BLPower, FRPower, BRPower};
+            double[] powers = {FLPower, BLPower, FRPower, BRPower};
 
             // Normalize the values so no wheel power exceeds 100%
             // This ensures that the robot maintains the desired motion.
@@ -223,16 +225,17 @@ public class testingtylerteley extends LinearOpMode {
                 rightFrontPower /= max;
                 leftBackPower /= max;
                 rightBackPower /= max;
+            }
 
 
-//                if (gamepad1.left_trigger > 0.5) {
-//                    speedMode = 0.4;
-//                } else if (gamepad1.right_trigger > 0.5) {
-//                    speedMode = 1;
-//                } else {
-//                    speedMode = 0.7;
-//                }
-//
+                if (gamepad1.right_bumper) {
+                    speedMode = 0.4;
+                } else if (gamepad1.right_trigger > 0.5) {
+                    speedMode = 1;
+                } else {
+                    speedMode = 0.7;
+                }
+
 //                //Added by Leo for Game d pad -- Begin
 //                if (gamepad1.dpad_down) {
 //                    FRMotor.setPower(speedMode);
@@ -280,9 +283,6 @@ public class testingtylerteley extends LinearOpMode {
 //                    }
 
 
-            }
-
-
 //            {
 //                if (gamepad2.y) {
 //                    droppie.setTargetPosition(specimenRack);
@@ -307,6 +307,10 @@ public class testingtylerteley extends LinearOpMode {
 
                 intakie.setPower(extendArm);
                 droppie.setPower(extendLeg);
+//            droppiePos += round(gamepad2.left_stick_y * 3);
+//            droppie.setTargetPosition(droppiePos);
+//            droppie.setPower(0.8);
+//            droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 //            if (gamepad2.right_trigger > 0.3) {
 //                indulgey.setPower(gamepad2.right_trigger);

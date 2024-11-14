@@ -26,6 +26,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -35,34 +36,7 @@ import org.firstinspires.ftc.teamcode.GoBildaPinpointDriver;
 
 import java.util.Locale;
 
-/*
-This opmode shows how to use the goBILDA® Pinpoint Odometry Computer.
-The goBILDA Odometry Computer is a device designed to solve the Pose Exponential calculation
-commonly associated with Dead Wheel Odometry systems. It reads two encoders, and an integrated
-system of senors to determine the robot's current heading, X position, and Y position.
-
-it uses an ESP32-S3 as a main cpu, with an STM LSM6DSV16X IMU.
-It is validated with goBILDA "Dead Wheel" Odometry pods, but should be compatible with any
-quadrature rotary encoder. The ESP32 PCNT peripheral is speced to decode quadrature encoder signals
-at a maximum of 40mhz per channel. Though the maximum in-application tested number is 130khz.
-
-The device expects two perpendicularly mounted Dead Wheel pods. The encoder pulses are translated
-into mm and their readings are transformed by an "offset", this offset describes how far away
-the pods are from the "tracking point", usually the center of rotation of the robot.
-
-Dead Wheel pods should both increase in count when moved forwards and to the left.
-The gyro will report an increase in heading when rotated counterclockwise.
-
-The Pose Exponential algorithm used is described on pg 181 of this book:
-https://github.com/calcmogul/controls-engineering-in-frc
-
-For support, contact tech@gobilda.com
-
--Ethan Doak
- */
-
 @Autonomous(name="BlueLeft", group="Linear OpMode")
-//@Disabled
 
 public class BlueLeft extends LinearOpMode {
 
@@ -71,9 +45,11 @@ public class BlueLeft extends LinearOpMode {
     private DcMotor BRMotor = null;
     private DcMotor BLMotor = null;
     private DcMotor droppie = null;
+    private DcMotor intakie = null;
+    private Servo flipity = null;
+    private Servo flopity = null;
+    private CRServo indulgey = null;
     private CRServo bobby = null;
-
-    //private DcMotor intakie;  // Motor for the extending/retracting mechanism
 
     GoBildaPinpointDriver odo; // Declare OpMode member for the Odometry Computer
 
@@ -93,9 +69,11 @@ public class BlueLeft extends LinearOpMode {
         BRMotor = hardwareMap.get(DcMotor.class, "BR");
         BLMotor = hardwareMap.get(DcMotor.class, "BL");
         droppie = hardwareMap.get(DcMotor.class, "droppie");
+        intakie = hardwareMap.get(DcMotor.class, "intakie");
+        flipity = hardwareMap.get(Servo.class, "flipity");
+        flopity = hardwareMap.get(Servo.class, "flopity");
         bobby = hardwareMap.get(CRServo.class, "bobby");
-
-        //intakie = hardwareMap.get(DcMotor.class, "intakie");
+        indulgey = hardwareMap.get(CRServo.class, "indulgey");
 
         odo = hardwareMap.get(GoBildaPinpointDriver.class,"odo");
 
@@ -112,22 +90,21 @@ public class BlueLeft extends LinearOpMode {
         FRMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         BRMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         droppie.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        intakie.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         FLMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         FRMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         BRMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         BLMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         droppie.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        intakie.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         FLMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         FRMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         BRMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         BLMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         droppie.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-
-        //intakie.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
+        intakie.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         /*
         Set the odometry pod positions relative to the point that the odometry computer tracks around.
         The X pod offset refers to how far sideways from the tracking point the
@@ -190,12 +167,10 @@ public class BlueLeft extends LinearOpMode {
         droppie.setTargetPosition(-1700);
         droppie.setPower(-0.8);
         droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        sleep(1500);
+        sleep(1000);
         //Robot drives forward (Movement #1)
-        goToPos(-760, 127 , Math.toRadians(0), 0.6, 30, Math.toRadians(2));
-        telemetry.addData("Finished",0);
-        telemetry.update();
-        sleep(2000);
+        goToPos(-760, 0 , Math.toRadians(0), 0.6, 10, Math.toRadians(2));
+        sleep(1000);
         //Lift goes down and specimen hooks onto the bar
         droppie.setTargetPosition(-1400);
         droppie.setPower(-0.6);
@@ -205,17 +180,21 @@ public class BlueLeft extends LinearOpMode {
         sleep(1500);
         bobby.setPower(0);
         //Back up (Movement #2)
-        goToPos(-650.6, 127 , Math.toRadians(0), 0.6, 25, Math.toRadians(2));
-        sleep(1500);
+        goToPos(-650.6, 0 , Math.toRadians(0), 0.6, 25, Math.toRadians(2));
+        sleep(1000);
         //Lift drops down all the way
         droppie.setTargetPosition(0);
         droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        sleep(1500);
-        //Robot moves to midpoint and lines up for parking (Movement #3)
-        goToPos(-635, -660.4 , Math.toRadians(0), 0.4, 20, Math.toRadians(2));
-        sleep(1500);
-        //Robot moves forward and parks in the ascension zone (Movement #4)
-        goToPos(-1651, -660.4 , Math.toRadians(0), 0.6, 25, Math.toRadians(2));
+        sleep(1000);
+        //Robot moves to midpoint (Movement #3)
+        goToPos(-150.4, -690.6 , Math.toRadians(-90), 0.4, 20, Math.toRadians(2));
+        sleep(1000);
+        //Robot moves to third point (Movement #4)
+        goToPos(-531.4, -1071.6 , Math.toRadians(-90), 0.6, 25, Math.toRadians(2));
+        intakie.setTargetPosition(800);
+        intakie.setPower(0.8);
+        intakie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        flipity.setPosition(0.8387);
 
 
         // Motor power is based on gyro angle/rotation
@@ -288,7 +267,7 @@ public class BlueLeft extends LinearOpMode {
         double reletiveYToTarget = -Math.sin(reletiveAngleToTarget) * distanceToTarget;
 
         //slow down ensures the robot does not over shoot the target
-        double slowDown = Range.clip(distanceToTarget / 3, -speed, speed);
+        double slowDown = Range.clip(distanceToTarget / 2.5, -speed, speed);
 
         //calculate the vector powers for the mecanum math
         double movementXpower = (reletiveXToTarget / (Math.abs(reletiveXToTarget) + Math.abs(reletiveYToTarget))) * slowDown;
@@ -297,17 +276,37 @@ public class BlueLeft extends LinearOpMode {
         double reletiveTurnAngle = angleWrapRad(h - GlobalH);
         double movementTurnPower = Range.clip(reletiveTurnAngle / Math.toRadians(10), -speed, speed);
 
-        FLMotor.setPower(-movementYpower - movementXpower - movementTurnPower);
-        BLMotor.setPower(-movementYpower + movementXpower - movementTurnPower);
-        FRMotor.setPower(-movementYpower + movementXpower + movementTurnPower);
-        BRMotor.setPower(-movementYpower - movementXpower + movementTurnPower);
+
+//        FLMotor.setPower(-movementYpower - movementXpower - movementTurnPower);
+//        BLMotor.setPower(-movementYpower + movementXpower - movementTurnPower);
+//        FRMotor.setPower(-movementYpower + movementXpower + movementTurnPower);
+//        BRMotor.setPower(-movementYpower - movementXpower + movementTurnPower);
+
+        double FLPower = (-movementYpower - movementXpower - movementTurnPower);
+        FLMotor.setPower(FLPower);
+
+        double BLPower = (-movementYpower + movementXpower - movementTurnPower);
+        BLMotor.setPower(BLPower);
+
+        double FRPower = (-movementYpower + movementXpower + movementTurnPower);
+        FRMotor.setPower(FRPower);
+
+        double BRPower = (-movementYpower - movementXpower + movementTurnPower);
+        BRMotor.setPower(BRPower);
+
+        //Added
+//        telemetry.addData("Front left/Right", "%4.2f, %4.2f", FLPower, FRPower);
+//        telemetry.addData("Back  left/Right", "%4.2f, %4.2f", BLPower, BRPower);
+//        telemetry.update();
+//        sleep(100);
+
 
     }
 
     public void goToPos(double x, double y, double h, double speed, double moveAccuracy, double angleAccuracy){
         //while loop makes the code keep running till the desired location is reached. (within the accuracy constraints)
         while(Math.abs(x-GlobalX) > moveAccuracy || Math.abs(y-GlobalY) > moveAccuracy || Math.abs(angleWrapRad(h - GlobalH)) > angleAccuracy) {
-       // while(true){
+            // while(true){
             goToPosSingle(x, y, h, speed);
 
             Pose2D pos = odo.getPosition();
@@ -324,7 +323,33 @@ public class BlueLeft extends LinearOpMode {
         FRMotor.setPower(0);
         BRMotor.setPower(0);
 
-}}
+    }}
+
+/*
+This opmode shows how to use the goBILDA® Pinpoint Odometry Computer.
+The goBILDA Odometry Computer is a device designed to solve the Pose Exponential calculation
+commonly associated with Dead Wheel Odometry systems. It reads two encoders, and an integrated
+system of senors to determine the robot's current heading, X position, and Y position.
+
+it uses an ESP32-S3 as a main cpu, with an STM LSM6DSV16X IMU.
+It is validated with goBILDA "Dead Wheel" Odometry pods, but should be compatible with any
+quadrature rotary encoder. The ESP32 PCNT peripheral is speced to decode quadrature encoder signals
+at a maximum of 40mhz per channel. Though the maximum in-application tested number is 130khz.
+
+The device expects two perpendicularly mounted Dead Wheel pods. The encoder pulses are translated
+into mm and their readings are transformed by an "offset", this offset describes how far away
+the pods are from the "tracking point", usually the center of rotation of the robot.
+
+Dead Wheel pods should both increase in count when moved forwards and to the left.
+The gyro will report an increase in heading when rotated counterclockwise.
+
+The Pose Exponential algorithm used is described on pg 181 of this book:
+https://github.com/calcmogul/controls-engineering-in-frc
+
+For support, contact tech@gobilda.com
+
+-Ethan Doak
+ */
 
 // vertical distance 43 inches 109.22 cm - 1092.2 mm
 // horizontal distance  odometer at 26.5 inches 67.31 cm - 673.1 mm
