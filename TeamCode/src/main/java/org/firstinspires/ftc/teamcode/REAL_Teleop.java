@@ -89,7 +89,7 @@ public class REAL_Teleop extends LinearOpMode {
     double FLPower;
     double BRPower;
     double BLPower;
-    double speedMode = 0.7;
+    double speedMode = 0.6;
 
     double stopBuffer = 0;
 
@@ -144,7 +144,7 @@ public class REAL_Teleop extends LinearOpMode {
         // when you first test your robot, push the left joystick forward and observe the direction the wheels turn.
         // Reverse the direction (flip FORWARD <-> REVERSE ) of any wheel that runs backward
         // Keep testing until ALL the wheels move the robot forward when you push the left joystick forward.
-        FLMotor.setDirection(DcMotor.Direction.FORWARD);
+        FLMotor.setDirection(DcMotor.Direction.REVERSE);
         BLMotor.setDirection(DcMotor.Direction.REVERSE);
         FRMotor.setDirection(DcMotor.Direction.FORWARD);
         BRMotor.setDirection(DcMotor.Direction.FORWARD);
@@ -185,7 +185,7 @@ public class REAL_Teleop extends LinearOpMode {
             double lateral = gamepad1.left_stick_x;
             double yaw = gamepad1.right_stick_x;
 
-            double extendArm = gamepad2.right_stick_y;
+            double extendArm = gamepad2.right_stick_y/1.5;
             double extendLeg = gamepad2.left_stick_y/1.5;
 
 //            if (gamepad2.y) {

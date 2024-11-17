@@ -27,13 +27,16 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.robotcontroller.external.samples;
+package org.firstinspires.ftc.teamcode.autos;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.Servo;
 
 /*
  * This OpMode illustrates the concept of driving a path based on encoder counts.
@@ -61,15 +64,21 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Robot: Auto Drive By Encoder", group="Robot")
-@Disabled
-public class RobotAutoDriveByEncoder_Linear extends LinearOpMode {
+@Autonomous(name="Park", group="Robot")
+
+public class Park extends LinearOpMode {
 
     /* Declare OpMode members. */
     private DcMotor         frontleft   = null;
     private DcMotor         frontright  = null;
     private DcMotor         backleft  = null;
     private DcMotor         backright  = null;
+    private DcMotor droppie = null;
+    private DcMotor intakie = null;
+    private Servo flipity = null;
+    private Servo flopity = null;
+    private CRServo indulgey = null;
+    private CRServo bobby = null;
 
     private ElapsedTime     runtime = new ElapsedTime();
 
@@ -79,11 +88,11 @@ public class RobotAutoDriveByEncoder_Linear extends LinearOpMode {
     // For example, use a value of 2.0 for a 12-tooth spur gear driving a 24-tooth spur gear.
     // This is gearing DOWN for less speed and more torque.
     // For gearing UP, use a gear ratio less than 1.0. Note this will affect the direction of wheel rotation.
-    static final double     COUNTS_PER_MOTOR_REV    = 28 ;    // eg: TETRIX Motor Encoder
+    static final double     COUNTS_PER_MOTOR_REV    = 1200 ;    // eg: TETRIX Motor Encoder
     static final double     DRIVE_GEAR_REDUCTION    = 1.0 ;     // No External Gearing.
     static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
-                                                      (WHEEL_DIAMETER_INCHES * 3.1415);
+            (WHEEL_DIAMETER_INCHES * 3.1415);
     static final double     DRIVE_SPEED             = 0.5;
     static final double     TURN_SPEED              = 0.4;
 
@@ -91,10 +100,17 @@ public class RobotAutoDriveByEncoder_Linear extends LinearOpMode {
     public void runOpMode() {
 
         // Initialize the drive system variables.
-        frontleft  = hardwareMap.get(DcMotor.class, "fl");
-        backleft = hardwareMap.get(DcMotor.class, "bl");
-        frontright  = hardwareMap.get(DcMotor.class, "fr");
-        backright = hardwareMap.get(DcMotor.class, "br");
+        frontleft  = hardwareMap.get(DcMotor.class, "FL");
+        backleft = hardwareMap.get(DcMotor.class, "BL");
+        frontright  = hardwareMap.get(DcMotor.class, "FR");
+        backright = hardwareMap.get(DcMotor.class, "BR");
+        droppie = hardwareMap.get(DcMotor.class, "droppie");
+        intakie = hardwareMap.get(DcMotor.class, "intakie");
+        flipity = hardwareMap.get(Servo.class, "flipity");
+        flopity = hardwareMap.get(Servo.class, "flopity");
+        bobby = hardwareMap.get(CRServo.class, "bobby");
+        indulgey = hardwareMap.get(CRServo.class, "indulgey");
+
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // When run, this OpMode should start both motors driving forward. So adjust these two lines based on your first test drive.
@@ -108,16 +124,27 @@ public class RobotAutoDriveByEncoder_Linear extends LinearOpMode {
         frontright.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backleft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         frontleft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        droppie.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        intakie.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         backleft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backright.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         frontleft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         frontright.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        droppie.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        intakie.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        backleft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontleft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        droppie.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        intakie.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Send telemetry message to indicate successful Encoder reset
         telemetry.addData("Starting at",  "%7d :%7d",
-                          frontleft.getCurrentPosition(),
-                          frontright.getCurrentPosition()
+                frontleft.getCurrentPosition(),
+                frontright.getCurrentPosition()
                 ,backleft.getCurrentPosition(),
                 backright.getCurrentPosition());
         telemetry.update();
@@ -127,9 +154,8 @@ public class RobotAutoDriveByEncoder_Linear extends LinearOpMode {
 
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
-        encoderDrive(DRIVE_SPEED,  48,  48, 5.0);  // S1: Forward 47 Inches with 5 Sec timeout
-        encoderDrive(TURN_SPEED,   12, -12, 4.0);  // S2: Turn Right 12 Inches with 4 Sec timeout
-        encoderDrive(DRIVE_SPEED, -24, -24, 4.0);  // S3: Reverse 24 Inches with 4 Sec timeout
+        encoderDrive(DRIVE_SPEED, 5, 5, 4.0);// S3: Reverse 24 Inches with 4 Sec timeout
+
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
@@ -182,13 +208,13 @@ public class RobotAutoDriveByEncoder_Linear extends LinearOpMode {
             // However, if you require that BOTH motors have finished their moves before the robot continues
             // onto the next step, use (isBusy() || isBusy()) in the loop test.
             while (opModeIsActive() &&
-                   (runtime.seconds() < timeoutS) &&
-                   (backleft.isBusy() && backright.isBusy() && frontleft.isBusy() && frontright.isBusy())) {
+                    (runtime.seconds() < timeoutS) &&
+                    (backleft.isBusy() && backright.isBusy() && frontleft.isBusy() && frontright.isBusy())) {
 
                 // Display it for the driver.
                 telemetry.addData("Running to",  " %7d :%7d", newLeftTarget,  newRightTarget);
                 telemetry.addData("Currently at",  " at %7d :%7d",
-                                            backleft.getCurrentPosition(), backright.getCurrentPosition(), frontleft.getCurrentPosition(), frontright.getCurrentPosition());
+                        backleft.getCurrentPosition(), backright.getCurrentPosition(), frontleft.getCurrentPosition(), frontright.getCurrentPosition());
                 telemetry.update();
             }
 
@@ -206,5 +232,40 @@ public class RobotAutoDriveByEncoder_Linear extends LinearOpMode {
 
             sleep(250);   // optional pause after each move.
         }
+
+
+
+    }
+
+    public void makeDroppieWork(int position){
+        droppie.setTargetPosition(position); //-1400
+        droppie.setPower(-0.6);
+        droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
+
+    public void makeIntakieWork(int pos){
+        intakie.setTargetPosition(pos);//800
+        intakie.setPower(0.8);//0.8);
+        intakie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
+
+    public void makeBobbyWork(double power){
+        bobby.setPower(power);//-0.6
+        sleep(1500);
+        bobby.setPower(0);
+    }
+
+    public void makeFlipityWork(double pos){
+        flipity.setPosition(pos);//0.8387);
+    }
+
+    public void makeFlopityWork(double pos){
+        flopity.setPosition(pos);//0.8387);
+    }
+
+    public void makeIndulgeyWork(double power){
+        indulgey.setPower(power);//-0.6
+        sleep(1500);
+        indulgey.setPower(0);
     }
 }

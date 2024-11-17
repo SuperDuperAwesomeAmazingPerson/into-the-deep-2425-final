@@ -26,6 +26,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -100,7 +101,7 @@ public class BlueRight extends LinearOpMode {
         odo = hardwareMap.get(GoBildaPinpointDriver.class,"odo");
 
         FRMotor.setDirection(DcMotor.Direction.REVERSE);
-        FLMotor.setDirection(DcMotor.Direction.FORWARD);
+        FLMotor.setDirection(DcMotor.Direction.REVERSE);
         BRMotor.setDirection(DcMotor.Direction.REVERSE);
         BLMotor.setDirection(DcMotor.Direction.FORWARD);
 
@@ -197,14 +198,14 @@ public class BlueRight extends LinearOpMode {
         telemetry.update();
         sleep(1000);
         //Lift goes on and specimen hooks onto the bar
-        droppie.setTargetPosition(-1300);
+        droppie.setTargetPosition(-1250);
         droppie.setPower(-0.6);
         droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         //Wait
         //sleep(500);
         //Claw releases specimen
         bobby.setPower(-0.6);
-        sleep(1000);
+        sleep(1500);
         bobby.setPower(0);
         goToPos(-650.6, -127 , Math.toRadians(0), .35, 25, Math.toRadians(2));
         sleep(1000);
@@ -213,7 +214,7 @@ public class BlueRight extends LinearOpMode {
         droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         sleep(1000);
         //Robot moves to diagonal midpoint (Movement #2)
-        goToPos(-88.9, -127 , Math.toRadians(0), .35, 25, Math.toRadians(5));
+        goToPos(-150, -150 , Math.toRadians(0), .35, 25, Math.toRadians(5));
         sleep(1000);
         goToPos(-88.9, 950 , Math.toRadians(0), .35, 25, Math.toRadians(5));
 //        goToPos(-609.6, 374.65 , Math.toRadians(-180), .35, 25, Math.toRadians(5));
@@ -301,7 +302,7 @@ public class BlueRight extends LinearOpMode {
         double reletiveYToTarget = -Math.sin(reletiveAngleToTarget) * distanceToTarget;
 
         //slow down ensures the robot does not over shoot the target
-        double slowDown = Range.clip(distanceToTarget / 3, -speed, speed);
+        double slowDown = Range.clip(distanceToTarget / 2.5, -speed, speed);
 
         //calculate the vector powers for the mecanum math
         double movementXpower = (reletiveXToTarget / (Math.abs(reletiveXToTarget) + Math.abs(reletiveYToTarget))) * slowDown;

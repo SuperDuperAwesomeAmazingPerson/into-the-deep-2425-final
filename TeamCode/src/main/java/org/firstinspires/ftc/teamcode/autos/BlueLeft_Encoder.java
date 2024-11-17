@@ -53,7 +53,7 @@ public class BlueLeft_Encoder extends LinearOpMode{
     Double width = 18.0; //inches
     Integer cpr = 28; //counts per rotation
     Integer gearratio = 20;
-    Double diameter = 4.125;
+    Double diameter = 4.0;
     Double cpi = (cpr * gearratio)/(Math.PI * diameter); //counts per inch, 28cpr * gear ratio / (2 * pi * diameter (in inches, in the center))
     Double bias = 0.8;//default 0.8
     // strafing movement
@@ -119,9 +119,34 @@ public class BlueLeft_Encoder extends LinearOpMode{
 
         waitForStart();
         //
-        strafeToPosition(20,.5);
+        moveToPosition(18,.2);
         sleep(1000);
-        moveToPosition(20,.5);
+        turnWithEncoder(45);
+        sleep(2000);
+        makeDroppieWork(-4400);
+        sleep(2000);
+        makeFlopityWork(-1);
+        sleep(1000);
+        moveToPosition(-2,.2);
+        sleep(1000);
+       makeDroppieWork(0);
+        sleep(1000);
+        makeFlopityWork(1);
+        sleep(1000);
+
+
+
+
+
+//        makeIntakieWork(800);
+//
+//        makeBobbyWork(-0.6);
+//
+//        makeFlipityWork(0.8387);
+//
+//        makeFlopityWork(0.8387);
+//
+//        makeIndulgeyWork(-0.6);
 
     }
 
@@ -199,14 +224,83 @@ public class BlueLeft_Encoder extends LinearOpMode{
     encoder mode and turn.
      */
     public void turnWithEncoder(double input){
+
+        double angleWrapped = angleWrapRad(input);
+//        double angleWrapped = calculateAngle(input);
         FLMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         BLMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         FRMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         BRMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+//        FLMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        BLMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        FRMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        BRMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         //
-        FLMotor.setPower(input);
-        BLMotor.setPower(input);
-        FRMotor.setPower(-input);
-        BRMotor.setPower(-input);
+        FLMotor.setPower(angleWrapped);
+        BLMotor.setPower(angleWrapped);
+        FRMotor.setPower(-angleWrapped);
+        BRMotor.setPower(-angleWrapped);
+
+        //calculateAngle(FLMotor.getCurrentPosition())
     }
+
+    public double calculateAngle(double target_angle){
+    //        int revolutions = encoderTicks/cpr;
+    //        //double angle = revolutions*360;
+    //        double angleNormalized = revolutions%360;
+    //
+    //        return angleNormalized;
+
+        double targetTicks = (target_angle/360)*cpr;
+        return targetTicks;
+
+    }
+
+    public void makeDroppieWork(int position){
+        droppie.setTargetPosition(position); //-1400
+        droppie.setPower(-0.6);
+        droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
+
+    public void makeIntakieWork(int pos){
+        intakie.setTargetPosition(pos);//800
+        intakie.setPower(0.8);//0.8);
+        intakie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
+
+    public void makeBobbyWork(double power){
+        bobby.setPower(power);//-0.6
+        sleep(1500);
+        bobby.setPower(0);
+    }
+
+    public void makeFlipityWork(double pos){
+        flipity.setPosition(pos);//0.8387);
+    }
+
+    public void makeFlopityWork(double pos){
+        flopity.setPosition(pos);//0.8387);
+    }
+
+    public void makeIndulgeyWork(double power){
+        indulgey.setPower(power);//-0.6
+        sleep(1500);
+        indulgey.setPower(0);
+    }
+
+    public double angleWrapRad(double angle)
+    {
+        while (angle > Math.PI)
+        {
+            angle -= Math.PI * 2;
+        }
+        while (angle < -Math.PI)
+        {
+            angle += Math.PI * 2;
+        }
+
+        return angle;
+    }
+
 }
