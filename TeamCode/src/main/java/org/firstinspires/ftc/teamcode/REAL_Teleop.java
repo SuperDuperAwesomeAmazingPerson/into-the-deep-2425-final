@@ -186,7 +186,7 @@ public class REAL_Teleop extends LinearOpMode {
             double yaw = gamepad1.right_stick_x;
 
             double extendArm = gamepad2.right_stick_y/1.5;
-            double extendLeg = gamepad2.left_stick_y/1.5;
+            double extendLeg = gamepad2.left_stick_y;
 
 //            if (gamepad2.y) {
 //                droppie.setTargetPosition(specimenRack);
