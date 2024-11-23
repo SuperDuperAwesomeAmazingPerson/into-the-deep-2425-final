@@ -82,7 +82,9 @@ public class NewRight extends LinearOpMode {
 
     private ElapsedTime     runtime = new ElapsedTime();
 
-    private int inches_to_move = 0;
+    private double inchesToMove = 0.0;
+    private double inchesToStrafeLeft = 0.0;
+    private double inchesToStrafeRight = 0.0;
 
     // Calculate the COUNTS_PER_INCH for your specific drive train.
     // Go to your motor vendor website to determine your motor's COUNTS_PER_MOTOR_REV
@@ -157,29 +159,42 @@ public class NewRight extends LinearOpMode {
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
         //First sample
-        inches_to_move = 9;
-        encoderStrafe(TURN_SPEED, inches_to_move,4);
-        inches_to_move = 48;
-        encoderDrive(DRIVE_SPEED, inches_to_move, inches_to_move, 4);
-        inches_to_move = 9;
-        encoderStrafe(TURN_SPEED, inches_to_move,4);
-        inches_to_move = 45;
-        encoderDrive(DRIVE_SPEED, -inches_to_move, -inches_to_move, 4);
-        //Second sample
-        inches_to_move = 44;
-        encoderDrive(DRIVE_SPEED, inches_to_move, inches_to_move, 4);
-        inches_to_move = 9;
-        encoderStrafe(TURN_SPEED, inches_to_move,4);
-        inches_to_move = 45;
-        encoderDrive(DRIVE_SPEED, -inches_to_move, -inches_to_move, 4);
-        inches_to_move = 4;
-        encoderDrive(DRIVE_SPEED, inches_to_move, inches_to_move, 4);
-        inches_to_move = 5;
-        encoderStrafe(TURN_SPEED, -inches_to_move, 4);
-        sleep(250);
-        makeDroppieWork(400);
-        inches_to_move = 3;
-        encoderDrive(DRIVE_SPEED, -inches_to_move, -inches_to_move, 4);
+        inchesToStrafeLeft = 9;
+        inchesToStrafeRight = 9;
+        encoderStrafe(TURN_SPEED, inchesToStrafeLeft, inchesToStrafeRight,4);
+        inchesToMove = 48;
+        encoderDrive(DRIVE_SPEED, inchesToMove, 4);
+        inchesToStrafeLeft = 14;
+        inchesToStrafeRight = 14;
+        encoderStrafe(TURN_SPEED, inchesToStrafeLeft, inchesToStrafeRight,4);
+        inchesToMove = 44;
+        encoderDrive(DRIVE_SPEED, -inchesToMove, 4);
+        inchesToMove = 2;
+        encoderDrive(DRIVE_SPEED, inchesToMove, 4);
+        inchesToStrafeLeft = 3;
+        inchesToStrafeRight = 3;
+        encoderStrafe(TURN_SPEED, inchesToStrafeLeft, inchesToStrafeRight, 4);
+        inchesToMove = -6;
+        encoderDrive(DRIVE_SPEED, inchesToMove, 4);
+        makeDroppieWork(-500);
+        makeBobbyWork(0.7);
+        sleep(2000);
+        makeBobbyWork(0);
+        makeDroppieWork(-1700);
+        inchesToMove = 25;
+        encoderDrive(DRIVE_SPEED, inchesToMove, 4);
+        inchesToStrafeLeft = 4;
+        inchesToStrafeRight = -4;
+        encoderStrafe(TURN_SPEED, inchesToStrafeLeft, -inchesToStrafeRight, 4);
+        inchesToStrafeLeft = -35;
+        inchesToStrafeRight = -35;
+        encoderStrafe(TURN_SPEED, inchesToStrafeLeft, inchesToStrafeRight, 4);
+        inchesToMove = 5;
+        encoderDrive(DRIVE_SPEED, inchesToMove, 4);
+        makeDroppieWork(-1450);
+        makeBobbyWork(-0.7);
+        sleep(1500);
+        makeBobbyWork(0);
 
 
         telemetry.addData("Path", "Complete");
@@ -196,7 +211,9 @@ public class NewRight extends LinearOpMode {
      *  3) Driver stops the OpMode running.
      */
     public void encoderDrive(double speed,
-                             double leftInches, double rightInches, double timeoutS) {
+                             double inchesToMove, double timeoutS) {
+        double leftInches = inchesToMove;
+        double rightInches = inchesToMove;
         int newLeftTarget;
         int newRightTarget;
 
@@ -261,16 +278,14 @@ public class NewRight extends LinearOpMode {
 
     }
 
-//    public void encoderStrafe(double speed,
-//                             double FlInches, double FrInches, double BlInches, double BrInches,
-//                             int timeoutS) {
 public void encoderStrafe(double speed,
-                          double inchesToMove,
+                          double inchesToStrafeLeft,
+                          double inchesToStrafeRight,
                           int timeoutS) {
-        double FlInches = inchesToMove;
-        double FrInches = -inchesToMove;
-        double BlInches = -inchesToMove;
-        double BrInches = inchesToMove;
+        double FlInches = inchesToStrafeLeft;
+        double FrInches = -inchesToStrafeRight;
+        double BlInches = -inchesToStrafeLeft;
+        double BrInches = inchesToStrafeRight;
 
 
         int newFrontLeftTarget;
