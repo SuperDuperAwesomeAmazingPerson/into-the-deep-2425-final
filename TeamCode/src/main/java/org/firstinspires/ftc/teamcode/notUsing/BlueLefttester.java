@@ -20,19 +20,17 @@
  *   SOFTWARE.
  */
 
-package org.firstinspires.ftc.teamcode.autos;
+package org.firstinspires.ftc.teamcode.notUsing;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
-import org.firstinspires.ftc.teamcode.GoBildaPinpointDriver;
 
 import java.util.Locale;
 
@@ -62,10 +60,9 @@ For support, contact tech@gobilda.com
 -Ethan Doak
  */
 
-@Autonomous(name="BlueRight", group="Linear OpMode")
-//@Disabled
+@Autonomous(name="BlueLefttester", group="Linear OpMode")
 
-public class BlueRight extends LinearOpMode {
+public class BlueLefttester extends LinearOpMode {
 
     private DcMotor FRMotor = null;
     private DcMotor FLMotor = null;
@@ -101,7 +98,7 @@ public class BlueRight extends LinearOpMode {
         odo = hardwareMap.get(GoBildaPinpointDriver.class,"odo");
 
         FRMotor.setDirection(DcMotor.Direction.REVERSE);
-        FLMotor.setDirection(DcMotor.Direction.REVERSE);
+        FLMotor.setDirection(DcMotor.Direction.FORWARD);
         BRMotor.setDirection(DcMotor.Direction.REVERSE);
         BLMotor.setDirection(DcMotor.Direction.FORWARD);
 
@@ -191,35 +188,32 @@ public class BlueRight extends LinearOpMode {
         droppie.setTargetPosition(-1700);
         droppie.setPower(-0.8);
         droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        sleep(1000);
+        sleep(2000);
         //Robot drives forward (Movement #1)
-        goToPos(-760, -127 , Math.toRadians(0), .35, 30, Math.toRadians(2));
+        goToPos(-760, 127 , Math.toRadians(0), 0.6, 30, Math.toRadians(2));
         telemetry.addData("Finished",0);
         telemetry.update();
-        sleep(1000);
+        sleep(3000);
         //Lift goes on and specimen hooks onto the bar
-        droppie.setTargetPosition(-1250);
+        droppie.setTargetPosition(-1400);
         droppie.setPower(-0.6);
         droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         //Wait
         //sleep(500);
         //Claw releases specimen
         bobby.setPower(-0.6);
-        sleep(1500);
+        sleep(2000);
         bobby.setPower(0);
-        goToPos(-650.6, -127 , Math.toRadians(0), .35, 25, Math.toRadians(2));
-        sleep(1000);
+        goToPos(-650.6, -127 , Math.toRadians(0), 0.6, 25, Math.toRadians(2));
+        sleep(2000);
+        //Robot moves to diagonal midpoint (Movement #2)
+        goToPos(-88.9, -914.4 , Math.toRadians(0), 0.6, 25, Math.toRadians(5));
+//        goToPos(-609.6, 374.65 , Math.toRadians(-180), .35, 25, Math.toRadians(5));
+        sleep(2000);
         //Lift drops down all the way
         droppie.setTargetPosition(0);
         droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        sleep(1000);
-        //Robot moves to diagonal midpoint (Movement #2)
-        goToPos(-150, -150 , Math.toRadians(0), .35, 25, Math.toRadians(5));
-        sleep(1000);
-        goToPos(-88.9, 950 , Math.toRadians(0), .35, 25, Math.toRadians(5));
-//        goToPos(-609.6, 374.65 , Math.toRadians(-180), .35, 25, Math.toRadians(5));
-        sleep(1000);
-
+        sleep(2000);
 //        //Robot moves to first spike mark (Movement #3)
 //        goToPos(-1295.4, 914.4 , Math.toRadians(180), .35, 25, Math.toRadians(2));
 //        sleep(2000);
@@ -228,7 +222,7 @@ public class BlueRight extends LinearOpMode {
 
 
         // Motor power is based on gyro angle/rotation
-       // sleep(5000);
+        // sleep(5000);
         //goToPos(-670, -110 , Math.toRadians(0), .5, 15, Math.toRadians(1));
         //goToPos(1092.2, 673.1 , Math.toRadians(180), .6, 15, Math.toRadians(5));
         //673.1-91.4 = 581.7
@@ -302,7 +296,7 @@ public class BlueRight extends LinearOpMode {
         double reletiveYToTarget = -Math.sin(reletiveAngleToTarget) * distanceToTarget;
 
         //slow down ensures the robot does not over shoot the target
-        double slowDown = Range.clip(distanceToTarget / 2.5, -speed, speed);
+        double slowDown = Range.clip(distanceToTarget / 3, -speed, speed);
 
         //calculate the vector powers for the mecanum math
         double movementXpower = (reletiveXToTarget / (Math.abs(reletiveXToTarget) + Math.abs(reletiveYToTarget))) * slowDown;
@@ -321,7 +315,7 @@ public class BlueRight extends LinearOpMode {
     public void goToPos(double x, double y, double h, double speed, double moveAccuracy, double angleAccuracy){
         //while loop makes the code keep running till the desired location is reached. (within the accuracy constraints)
         while(Math.abs(x-GlobalX) > moveAccuracy || Math.abs(y-GlobalY) > moveAccuracy || Math.abs(angleWrapRad(h - GlobalH)) > angleAccuracy) {
-       // while(true){
+            // while(true){
             goToPosSingle(x, y, h, speed);
 
             Pose2D pos = odo.getPosition();
@@ -338,7 +332,7 @@ public class BlueRight extends LinearOpMode {
         FRMotor.setPower(0);
         BRMotor.setPower(0);
 
-}}
+    }}
 
 // vertical distance 43 inches 109.22 cm - 1092.2 mm
 // horizontal distance  odometer at 26.5 inches 67.31 cm - 673.1 mm

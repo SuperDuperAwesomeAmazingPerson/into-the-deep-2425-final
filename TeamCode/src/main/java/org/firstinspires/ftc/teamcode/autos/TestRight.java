@@ -27,16 +27,18 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.robotcontroller.external.samples;
+package org.firstinspires.ftc.teamcode.autos;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
+
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
@@ -88,15 +90,20 @@ import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
  *  Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Robot: Auto Drive By Gyro", group="Robot")
-@Disabled
-public class RobotAutoDriveByGyro_Linear extends LinearOpMode {
+@Autonomous(name="TestRight", group="Robot")
+public class TestRight extends LinearOpMode {
 
     /* Declare OpMode members. */
     private DcMotor         FLMotor   = null;
     private DcMotor         FRMotor  = null;
     private DcMotor         BLMotor   = null;
     private DcMotor         BRMotor  = null;
+    private DcMotor         intakie = null;
+    private DcMotor         droppie = null;
+    private CRServo         bobby = null;
+    private CRServo         indulgey = null;
+    private Servo           flipity = null;
+    private Servo           flopity = null;
     private IMU             imu         = null;      // Control/Expansion Hub IMU
 
     private double          headingError  = 0;
@@ -125,7 +132,7 @@ public class RobotAutoDriveByGyro_Linear extends LinearOpMode {
 
     // These constants define the desired driving/control characteristics
     // They can/should be tweaked to suit the specific robot drive train.
-    static final double     DRIVE_SPEED             = 0.4;     // Max driving speed for better distance accuracy.
+    static final double     DRIVE_SPEED             = 0.5;     // Max driving speed for better distance accuracy.
     static final double     TURN_SPEED              = 0.2;     // Max turn speed to limit turn rate.
     static final double     HEADING_THRESHOLD       = 1.0 ;    // How close must the heading get to the target before moving to next step.
                                                                // Requiring more accuracy (a smaller number) will often make the turn take longer to get into the final position.
@@ -141,16 +148,27 @@ public class RobotAutoDriveByGyro_Linear extends LinearOpMode {
     public void runOpMode() {
 
         // Initialize the drive system variables.
-        FLMotor  = hardwareMap.get(DcMotor.class, "fl");
-        FRMotor = hardwareMap.get(DcMotor.class, "fr");
-        BLMotor  = hardwareMap.get(DcMotor.class, "bl");
-        BRMotor = hardwareMap.get(DcMotor.class, "br");
+        FLMotor  = hardwareMap.get(DcMotor.class, "FL");
+        FRMotor = hardwareMap.get(DcMotor.class, "FR");
+        BLMotor  = hardwareMap.get(DcMotor.class, "BL");
+        BRMotor = hardwareMap.get(DcMotor.class, "BR");
+        intakie = hardwareMap.get(DcMotor.class, "intakie");
+        droppie = hardwareMap.get(DcMotor.class, "droppie");
+        bobby = hardwareMap.get(CRServo.class, "bobby");
+        indulgey = hardwareMap.get(CRServo.class, "indulgey");
+        flipity = hardwareMap.get(Servo.class, "flipity");
+        flopity = hardwareMap.get(Servo.class, "flopity");
+
+
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // When run, this OpMode should start both motors driving forward. So adjust these two lines based on your first test drive.
         // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
         FLMotor.setDirection(DcMotor.Direction.REVERSE);
         FRMotor.setDirection(DcMotor.Direction.FORWARD);
+        BLMotor.setDirection(DcMotor.Direction.REVERSE);
+        BRMotor.setDirection(DcMotor.Direction.FORWARD);
+
 
         /* The next two lines define Hub orientation.
          * The Default Orientation (shown) is when a hub is mounted horizontally with the printed logo pointing UP and the USB port pointing FORWARD.
@@ -169,8 +187,12 @@ public class RobotAutoDriveByGyro_Linear extends LinearOpMode {
         // Ensure the robot is stationary.  Reset the encoders and set the motors to BRAKE mode
         FLMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         FRMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        BLMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        BRMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         FLMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         FRMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        BLMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        BRMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Wait for the game to start (Display Gyro value while waiting)
         while (opModeInInit()) {
@@ -181,6 +203,8 @@ public class RobotAutoDriveByGyro_Linear extends LinearOpMode {
         // Set the encoders for closed loop speed control, and reset the heading.
         FLMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         FRMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        BLMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        BRMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         imu.resetYaw();
 
         // Step through each leg of the path,
@@ -188,19 +212,36 @@ public class RobotAutoDriveByGyro_Linear extends LinearOpMode {
         //          holdHeading() is used after turns to let the heading stabilize
         //          Add a sleep(2000) after any step to keep the telemetry data visible for review
 
-        driveStraight(DRIVE_SPEED, 24.0, 0.0);    // Drive Forward 24"
-        turnToHeading( TURN_SPEED, -45.0);               // Turn  CW to -45 Degrees
-        holdHeading( TURN_SPEED, -45.0, 0.5);   // Hold -45 Deg heading for a 1/2 second
-
-        driveStraight(DRIVE_SPEED, 17.0, -45.0);  // Drive Forward 17" at -45 degrees (12"x and 12"y)
-        turnToHeading( TURN_SPEED,  45.0);               // Turn  CCW  to  45 Degrees
-        holdHeading( TURN_SPEED,  45.0, 0.5);    // Hold  45 Deg heading for a 1/2 second
-
-        driveStraight(DRIVE_SPEED, 17.0, 45.0);  // Drive Forward 17" at 45 degrees (-12"x and 12"y)
-        turnToHeading( TURN_SPEED,   0.0);               // Turn  CW  to 0 Degrees
-        holdHeading( TURN_SPEED,   0.0, 1.0);    // Hold  0 Deg heading for 1 second
-
-        driveStraight(DRIVE_SPEED,-48.0, 0.0);    // Drive in Reverse 48" (should return to approx. staring position)
+        encoderStrafe(0.5, 9, 9, 4);
+        driveStraight(0.5, 48, 0);
+        encoderStrafe(0.5, 14, 14, 4);
+        turnToHeading(0.6, -90);
+        encoderStrafe(0.5, -45, -45, 4);
+        driveStraight(0.5, -10, 0);
+        makeDroppieWork(-500);
+        makeBobbyWork(0.7);
+        sleep(1500);
+        makeBobbyWork(0);
+        makeDroppieWork(-1700);
+        driveStraight(0.5, 43, 45);
+        turnToHeading(0.6, -90);
+        driveStraight(0.5, -3, 0);
+        makeDroppieWork(-1450);
+        makeBobbyWork(-0.7);
+        sleep(1500);
+        makeDroppieWork(-500);
+        turnToHeading(0.6, 90);
+        driveStraight(0.5, 46, -45);
+        makeBobbyWork(0.7);
+        sleep(1500);
+        makeDroppieWork(-1700);
+        driveStraight(0.5, 43, 45);
+        turnToHeading(0.6, -90);
+        driveStraight(0.5, -3, 0);
+        makeDroppieWork(-1450);
+        makeBobbyWork(-0.7);
+        sleep(1500);
+        driveStraight(0.5, 40, 45);
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
@@ -243,9 +284,14 @@ public class RobotAutoDriveByGyro_Linear extends LinearOpMode {
             // Set Target FIRST, then turn on RUN_TO_POSITION
             FLMotor.setTargetPosition(leftTarget);
             FRMotor.setTargetPosition(rightTarget);
+            BLMotor.setTargetPosition(leftTarget);
+            BRMotor.setTargetPosition(rightTarget);
+
 
             FLMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             FRMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            BLMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            BRMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             // Set the required driving speed  (must be positive for RUN_TO_POSITION)
             // Start driving straight, and then enter the control loop
@@ -254,7 +300,7 @@ public class RobotAutoDriveByGyro_Linear extends LinearOpMode {
 
             // keep looping while we are still active, and BOTH motors are running.
             while (opModeIsActive() &&
-                   (FLMotor.isBusy() && FRMotor.isBusy())) {
+                   (FLMotor.isBusy() && FRMotor.isBusy() && BLMotor.isBusy() && BRMotor.isBusy())) {
 
                 // Determine required steering to keep on heading
                 turnSpeed = getSteeringCorrection(heading, P_DRIVE_GAIN);
@@ -274,8 +320,118 @@ public class RobotAutoDriveByGyro_Linear extends LinearOpMode {
             moveRobot(0, 0);
             FLMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             FRMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            BLMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            BRMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
     }
+    public void encoderStrafe(double speed,
+                              double inchesToStrafeLeft,
+                              double inchesToStrafeRight,
+                              int timeoutS) {
+        double FlInches = inchesToStrafeLeft;
+        double FrInches = -inchesToStrafeRight;
+        double BlInches = -inchesToStrafeLeft;
+        double BrInches = inchesToStrafeRight;
+
+
+        int newFLMotorTarget;
+        int newFRMotorTarget;
+        int newBLMotorTarget;
+        int newBRMotorTarget;
+
+        // Ensure that the OpMode is still active
+        if (opModeIsActive()) {
+
+            // Determine new target position, and pass to motor controller
+            newFLMotorTarget = FLMotor.getCurrentPosition() + (int)(FlInches * COUNTS_PER_INCH);
+            newFRMotorTarget = FRMotor.getCurrentPosition() + (int)(FrInches * COUNTS_PER_INCH);
+            newBRMotorTarget = BRMotor.getCurrentPosition() + (int)(BrInches * COUNTS_PER_INCH);
+            newBLMotorTarget = BLMotor.getCurrentPosition() + (int)(BlInches * COUNTS_PER_INCH);
+
+            BLMotor.setTargetPosition(newBLMotorTarget);
+            BRMotor.setTargetPosition(newBRMotorTarget);
+            FRMotor.setTargetPosition(newFRMotorTarget);
+            FLMotor.setTargetPosition(newFLMotorTarget);
+
+            // Turn On RUN_TO_POSITION
+            FLMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            FRMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            BRMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            BLMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+
+            // reset the timeout time and start motion.
+            FRMotor.setPower(Math.abs(speed));
+            FLMotor.setPower(Math.abs(speed));
+            BLMotor.setPower(Math.abs(speed));
+            BRMotor.setPower(Math.abs(speed));
+
+            // keep looping while we are still active, and there is time left, and both motors are running.
+            // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
+            // its target position, the motion will stop.  This is "safer" in the event that the robot will
+            // always end the motion as soon as possible.
+            // However, if you require that BOTH motors have finished their moves before the robot continues
+            // onto the next step, use (isBusy() || isBusy()) in the loop test.
+
+
+            // Stop all motion;
+            FRMotor.setPower(0);
+            FLMotor.setPower(0);
+            BRMotor.setPower(0);
+            BLMotor.setPower(0);
+
+            // Turn off RUN_TO_POSITION
+            FLMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            FRMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            BRMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            BLMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+            FLMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            FRMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            BRMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            BLMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+            sleep(250);   // optional pause after each move.
+        }
+
+
+
+    }
+    public void makeDroppieWork(int position){
+        droppie.setTargetPosition(position); //-1400
+        droppie.setPower(-0.6);
+        droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
+
+    public void makeIntakieWork(int pos){
+        intakie.setTargetPosition(pos);//800
+        intakie.setPower(0.8);//0.8);
+        intakie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
+
+    public void makeBobbyWork(double power){
+        bobby.setPower(power);//-0.6
+        sleep(1500);
+        bobby.setPower(0);
+    }
+
+    public void makeFlipityWork(double pos){
+        flipity.setPosition(pos);//0.8387);
+    }
+
+    public void makeFlopityWork(double pos){
+        flopity.setPosition(pos);//0.8387);
+    }
+
+    public void makeIndulgeyWork(double power){
+        indulgey.setPower(power);//-0.6
+        sleep(1500);
+        indulgey.setPower(0);
+    }
+
+
+
 
     /**
      *  Spin on the central axis to point in a new direction.
@@ -399,6 +555,9 @@ public class RobotAutoDriveByGyro_Linear extends LinearOpMode {
 
         FLMotor.setPower(leftSpeed);
         FRMotor.setPower(rightSpeed);
+        BLMotor.setPower(leftSpeed);
+        BRMotor.setPower(rightSpeed);
+
     }
 
     /**

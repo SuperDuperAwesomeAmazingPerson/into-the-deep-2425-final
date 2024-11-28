@@ -37,6 +37,14 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.Range;
+
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
+import org.firstinspires.ftc.teamcode.notUsing.GoBildaPinpointDriver;
+
+import java.util.Locale;
 
 /*
  * This OpMode illustrates the concept of driving a path based on encoder counts.
@@ -64,15 +72,15 @@ import com.qualcomm.robotcore.hardware.Servo;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous(name="NewRight", group="Robot")
+@Autonomous(name="EncoderOdoHybrid", group="Robot")
 
-public class NewRight extends LinearOpMode {
+public class EncoderOdoHybrid extends LinearOpMode {
 
     /* Declare OpMode members. */
-    private DcMotor         frontleft   = null;
-    private DcMotor         frontright  = null;
-    private DcMotor         backleft  = null;
-    private DcMotor         backright  = null;
+    private DcMotor frontleft   = null;
+    private DcMotor frontright  = null;
+    private DcMotor backleft  = null;
+    private DcMotor backright  = null;
     private DcMotor droppie = null;
     private DcMotor intakie = null;
     private Servo flipity = null;
@@ -81,6 +89,13 @@ public class NewRight extends LinearOpMode {
     private CRServo bobby = null;
 
     private ElapsedTime     runtime = new ElapsedTime();
+
+    GoBildaPinpointDriver odo; // Declare OpMode member for the Odometry Computer
+
+    //Starting location
+    public double GlobalX = 0;
+    public double GlobalY = 0;
+    public double GlobalH = 0;
 
     private double inchesToMove = 0.0;
     private double inchesToStrafeLeft = 0.0;
@@ -108,12 +123,16 @@ public class NewRight extends LinearOpMode {
         backleft = hardwareMap.get(DcMotor.class, "BL");
         frontright  = hardwareMap.get(DcMotor.class, "FR");
         backright = hardwareMap.get(DcMotor.class, "BR");
+        
         droppie = hardwareMap.get(DcMotor.class, "droppie");
         intakie = hardwareMap.get(DcMotor.class, "intakie");
+        
         flipity = hardwareMap.get(Servo.class, "flipity");
         flopity = hardwareMap.get(Servo.class, "flopity");
         bobby = hardwareMap.get(CRServo.class, "bobby");
         indulgey = hardwareMap.get(CRServo.class, "indulgey");
+
+        odo = hardwareMap.get(GoBildaPinpointDriver.class,"odo");
 
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
@@ -145,6 +164,19 @@ public class NewRight extends LinearOpMode {
         droppie.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         intakie.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        odo.setOffsets(-201.61, -173.04 );
+        odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
+        odo.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.FORWARD);
+        odo.resetPosAndIMU();
+
+        telemetry.addData("Status", "Initialized");
+        telemetry.addData("X offset", odo.getXOffset());
+        telemetry.addData("Y offset", odo.getYOffset());
+        telemetry.addData("Device Version Number:", odo.getDeviceVersion());
+        telemetry.addData("Device Scalar", odo.getYawScalar());
+        telemetry.update();
+        
+
         // Send telemetry message to indicate successful Encoder reset
         telemetry.addData("Starting at",  "%7d :%7d",
                 frontleft.getCurrentPosition(),
@@ -158,46 +190,18 @@ public class NewRight extends LinearOpMode {
 
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
-        //First sample
-        inchesToStrafeLeft = 9.5;
-        inchesToStrafeRight = 9.5;
-        encoderStrafe(TURN_SPEED, inchesToStrafeLeft, inchesToStrafeRight,4);
-        inchesToMove = 48;
-        encoderDrive(DRIVE_SPEED, inchesToMove, 4);
-        inchesToStrafeLeft = 12.5;
-        inchesToStrafeRight = 12.5;
-        encoderStrafe(TURN_SPEED, inchesToStrafeLeft, inchesToStrafeRight,4);
-        inchesToMove = 39;
-        encoderDrive(DRIVE_SPEED, -inchesToMove, 4);
-        inchesToMove = 5;
-        encoderDrive(DRIVE_SPEED, inchesToMove, 4);
-        inchesToMove = 5;
-        encoderDrive(DRIVE_SPEED, -inchesToMove, 4);
-        inchesToStrafeLeft = 3.8;
-        inchesToStrafeRight = 3.8;
-        encoderStrafe(TURN_SPEED, inchesToStrafeLeft, inchesToStrafeRight, 4);
-        makeDroppieWork(-320);
-        sleep(250);
-        inchesToMove = -7;
-        encoderDrive(DRIVE_SPEED, inchesToMove, 4);
-        makeBobbyWork(0.7);
-        sleep(100);
-        makeBobbyWork(0);
         makeDroppieWork(-1700);
-        inchesToMove = 18;
-        encoderDrive(DRIVE_SPEED, inchesToMove, 4);
-        inchesToStrafeLeft = -100;
-        inchesToStrafeRight = 100;
-        encoderStrafe(TURN_SPEED, inchesToStrafeLeft, inchesToStrafeRight, 4);
-        inchesToStrafeLeft = 45;
-        inchesToStrafeRight = 45;
-        encoderStrafe(TURN_SPEED, inchesToStrafeLeft, inchesToStrafeRight, 4);
-        inchesToMove = 5;
-        encoderDrive(DRIVE_SPEED, -inchesToMove, 4);
-        makeDroppieWork(-1450);
-        makeBobbyWork(-0.7);
-        sleep(500);
+        encoderStrafe(0.5, -5, -5, 4);
+        encoderDrive(0.5, 29.9, 4);
+        goToPos(-760, -127 , Math.toRadians(0), 0.5, 20, Math.toRadians(2));
+        makeDroppieWork(-1250);
+        makeBobbyWork(-0.6);
+        sleep(1500);
         makeBobbyWork(0);
+        encoderDrive(0.5, 24, 4);
+        makeDroppieWork(0);
+        encoderStrafe(0.5, 38, 38, 4);
+        goToPos(-150, 980 , Math.toRadians(0), 0.5, 20, Math.toRadians(2));
 
 
         telemetry.addData("Path", "Complete");
@@ -205,6 +209,77 @@ public class NewRight extends LinearOpMode {
         sleep(1000);  // pause to display final telemetry message.
     }
 
+    public double angleWrapRad(double angle)
+    {
+        while (angle > Math.PI)
+        {
+            angle -= Math.PI * 2;
+        }
+        while (angle < -Math.PI)
+        {
+            angle += Math.PI * 2;
+        }
+
+        return angle;
+    }
+
+    public void refresh(){
+        odo.update();
+        Pose2D pos = odo.getPosition();
+        GlobalX = pos.getX(DistanceUnit.MM);
+        GlobalY = pos.getY(DistanceUnit.MM);
+        GlobalH = -pos.getHeading(AngleUnit.RADIANS);
+    }
+
+    public void goToPosSingle(double x, double y, double h, double speed){
+
+        refresh();
+
+        //math to calculate distances to the target
+        double distanceToTarget = Math.hypot(x - GlobalX, y - GlobalY);
+        double absoluteAngleToTarget = Math.atan2(x - GlobalX, y - GlobalY);
+        double reletiveAngleToTarget = angleWrapRad(absoluteAngleToTarget - GlobalH-Math.toRadians(90));
+        double reletiveXToTarget = -Math.cos(reletiveAngleToTarget) * distanceToTarget;
+        double reletiveYToTarget = -Math.sin(reletiveAngleToTarget) * distanceToTarget;
+
+        //slow down ensures the robot does not over shoot the target
+        double slowDown = Range.clip(distanceToTarget / 2, -speed, speed);
+
+        //calculate the vector powers for the mecanum math
+        double movementXpower = (reletiveXToTarget / (Math.abs(reletiveXToTarget) + Math.abs(reletiveYToTarget))) * slowDown;
+        double movementYpower = (reletiveYToTarget / (Math.abs(reletiveYToTarget) + Math.abs(reletiveXToTarget))) * slowDown;
+
+        double reletiveTurnAngle = angleWrapRad(h - GlobalH);
+        double movementTurnPower = Range.clip(reletiveTurnAngle / Math.toRadians(10), -speed, speed);
+
+        frontleft.setPower(-movementYpower - movementXpower - movementTurnPower);
+        backleft.setPower(-movementYpower + movementXpower - movementTurnPower);
+        frontleft.setPower(-movementYpower + movementXpower + movementTurnPower);
+        backright.setPower(-movementYpower - movementXpower + movementTurnPower);
+
+    }
+
+    public void goToPos(double x, double y, double h, double speed, double moveAccuracy, double angleAccuracy){
+        //while loop makes the code keep running till the desired location is reached. (within the accuracy constraints)
+        while(Math.abs(x-GlobalX) > moveAccuracy || Math.abs(y-GlobalY) > moveAccuracy || Math.abs(angleWrapRad(h - GlobalH)) > angleAccuracy) {
+            // while(true){
+            goToPosSingle(x, y, h, speed);
+
+            Pose2D pos = odo.getPosition();
+            String data = String.format(Locale.US, "{X: %.3f, Y: %.3f, H: %.3f}", pos.getX(DistanceUnit.MM), pos.getY(DistanceUnit.MM), pos.getHeading(AngleUnit.DEGREES));
+            telemetry.addData("Position", data);
+            telemetry.update();
+
+
+        }
+
+        //stop all movement at the end of while loop
+        frontleft.setPower(0);
+        backleft.setPower(0);
+        frontright.setPower(0);
+        backright.setPower(0);
+
+    }
     /*
      *  Method to perform a relative move, based on encoder counts.
      *  Encoders are not reset as the move is based on the current position.
@@ -281,10 +356,10 @@ public class NewRight extends LinearOpMode {
 
     }
 
-public void encoderStrafe(double speed,
-                          double inchesToStrafeLeft,
-                          double inchesToStrafeRight,
-                          int timeoutS) {
+    public void encoderStrafe(double speed,
+                              double inchesToStrafeLeft,
+                              double inchesToStrafeRight,
+                              int timeoutS) {
         double FlInches = inchesToStrafeLeft;
         double FrInches = -inchesToStrafeRight;
         double BlInches = -inchesToStrafeLeft;

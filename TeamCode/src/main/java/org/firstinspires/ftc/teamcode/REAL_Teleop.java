@@ -342,22 +342,22 @@ public class REAL_Teleop extends LinearOpMode {
                     bobby.setPower(0);
                 }
 
-                if (gamepad2.right_trigger > 0.3) {
+                if (gamepad2.left_trigger > 0.3) {
                     indulgey.setPower(-1);
-                } else if (gamepad2.left_trigger > 0.3) {
+                } else if (gamepad2.right_trigger > 0.3) {
                     indulgey.setPower(1);
                 } else {
                     indulgey.setPower(0);
                 }
 
 
-//                if (gamepad1.y) {
-//                    hangie.setPower(1);
-//                } else if (gamepad1.a) {
-//                    hangie.setPower(-1);
-//                } else {
-//                    hangie.setPower(0);
-//                }
+                if (gamepad1.y) {
+                    hangie.setPower(1);
+                } else if (gamepad1.b) {
+                    hangie.setPower(-1);
+                } else {
+                    hangie.setPower(0);
+                }
 
                 // This is test code:
                 //
