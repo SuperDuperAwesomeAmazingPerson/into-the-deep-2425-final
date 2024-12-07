@@ -155,21 +155,42 @@ public class LeftSide extends LinearOpMode {
         encoderDrive(DRIVE_SPEED, -7, -7, 4.0);// S3: Reverse 24 Inches with 4 Sec timeout
         encoderDrive(TURN_SPEED,   -5, 5, 4.0);
         makeDroppieWork(-3000);
-        sleep(2000);
+        sleep(2500);
         makeFlopityWork(-0.8);
-        sleep(3000);
+        sleep(2000);
         encoderDrive(DRIVE_SPEED, 4, 4, 4.0);
         sleep(1000);
         makeDroppieWork(0);
         sleep(1000);// S2: Turn Right 12 Inches with 4 Sec timeout
-        encoderDrive(TURN_SPEED, -5, 5, 4.0);
-        encoderDrive(DRIVE_SPEED, 24, 24, 4.0);  // S3: Reverse 24 Inches with 4 Sec timeout
-        encoderDrive(TURN_SPEED, -13, 13, 4.0);
-        makeDroppieWork(-1400);
-        sleep(3000);
-        encoderDrive(DRIVE_SPEED, -5, -5, 4.0);
-        makeDroppieWork(-1200);
-        sleep(10000);
+        encoderDrive(DRIVE_SPEED, 9.8, 9.8, 4.0);
+        makeFlopityWork(0.6);
+        encoderDrive(TURN_SPEED, -17.7, 17.7, 4.0);
+        encoderStrafe(DRIVE_SPEED, 6.2, 6.2, 4);
+        makeIntakieWork(-470);
+        sleep(250);
+        makeFlipityWork(0.8387);
+        sleep(750);
+        makeIntakieWork(-1200);
+        makeIndulgeyWork(1);
+        sleep(1000);
+        makeFlipityWork(0.1);
+        makeIntakieWork(0);
+        sleep(750);
+        makeIndulgeyWork(-1);
+        encoderStrafe(DRIVE_SPEED, -3, -3, 4);
+        encoderDrive(TURN_SPEED, 15.6,-15.6, 4.0);
+        makeDroppieWork(-3000);
+        encoderDrive(DRIVE_SPEED, -17.7, -17.7, 4.0);
+        makeFlopityWork(-0.8);
+//        encoderDrive(TURN_SPEED, -5, 5, 4.0);
+//        encoderDrive(DRIVE_SPEED, 24, 24, 4.0);  // S3: Reverse 24 Inches with 4 Sec timeout
+//        encoderDrive(TURN_SPEED, -13, 13, 4.0);
+//        makeDroppieWork(-1400);
+//        sleep(3000);
+//        encoderDrive(DRIVE_SPEED, -5, -5, 4.0);
+//        makeDroppieWork(-1200);
+//        makeFlopityWork(-0.8);
+//        sleep(10000);
 
 
         telemetry.addData("Path", "Complete");
@@ -248,9 +269,91 @@ public class LeftSide extends LinearOpMode {
             sleep(250);   // optional pause after each move.
         }
 
-
-
     }
+
+    public void encoderStrafe(double speed,
+                              double inchesToStrafeLeft,
+                              double inchesToStrafeRight,
+                              int timeoutS) {
+        double FlInches = inchesToStrafeLeft;
+        double FrInches = -inchesToStrafeRight;
+        double BlInches = -inchesToStrafeLeft;
+        double BrInches = inchesToStrafeRight;
+
+
+        int newFrontLeftTarget;
+        int newFrontRightTarget;
+        int newBackLeftTarget;
+        int newBackRightTarget;
+
+        // Ensure that the OpMode is still active
+        if (opModeIsActive()) {
+
+            // Determine new target position, and pass to motor controller
+            newFrontLeftTarget = frontleft.getCurrentPosition() + (int)(FlInches * COUNTS_PER_INCH);
+            newFrontRightTarget = frontright.getCurrentPosition() + (int)(FrInches * COUNTS_PER_INCH);
+            newBackRightTarget = backright.getCurrentPosition() + (int)(BrInches * COUNTS_PER_INCH);
+            newBackLeftTarget = backleft.getCurrentPosition() + (int)(BlInches * COUNTS_PER_INCH);
+
+            backleft.setTargetPosition(newBackLeftTarget);
+            backright.setTargetPosition(newBackRightTarget);
+            frontright.setTargetPosition(newFrontRightTarget);
+            frontleft.setTargetPosition(newFrontLeftTarget);
+
+            // Turn On RUN_TO_POSITION
+            frontleft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            frontright.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            backright.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            backleft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+
+            // reset the timeout time and start motion.
+            runtime.reset();
+            frontright.setPower(Math.abs(speed));
+            frontleft.setPower(Math.abs(speed));
+            backleft.setPower(Math.abs(speed));
+            backright.setPower(Math.abs(speed));
+
+            // keep looping while we are still active, and there is time left, and both motors are running.
+            // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
+            // its target position, the motion will stop.  This is "safer" in the event that the robot will
+            // always end the motion as soon as possible.
+            // However, if you require that BOTH motors have finished their moves before the robot continues
+            // onto the next step, use (isBusy() || isBusy()) in the loop test.
+            while (opModeIsActive() &&
+                    (runtime.seconds() < timeoutS) &&
+                    (backleft.isBusy() && backright.isBusy() && frontleft.isBusy() && frontright.isBusy())) {
+
+                // Display it for the driver.
+                telemetry.addData("Test %7d", backright.getCurrentPosition());
+//                telemetry.addData("Running to",  " %7d :%7d", newLeftTarget,  newRightTarget);
+//                telemetry.addData("Currently at",  " at %7d :%7d",
+//                        backleft.getCurrentPosition(), backright.getCurrentPosition(), frontleft.getCurrentPosition(), frontright.getCurrentPosition());
+                telemetry.update();
+            }
+
+            // Stop all motion;
+            frontright.setPower(0);
+            frontleft.setPower(0);
+            backright.setPower(0);
+            backleft.setPower(0);
+
+            // Turn off RUN_TO_POSITION
+            frontleft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            frontright.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            backright.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            backleft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+            frontleft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            frontright.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            backright.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            backleft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+            sleep(250);   // optional pause after each move.
+        }
+    }
+
 
     public void makeDroppieWork(int position){
         droppie.setTargetPosition(position); //-1400
