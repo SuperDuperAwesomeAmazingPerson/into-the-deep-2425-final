@@ -165,7 +165,7 @@ public class LeftSide extends LinearOpMode {
         encoderDrive(DRIVE_SPEED, 9.8, 9.8, 4.0);
         makeFlopityWork(0.6);
         encoderDrive(TURN_SPEED, -17.7, 17.7, 4.0);
-        encoderStrafe(DRIVE_SPEED, 6.2, 6.2, 4);
+        encoderStrafe(DRIVE_SPEED, 6, 6, 4);
         makeIntakieWork(-470);
         sleep(250);
         makeFlipityWork(0.8387);
@@ -177,11 +177,24 @@ public class LeftSide extends LinearOpMode {
         makeIntakieWork(0);
         sleep(750);
         makeIndulgeyWork(-1);
-        encoderStrafe(DRIVE_SPEED, -3, -3, 4);
+        encoderStrafe(0.8, -3, -3, 4);
+        makeIndulgeyWork(0);
+        makeFlipityWork(0.4);
         encoderDrive(TURN_SPEED, 15.6,-15.6, 4.0);
         makeDroppieWork(-3000);
-        encoderDrive(DRIVE_SPEED, -17.7, -17.7, 4.0);
+        encoderDrive(DRIVE_SPEED, -17, -17, 4.0);
         makeFlopityWork(-0.8);
+        sleep(1000);
+        makeFlopityWork(0.6);
+        encoderDrive(0.8, 5, 5, 4.0);
+        makeDroppieWork(-2000);
+        encoderDrive(TURN_SPEED, -27,27, 4.0);
+        encoderDrive(0.8, -20,-20, 4.0);
+        encoderDrive(TURN_SPEED, 6,-6, 4);
+        encoderDrive(0.8, -6, -6, 4.0);
+        makeFlopityWork(-0.8);
+        makeDroppieWork(-1500);
+        sleep(10000);
 //        encoderDrive(TURN_SPEED, -5, 5, 4.0);
 //        encoderDrive(DRIVE_SPEED, 24, 24, 4.0);  // S3: Reverse 24 Inches with 4 Sec timeout
 //        encoderDrive(TURN_SPEED, -13, 13, 4.0);
@@ -369,8 +382,6 @@ public class LeftSide extends LinearOpMode {
 
     public void makeBobbyWork(double power){
         bobby.setPower(power);//-0.6
-        sleep(1500);
-        bobby.setPower(0);
     }
 
     public void makeFlipityWork(double pos){
@@ -382,8 +393,6 @@ public class LeftSide extends LinearOpMode {
     }
 
     public void makeIndulgeyWork(double power){
-        indulgey.setPower(power);//-0.6
-        sleep(1500);
-        indulgey.setPower(0);
+        indulgey.setPower(power);
     }
 }
