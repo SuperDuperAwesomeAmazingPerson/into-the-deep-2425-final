@@ -152,49 +152,51 @@ public class LeftSide extends LinearOpMode {
 
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
+        //First Basket
+        makeFlipityWork(0.4);
         encoderDrive(DRIVE_SPEED, -7, -7, 4.0);// S3: Reverse 24 Inches with 4 Sec timeout
-        encoderDrive(TURN_SPEED,   -5, 5, 4.0);
+        encoderDrive(DRIVE_SPEED,   -5, 5, 4.0);
         makeDroppieWork(-3000);
-        sleep(2500);
+        sleep(1500);//2500
         makeFlopityWork(-0.8);
-        sleep(2000);
+        sleep(1000); //2000
         encoderDrive(DRIVE_SPEED, 4, 4, 4.0);
-        sleep(1000);
         makeDroppieWork(0);
-        sleep(1000);// S2: Turn Right 12 Inches with 4 Sec timeout
-        encoderDrive(DRIVE_SPEED, 9.8, 9.8, 4.0);
+        //Drive to the spike mark and pick up a sample
+        encoderDrive(0.3, 9.9, 9.9, 4.0);
         makeFlopityWork(0.6);
-        encoderDrive(TURN_SPEED, -17.7, 17.7, 4.0);
-        encoderStrafe(DRIVE_SPEED, 6, 6, 4);
-        makeIntakieWork(-470);
+        encoderDrive(0.2, -17.8, 17.8, 4.0);
+        encoderStrafe(0.3, 6, 6, 4);
+        makeIntakieWork(-800);
         sleep(250);
         makeFlipityWork(0.8387);
         sleep(750);
-        makeIntakieWork(-1200);
+        makeIntakieWork(-1500);
         makeIndulgeyWork(1);
         sleep(1000);
         makeFlipityWork(0.1);
         makeIntakieWork(0);
         sleep(750);
         makeIndulgeyWork(-1);
-        encoderStrafe(0.8, -3, -3, 4);
+        //Second Basket
+        encoderStrafe(DRIVE_SPEED, -3, -3, 4);
         makeIndulgeyWork(0);
         makeFlipityWork(0.4);
-        encoderDrive(TURN_SPEED, 15.6,-15.6, 4.0);
+        encoderDrive(TURN_SPEED, 15.3, -15.3, 4.0);
         makeDroppieWork(-3000);
-        encoderDrive(DRIVE_SPEED, -17, -17, 4.0);
+        encoderDrive(DRIVE_SPEED, -13.35, -13.35, 4.0);
         makeFlopityWork(-0.8);
         sleep(1000);
+        //Park
         makeFlopityWork(0.6);
-        encoderDrive(0.8, 5, 5, 4.0);
+        encoderDrive(DRIVE_SPEED, 5, 5, 4.0);
         makeDroppieWork(-2000);
-        encoderDrive(TURN_SPEED, -27,27, 4.0);
-        encoderDrive(0.8, -20,-20, 4.0);
-        encoderDrive(TURN_SPEED, 6,-6, 4);
-        encoderDrive(0.8, -6, -6, 4.0);
-        makeFlopityWork(-0.8);
-        makeDroppieWork(-1500);
-        sleep(10000);
+        encoderDrive(0.4, -14, 14, 4.0);
+        encoderStrafe(0.6, -7, -7, 4);
+        encoderDrive(0.6, -25, -25, 4.0);
+        makeDroppieWork(0);
+        encoderDrive(0.4, -9, -9, 4.0);
+
 //        encoderDrive(TURN_SPEED, -5, 5, 4.0);
 //        encoderDrive(DRIVE_SPEED, 24, 24, 4.0);  // S3: Reverse 24 Inches with 4 Sec timeout
 //        encoderDrive(TURN_SPEED, -13, 13, 4.0);
@@ -370,7 +372,7 @@ public class LeftSide extends LinearOpMode {
 
     public void makeDroppieWork(int position){
         droppie.setTargetPosition(position); //-1400
-        droppie.setPower(-0.6);
+        droppie.setPower(-0.75);
         droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
