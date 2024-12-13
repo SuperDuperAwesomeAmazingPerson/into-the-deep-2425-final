@@ -30,10 +30,8 @@
 package org.firstinspires.ftc.teamcode.autos;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -64,9 +62,9 @@ import com.qualcomm.robotcore.hardware.Servo;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous(name="NewRight", group="Robot")
+@Autonomous(name="KDC_Right", group="Robot")
 
-public class NewRight extends LinearOpMode {
+public class KDC_Right extends LinearOpMode {
 
     /* Declare OpMode members. */
     private DcMotor         frontleft   = null;
@@ -82,17 +80,13 @@ public class NewRight extends LinearOpMode {
 
     private ElapsedTime     runtime = new ElapsedTime();
 
-    private double inchesToMove = 0.0;
-    private double inchesToStrafeLeft = 0.0;
-    private double inchesToStrafeRight = 0.0;
-
     // Calculate the COUNTS_PER_INCH for your specific drive train.
     // Go to your motor vendor website to determine your motor's COUNTS_PER_MOTOR_REV
     // For external drive gearing, set DRIVE_GEAR_REDUCTION as needed.
     // For example, use a value of 2.0 for a 12-tooth spur gear driving a 24-tooth spur gear.
     // This is gearing DOWN for less speed and more torque.
     // For gearing UP, use a gear ratio less than 1.0. Note this will affect the direction of wheel rotation.
-    static final double     COUNTS_PER_MOTOR_REV    = 545 ;    // eg: TETRIX Motor Encoder
+    static final double     COUNTS_PER_MOTOR_REV    = 1200 ;    // eg: TETRIX Motor Encoder
     static final double     DRIVE_GEAR_REDUCTION    = 1.0 ;     // No External Gearing.
     static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
@@ -158,46 +152,55 @@ public class NewRight extends LinearOpMode {
 
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
-        //First sample
-        inchesToStrafeLeft = 9.5;
-        inchesToStrafeRight = 9.5;
-        encoderStrafe(TURN_SPEED, inchesToStrafeLeft, inchesToStrafeRight,4);
-        inchesToMove = 48;
-        encoderDrive(DRIVE_SPEED, inchesToMove, 4);
-        inchesToStrafeLeft = 12.5;
-        inchesToStrafeRight = 12.5;
-        encoderStrafe(TURN_SPEED, inchesToStrafeLeft, inchesToStrafeRight,4);
-        inchesToMove = 39;
-        encoderDrive(DRIVE_SPEED, -inchesToMove, 4);
-        inchesToMove = 5;
-        encoderDrive(DRIVE_SPEED, inchesToMove, 4);
-        inchesToMove = 5;
-        encoderDrive(DRIVE_SPEED, -inchesToMove, 4);
-        inchesToStrafeLeft = 3.8;
-        inchesToStrafeRight = 3.8;
-        encoderStrafe(TURN_SPEED, inchesToStrafeLeft, inchesToStrafeRight, 4);
+        //First Basket
+        encoderDrive(DRIVE_SPEED, -3.5, -3.5, 4.0);
+        encoderStrafe(DRIVE_SPEED, 23, 23, 4);
+        encoderDrive(DRIVE_SPEED, -4.2, -4.2, 4.0);
+        encoderStrafe(DRIVE_SPEED, -18, -18, 4);
+        encoderStrafe(DRIVE_SPEED, 4, 4, 4);
+        encoderDrive(DRIVE_SPEED, 3, 3, 4.0);
         makeDroppieWork(-320);
-        sleep(250);
-        inchesToMove = -7;
-        encoderDrive(DRIVE_SPEED, inchesToMove, 4);
+        encoderStrafe(DRIVE_SPEED, -10, -10, 4);
         makeBobbyWork(0.7);
-        sleep(100);
+        sleep(1);
         makeBobbyWork(0);
         makeDroppieWork(-1700);
-        inchesToMove = 18;
-        encoderDrive(DRIVE_SPEED, inchesToMove, 4);
-        inchesToStrafeLeft = -100;
-        inchesToStrafeRight = 100;
-        encoderStrafe(TURN_SPEED, inchesToStrafeLeft, inchesToStrafeRight, 4);
-        inchesToStrafeLeft = 45;
-        inchesToStrafeRight = 45;
-        encoderStrafe(TURN_SPEED, inchesToStrafeLeft, inchesToStrafeRight, 4);
-        inchesToMove = 5;
-        encoderDrive(DRIVE_SPEED, -inchesToMove, 4);
-        makeDroppieWork(-1450);
+        encoderStrafe(DRIVE_SPEED, 12, 12, 4);
+        encoderDrive(DRIVE_SPEED, 21, -21, 4.0);
+        encoderDrive(DRIVE_SPEED, -20, -20, 4.0);
+        encoderStrafe(DRIVE_SPEED, -5, -5, 4);
+        makeDroppieWork(-1200);
         makeBobbyWork(-0.7);
-        sleep(500);
+        sleep(250);
         makeBobbyWork(0);
+        encoderStrafe(DRIVE_SPEED, 2, 2, 4);
+        encoderDrive(DRIVE_SPEED, 25, 25, 4.0);
+        encoderDrive(DRIVE_SPEED, 15, -15, 4.0);
+        makeDroppieWork(-320);
+        encoderStrafe(DRIVE_SPEED, -20, -20, 4);
+        makeBobbyWork(0.7);
+        sleep(750);
+        makeBobbyWork(0);
+        makeDroppieWork(-1700);
+        encoderStrafe(DRIVE_SPEED, 12, 12, 4);
+        encoderDrive(DRIVE_SPEED, 21, -21, 4.0);
+        encoderDrive(DRIVE_SPEED, -25, -25, 4.0);
+        encoderStrafe(DRIVE_SPEED, -2, -2, 4);
+        makeDroppieWork(-1200);
+        makeBobbyWork(-0.7);
+        sleep(250);
+        makeBobbyWork(0);
+
+
+//        encoderDrive(TURN_SPEED, -5, 5, 4.0);
+//        encoderDrive(DRIVE_SPEED, 24, 24, 4.0);  // S3: Reverse 24 Inches with 4 Sec timeout
+//        encoderDrive(TURN_SPEED, -13, 13, 4.0);
+//        makeDroppieWork(-1400);
+//        sleep(3000);
+//        encoderDrive(DRIVE_SPEED, -5, -5, 4.0);
+//        makeDroppieWork(-1200);
+//        makeFlopityWork(-0.8);
+//        sleep(10000);
 
 
         telemetry.addData("Path", "Complete");
@@ -214,9 +217,8 @@ public class NewRight extends LinearOpMode {
      *  3) Driver stops the OpMode running.
      */
     public void encoderDrive(double speed,
-                             double inchesToMove, double timeoutS) {
-        double leftInches = inchesToMove;
-        double rightInches = inchesToMove;
+                             double leftInches, double rightInches,
+                             double timeoutS) {
         int newLeftTarget;
         int newRightTarget;
 
@@ -277,14 +279,12 @@ public class NewRight extends LinearOpMode {
             sleep(250);   // optional pause after each move.
         }
 
-
-
     }
 
-public void encoderStrafe(double speed,
-                          double inchesToStrafeLeft,
-                          double inchesToStrafeRight,
-                          int timeoutS) {
+    public void encoderStrafe(double speed,
+                              double inchesToStrafeLeft,
+                              double inchesToStrafeRight,
+                              int timeoutS) {
         double FlInches = inchesToStrafeLeft;
         double FrInches = -inchesToStrafeRight;
         double BlInches = -inchesToStrafeLeft;
@@ -336,10 +336,11 @@ public void encoderStrafe(double speed,
                     (backleft.isBusy() && backright.isBusy() && frontleft.isBusy() && frontright.isBusy())) {
 
                 // Display it for the driver.
+                telemetry.addData("Test %7d", backright.getCurrentPosition());
 //                telemetry.addData("Running to",  " %7d :%7d", newLeftTarget,  newRightTarget);
 //                telemetry.addData("Currently at",  " at %7d :%7d",
 //                        backleft.getCurrentPosition(), backright.getCurrentPosition(), frontleft.getCurrentPosition(), frontright.getCurrentPosition());
-//                telemetry.update();
+                telemetry.update();
             }
 
             // Stop all motion;
@@ -361,14 +362,12 @@ public void encoderStrafe(double speed,
 
             sleep(250);   // optional pause after each move.
         }
-
-
-
     }
+
 
     public void makeDroppieWork(int position){
         droppie.setTargetPosition(position); //-1400
-        droppie.setPower(-0.6);
+        droppie.setPower(-0.75);
         droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
@@ -380,8 +379,6 @@ public void encoderStrafe(double speed,
 
     public void makeBobbyWork(double power){
         bobby.setPower(power);//-0.6
-        sleep(1500);
-        bobby.setPower(0);
     }
 
     public void makeFlipityWork(double pos){
@@ -393,11 +390,6 @@ public void encoderStrafe(double speed,
     }
 
     public void makeIndulgeyWork(double power){
-        indulgey.setPower(power);//-0.6
-        sleep(1500);
-        indulgey.setPower(0);
+        indulgey.setPower(power);
     }
-
-
 }
-

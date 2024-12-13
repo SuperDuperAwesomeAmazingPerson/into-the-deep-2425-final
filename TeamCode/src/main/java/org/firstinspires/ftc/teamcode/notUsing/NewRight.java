@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.autos;
+package org.firstinspires.ftc.teamcode.notUsing;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -62,9 +62,9 @@ import com.qualcomm.robotcore.hardware.Servo;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous(name="LeftSide", group="Robot")
+@Autonomous(name="NewRight", group="Robot")
 
-public class LeftSide extends LinearOpMode {
+public class NewRight extends LinearOpMode {
 
     /* Declare OpMode members. */
     private DcMotor         frontleft   = null;
@@ -80,17 +80,21 @@ public class LeftSide extends LinearOpMode {
 
     private ElapsedTime     runtime = new ElapsedTime();
 
+    private double inchesToMove = 0.0;
+    private double inchesToStrafeLeft = 0.0;
+    private double inchesToStrafeRight = 0.0;
+
     // Calculate the COUNTS_PER_INCH for your specific drive train.
     // Go to your motor vendor website to determine your motor's COUNTS_PER_MOTOR_REV
     // For external drive gearing, set DRIVE_GEAR_REDUCTION as needed.
     // For example, use a value of 2.0 for a 12-tooth spur gear driving a 24-tooth spur gear.
     // This is gearing DOWN for less speed and more torque.
     // For gearing UP, use a gear ratio less than 1.0. Note this will affect the direction of wheel rotation.
-    static final double     COUNTS_PER_MOTOR_REV    = 1200 ;    // eg: TETRIX Motor Encoder
+    static final double     COUNTS_PER_MOTOR_REV    = 545 ;    // eg: TETRIX Motor Encoder
     static final double     DRIVE_GEAR_REDUCTION    = 1.0 ;     // No External Gearing.
     static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
-                                                      (WHEEL_DIAMETER_INCHES * 3.1415);
+            (WHEEL_DIAMETER_INCHES * 3.1415);
     static final double     DRIVE_SPEED             = 0.5;
     static final double     TURN_SPEED              = 0.4;
 
@@ -141,8 +145,8 @@ public class LeftSide extends LinearOpMode {
 
         // Send telemetry message to indicate successful Encoder reset
         telemetry.addData("Starting at",  "%7d :%7d",
-                          frontleft.getCurrentPosition(),
-                          frontright.getCurrentPosition()
+                frontleft.getCurrentPosition(),
+                frontright.getCurrentPosition()
                 ,backleft.getCurrentPosition(),
                 backright.getCurrentPosition());
         telemetry.update();
@@ -152,61 +156,46 @@ public class LeftSide extends LinearOpMode {
 
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
-        //First Basket
-        makeFlipityWork(0.4);
-        encoderDrive(DRIVE_SPEED, -7, -7, 4.0);// S3: Reverse 24 Inches with 4 Sec timeout
-        encoderDrive(DRIVE_SPEED,   -5, 5, 4.0);
-        makeDroppieWork(-3000);
-        sleep(1500);//2500
-        makeFlopityWork(-0.8);
-        sleep(1000); //2000
-        encoderDrive(DRIVE_SPEED, 4, 4, 4.0);
-        makeDroppieWork(0);
-        //Drive to the spike mark and pick up a sample
-        encoderDrive(0.3, 9.9, 9.9, 4.0);
-        makeFlopityWork(0.6);
-        encoderDrive(0.2, -17.8, 17.8, 4.0);
-        encoderStrafe(0.3, 6, 6, 4);
-        makeIntakieWork(-800);
+        //First sample
+        inchesToStrafeLeft = 9.5;
+        inchesToStrafeRight = 9.5;
+        encoderStrafe(TURN_SPEED, inchesToStrafeLeft, inchesToStrafeRight,4);
+        inchesToMove = 48;
+        encoderDrive(DRIVE_SPEED, inchesToMove, 4);
+        inchesToStrafeLeft = 12.5;
+        inchesToStrafeRight = 12.5;
+        encoderStrafe(TURN_SPEED, inchesToStrafeLeft, inchesToStrafeRight,4);
+        inchesToMove = 39;
+        encoderDrive(DRIVE_SPEED, -inchesToMove, 4);
+        inchesToMove = 5;
+        encoderDrive(DRIVE_SPEED, inchesToMove, 4);
+        inchesToMove = 5;
+        encoderDrive(DRIVE_SPEED, -inchesToMove, 4);
+        inchesToStrafeLeft = 3.8;
+        inchesToStrafeRight = 3.8;
+        encoderStrafe(TURN_SPEED, inchesToStrafeLeft, inchesToStrafeRight, 4);
+        makeDroppieWork(-320);
         sleep(250);
-        makeFlipityWork(0.8387);
-        sleep(750);
-        makeIntakieWork(-1500);
-        makeIndulgeyWork(1);
-        sleep(1000);
-        makeFlipityWork(0.1);
-        makeIntakieWork(0);
-        sleep(750);
-        makeIndulgeyWork(-1);
-        //Second Basket
-        encoderStrafe(DRIVE_SPEED, -3, -3, 4);
-        makeIndulgeyWork(0);
-        makeFlipityWork(0.4);
-        encoderDrive(TURN_SPEED, 15.3, -15.3, 4.0);
-        makeDroppieWork(-3000);
-        encoderDrive(DRIVE_SPEED, -13.35, -13.35, 4.0);
-        makeFlopityWork(-0.8);
-        sleep(1000);
-        //Park
-        makeFlopityWork(0.6);
-        encoderDrive(DRIVE_SPEED, 5, 5, 4.0);
-        makeDroppieWork(-2000);
-        encoderDrive(0.4, -15.5, 15.5, 4.0);
-        encoderStrafe(0.6, -7, -7, 4);
-        encoderDrive(0.6, -25, -25, 4.0);
-        sleep(750);
-        makeDroppieWork(0);
-        encoderDrive(0.4, -10, -10, 4.0);
-
-//        encoderDrive(TURN_SPEED, -5, 5, 4.0);
-//        encoderDrive(DRIVE_SPEED, 24, 24, 4.0);  // S3: Reverse 24 Inches with 4 Sec timeout
-//        encoderDrive(TURN_SPEED, -13, 13, 4.0);
-//        makeDroppieWork(-1400);
-//        sleep(3000);
-//        encoderDrive(DRIVE_SPEED, -5, -5, 4.0);
-//        makeDroppieWork(-1200);
-//        makeFlopityWork(-0.8);
-//        sleep(10000);
+        inchesToMove = -7;
+        encoderDrive(DRIVE_SPEED, inchesToMove, 4);
+        makeBobbyWork(0.7);
+        sleep(100);
+        makeBobbyWork(0);
+        makeDroppieWork(-1700);
+        inchesToMove = 18;
+        encoderDrive(DRIVE_SPEED, inchesToMove, 4);
+        inchesToStrafeLeft = -100;
+        inchesToStrafeRight = 100;
+        encoderStrafe(TURN_SPEED, inchesToStrafeLeft, inchesToStrafeRight, 4);
+        inchesToStrafeLeft = 45;
+        inchesToStrafeRight = 45;
+        encoderStrafe(TURN_SPEED, inchesToStrafeLeft, inchesToStrafeRight, 4);
+        inchesToMove = 5;
+        encoderDrive(DRIVE_SPEED, -inchesToMove, 4);
+        makeDroppieWork(-1450);
+        makeBobbyWork(-0.7);
+        sleep(500);
+        makeBobbyWork(0);
 
 
         telemetry.addData("Path", "Complete");
@@ -223,8 +212,9 @@ public class LeftSide extends LinearOpMode {
      *  3) Driver stops the OpMode running.
      */
     public void encoderDrive(double speed,
-                             double leftInches, double rightInches,
-                             double timeoutS) {
+                             double inchesToMove, double timeoutS) {
+        double leftInches = inchesToMove;
+        double rightInches = inchesToMove;
         int newLeftTarget;
         int newRightTarget;
 
@@ -260,13 +250,13 @@ public class LeftSide extends LinearOpMode {
             // However, if you require that BOTH motors have finished their moves before the robot continues
             // onto the next step, use (isBusy() || isBusy()) in the loop test.
             while (opModeIsActive() &&
-                   (runtime.seconds() < timeoutS) &&
-                   (backleft.isBusy() && backright.isBusy() && frontleft.isBusy() && frontright.isBusy())) {
+                    (runtime.seconds() < timeoutS) &&
+                    (backleft.isBusy() && backright.isBusy() && frontleft.isBusy() && frontright.isBusy())) {
 
                 // Display it for the driver.
                 telemetry.addData("Running to",  " %7d :%7d", newLeftTarget,  newRightTarget);
                 telemetry.addData("Currently at",  " at %7d :%7d",
-                                            backleft.getCurrentPosition(), backright.getCurrentPosition(), frontleft.getCurrentPosition(), frontright.getCurrentPosition());
+                        backleft.getCurrentPosition(), backright.getCurrentPosition(), frontleft.getCurrentPosition(), frontright.getCurrentPosition());
                 telemetry.update();
             }
 
@@ -285,12 +275,14 @@ public class LeftSide extends LinearOpMode {
             sleep(250);   // optional pause after each move.
         }
 
+
+
     }
 
-    public void encoderStrafe(double speed,
-                              double inchesToStrafeLeft,
-                              double inchesToStrafeRight,
-                              int timeoutS) {
+public void encoderStrafe(double speed,
+                          double inchesToStrafeLeft,
+                          double inchesToStrafeRight,
+                          int timeoutS) {
         double FlInches = inchesToStrafeLeft;
         double FrInches = -inchesToStrafeRight;
         double BlInches = -inchesToStrafeLeft;
@@ -342,11 +334,10 @@ public class LeftSide extends LinearOpMode {
                     (backleft.isBusy() && backright.isBusy() && frontleft.isBusy() && frontright.isBusy())) {
 
                 // Display it for the driver.
-                telemetry.addData("Test %7d", backright.getCurrentPosition());
 //                telemetry.addData("Running to",  " %7d :%7d", newLeftTarget,  newRightTarget);
 //                telemetry.addData("Currently at",  " at %7d :%7d",
 //                        backleft.getCurrentPosition(), backright.getCurrentPosition(), frontleft.getCurrentPosition(), frontright.getCurrentPosition());
-                telemetry.update();
+//                telemetry.update();
             }
 
             // Stop all motion;
@@ -368,12 +359,14 @@ public class LeftSide extends LinearOpMode {
 
             sleep(250);   // optional pause after each move.
         }
-    }
 
+
+
+    }
 
     public void makeDroppieWork(int position){
         droppie.setTargetPosition(position); //-1400
-        droppie.setPower(-0.75);
+        droppie.setPower(-0.6);
         droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
@@ -385,6 +378,8 @@ public class LeftSide extends LinearOpMode {
 
     public void makeBobbyWork(double power){
         bobby.setPower(power);//-0.6
+        sleep(1500);
+        bobby.setPower(0);
     }
 
     public void makeFlipityWork(double pos){
@@ -396,6 +391,11 @@ public class LeftSide extends LinearOpMode {
     }
 
     public void makeIndulgeyWork(double power){
-        indulgey.setPower(power);
+        indulgey.setPower(power);//-0.6
+        sleep(1500);
+        indulgey.setPower(0);
     }
+
+
 }
+

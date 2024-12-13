@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.autos;
+package org.firstinspires.ftc.teamcode.notUsing;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -90,8 +90,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
  *  Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous(name="TestRight", group="Robot")
-public class TestRight extends LinearOpMode {
+@Autonomous(name="TestLeft", group="Robot")
+public class TestLeft extends LinearOpMode {
 
     /* Declare OpMode members. */
     private DcMotor         FLMotor   = null;
@@ -128,14 +128,14 @@ public class TestRight extends LinearOpMode {
     static final double     DRIVE_GEAR_REDUCTION    = 1.0 ;     // No External Gearing.
     static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
-                                                      (WHEEL_DIAMETER_INCHES * 3.1415);
+            (WHEEL_DIAMETER_INCHES * 3.1415);
 
     // These constants define the desired driving/control characteristics
     // They can/should be tweaked to suit the specific robot drive train.
     static final double     DRIVE_SPEED             = 0.5;     // Max driving speed for better distance accuracy.
     static final double     TURN_SPEED              = 0.2;     // Max turn speed to limit turn rate.
     static final double     HEADING_THRESHOLD       = 1.0 ;    // How close must the heading get to the target before moving to next step.
-                                                               // Requiring more accuracy (a smaller number) will often make the turn take longer to get into the final position.
+    // Requiring more accuracy (a smaller number) will often make the turn take longer to get into the final position.
     // Define the Proportional control coefficient (or GAIN) for "heading control".
     // We define one value when Turning (larger errors), and the other is used when Driving straight (smaller errors).
     // Increase these numbers if the heading does not correct strongly enough (eg: a heavy robot or using tracks)
@@ -212,36 +212,24 @@ public class TestRight extends LinearOpMode {
         //          holdHeading() is used after turns to let the heading stabilize
         //          Add a sleep(2000) after any step to keep the telemetry data visible for review
 
-        encoderStrafe(0.5, 9, 9, 4);
-        driveStraight(0.5, 48, 0);
-        encoderStrafe(0.5, 14, 14, 4);
-        turnToHeading(0.6, -90);
-        encoderStrafe(0.5, -45, -45, 4);
-        driveStraight(0.5, -10, 0);
-        makeDroppieWork(-500);
-        makeBobbyWork(0.7);
+        driveStraight(0.5,-7, 0);
+        turnToHeading(0.6, 45);
+        makeDroppieWork(-3000);
         sleep(1500);
-        makeBobbyWork(0);
-        makeDroppieWork(-1700);
-        driveStraight(0.5, 43, 45);
-        turnToHeading(0.6, -90);
-        driveStraight(0.5, -3, 0);
-        makeDroppieWork(-1450);
-        makeBobbyWork(-0.7);
+        makeFlopityWork(-0.8);
         sleep(1500);
-        makeDroppieWork(-500);
-        turnToHeading(0.6, 90);
-        driveStraight(0.5, 46, -45);
-        makeBobbyWork(0.7);
-        sleep(1500);
-        makeDroppieWork(-1700);
-        driveStraight(0.5, 43, 45);
-        turnToHeading(0.6, -90);
-        driveStraight(0.5, -3, 0);
-        makeDroppieWork(-1450);
-        makeBobbyWork(-0.7);
-        sleep(1500);
-        driveStraight(0.5, 40, 45);
+        turnToHeading(0.6, 135);
+        driveStraight(0.5, 45, 225);
+        makeIntakieWork(-1400);
+        makeFlipityWork(0.8387);
+        makeFlopityWork(0.6);
+        makeDroppieWork(0);
+        makeIndulgeyWork(-1);
+        driveStraight(0.4, 3, 0);
+        makeIndulgeyWork(0);
+        makeFlipityWork(0.1);
+        makeIntakieWork(0);
+
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
@@ -258,17 +246,17 @@ public class TestRight extends LinearOpMode {
     // **********  HIGH Level driving functions.  ********************
 
     /**
-    *  Drive in a straight line, on a fixed compass heading (angle), based on encoder counts.
-    *  Move will stop if either of these conditions occur:
-    *  1) Move gets to the desired position
-    *  2) Driver stops the OpMode running.
-    *
-    * @param maxDriveSpeed MAX Speed for forward/rev motion (range 0 to +1.0) .
-    * @param distance   Distance (in inches) to move from current position.  Negative distance means move backward.
-    * @param heading      Absolute Heading Angle (in Degrees) relative to last gyro reset.
-    *                   0 = fwd. +ve is CCW from fwd. -ve is CW from forward.
-    *                   If a relative angle is required, add/subtract from the current robotHeading.
-    */
+     *  Drive in a straight line, on a fixed compass heading (angle), based on encoder counts.
+     *  Move will stop if either of these conditions occur:
+     *  1) Move gets to the desired position
+     *  2) Driver stops the OpMode running.
+     *
+     * @param maxDriveSpeed MAX Speed for forward/rev motion (range 0 to +1.0) .
+     * @param distance   Distance (in inches) to move from current position.  Negative distance means move backward.
+     * @param heading      Absolute Heading Angle (in Degrees) relative to last gyro reset.
+     *                   0 = fwd. +ve is CCW from fwd. -ve is CW from forward.
+     *                   If a relative angle is required, add/subtract from the current robotHeading.
+     */
     public void driveStraight(double maxDriveSpeed,
                               double distance,
                               double heading) {
@@ -300,7 +288,7 @@ public class TestRight extends LinearOpMode {
 
             // keep looping while we are still active, and BOTH motors are running.
             while (opModeIsActive() &&
-                   (FLMotor.isBusy() && FRMotor.isBusy() && BLMotor.isBusy() && BRMotor.isBusy())) {
+                    (FLMotor.isBusy() && FRMotor.isBusy() && BLMotor.isBusy() && BRMotor.isBusy())) {
 
                 // Determine required steering to keep on heading
                 turnSpeed = getSteeringCorrection(heading, P_DRIVE_GAIN);
