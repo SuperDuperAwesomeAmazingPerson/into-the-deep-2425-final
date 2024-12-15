@@ -79,6 +79,7 @@ public class REAL_Teleop extends LinearOpMode {
     private DcMotor intakie = null;
     private DcMotor droppie = null;
     private DcMotor hangie = null;
+    private DcMotor mike = null;
 
     private Servo flipity = null;
     private Servo flopity = null;
@@ -128,6 +129,7 @@ public class REAL_Teleop extends LinearOpMode {
         intakie = hardwareMap.get(DcMotor.class, "intakie");
         droppie = hardwareMap.get(DcMotor.class, "droppie");
         hangie = hardwareMap.get(DcMotor.class, "hangie");
+        mike = hardwareMap.get(DcMotor.class, "mike");
 
         flipity = hardwareMap.get(Servo.class, "flipity");
         flopity = hardwareMap.get(Servo.class, "flopity");
@@ -154,7 +156,11 @@ public class REAL_Teleop extends LinearOpMode {
         FRMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         BRMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        intakie.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         droppie.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        hangie.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        mike.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
 //        droppie.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //        droppie.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
@@ -335,9 +341,9 @@ public class REAL_Teleop extends LinearOpMode {
 
 
                 if (gamepad2.right_bumper) {
-                    bobby.setPower(.5);
+                    bobby.setPower(0.5);
                 } else if (gamepad2.left_bumper) {
-                    bobby.setPower(-.5);
+                    bobby.setPower(-0.5);
                 } else {
                     bobby.setPower(0);
                 }
@@ -357,6 +363,14 @@ public class REAL_Teleop extends LinearOpMode {
                     hangie.setPower(-1);
                 } else {
                     hangie.setPower(0);
+                }
+
+                if (gamepad1.left_trigger > 0.3) {
+                    mike.setPower(1);
+                } else if (gamepad1.left_bumper) {
+                    mike.setPower(-1);
+                } else {
+                    mike.setPower(0);
                 }
 
                 // This is test code:

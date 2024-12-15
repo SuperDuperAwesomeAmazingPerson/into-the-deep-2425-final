@@ -62,9 +62,9 @@ import com.qualcomm.robotcore.hardware.Servo;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous(name="LeftSide", group="Robot")
+@Autonomous(name="KDC_Left", group="Robot")
 
-public class LeftSide extends LinearOpMode {
+public class KDC_Left extends LinearOpMode {
 
     /* Declare OpMode members. */
     private DcMotor         frontleft   = null;

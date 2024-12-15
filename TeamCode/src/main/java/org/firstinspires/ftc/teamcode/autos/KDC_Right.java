@@ -91,8 +91,8 @@ public class KDC_Right extends LinearOpMode {
     static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
-    static final double     DRIVE_SPEED             = 0.5;
-    static final double     TURN_SPEED              = 0.4;
+    static final double     DRIVE_SPEED             = 0.575;
+    static final double     TURN_SPEED              = 0.5;
 
     @Override
     public void runOpMode() {
@@ -152,44 +152,112 @@ public class KDC_Right extends LinearOpMode {
 
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
-        //First Basket
-        encoderDrive(DRIVE_SPEED, -3.5, -3.5, 4.0);
-        encoderStrafe(DRIVE_SPEED, 23, 23, 4);
-        encoderDrive(DRIVE_SPEED, -4.2, -4.2, 4.0);
-        encoderStrafe(DRIVE_SPEED, -18, -18, 4);
-        encoderStrafe(DRIVE_SPEED, 4, 4, 4);
-        encoderDrive(DRIVE_SPEED, 3, 3, 4.0);
-        makeDroppieWork(-320);
-        encoderStrafe(DRIVE_SPEED, -10, -10, 4);
-        makeBobbyWork(0.7);
-        sleep(1);
-        makeBobbyWork(0);
-        makeDroppieWork(-1700);
-        encoderStrafe(DRIVE_SPEED, 12, 12, 4);
-        encoderDrive(DRIVE_SPEED, 21, -21, 4.0);
-        encoderDrive(DRIVE_SPEED, -20, -20, 4.0);
-        encoderStrafe(DRIVE_SPEED, -5, -5, 4);
-        makeDroppieWork(-1200);
-        makeBobbyWork(-0.7);
-        sleep(250);
-        makeBobbyWork(0);
-        encoderStrafe(DRIVE_SPEED, 2, 2, 4);
-        encoderDrive(DRIVE_SPEED, 25, 25, 4.0);
-        encoderDrive(DRIVE_SPEED, 15, -15, 4.0);
-        makeDroppieWork(-320);
-        encoderStrafe(DRIVE_SPEED, -20, -20, 4);
-        makeBobbyWork(0.7);
+        //First Specimen
+        makeFlipityWork(0.4);
+        bobby.setPower(-1);
+        makeDroppieWork(-1450);
+        encoderStrafe(0.65, -15.5, -15.5, 4);
+//        encoderDrive(DRIVE_SPEED, -3, -3, 4.0);
+        droppie.setTargetPosition(-900);
+        droppie.setPower(-0.6);
+        droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        sleep(200);
+        bobby.setPower(1);
+        sleep(550);
+        bobby.setPower(0);
+        sleep(300);
+        makeFlopityWork(0.6);
+        //Pick up & spit out sample
+        encoderStrafe(DRIVE_SPEED, 2.5, 2.5, 4);
+        encoderDrive(0.4, 5 ,5, 4.0);
+        makeIntakieWork(-450);
         sleep(750);
-        makeBobbyWork(0);
-        makeDroppieWork(-1700);
-        encoderStrafe(DRIVE_SPEED, 12, 12, 4);
-        encoderDrive(DRIVE_SPEED, 21, -21, 4.0);
-        encoderDrive(DRIVE_SPEED, -25, -25, 4.0);
-        encoderStrafe(DRIVE_SPEED, -2, -2, 4);
-        makeDroppieWork(-1200);
-        makeBobbyWork(-0.7);
-        sleep(250);
-        makeBobbyWork(0);
+        makeFlipityWork(0.8387);
+        makeDroppieWork(-210);
+        makeIndulgeyWork(0.6);
+        encoderDrive(0.4, -4, 4, 4.0);
+        makeIntakieWork(-2200);
+        sleep(1500);
+        makeFlipityWork(0.65);
+        encoderDrive(0.4, 11, -11, 4.0);
+        sleep(1000);
+        makeFlipityWork(0.8387);
+        makeIndulgeyWork(-0.6);
+        makeFlipityWork(0.4);
+        makeIntakieWork(0);
+        sleep(500);
+        encoderDrive(TURN_SPEED, 14, -14, 4.0);
+        encoderDrive(DRIVE_SPEED, -3, -3, 4.0);
+        encoderStrafe(0.4, -13, -13, 4);
+        //Second Specimen
+        makeBobbyWork(-1);
+        sleep(500);
+        makeDroppieWork(-1500);
+        encoderStrafe(DRIVE_SPEED, -8, -8, 4);
+        encoderDrive(TURN_SPEED, 21.5, -21.5, 4.0);
+        encoderDrive(DRIVE_SPEED, -14.75, -14.75, 4.0);
+        encoderStrafe(0.75, -10, -10, 4);
+        makeDroppieWork(-900);
+        sleep(210);
+        bobby.setPower(1);
+        sleep(750);
+        bobby.setPower(0);
+        //Push Sample
+        encoderStrafe(0.7, 4, 4,4);
+        encoderDrive(0.7, 15, 15, 4);
+        encoderStrafe(0.7, -13, -13, 4);
+        encoderDrive(0.7, 11, 11, 4);
+        encoderStrafe(0.6, 17, 17, 4);
+        //Third Specimen
+//        makeBobbyWork(-1);
+//        sleep(500);hj
+//        makeDroppieWork(-1500);
+//        encoderStrafe(DRIVE_SPEED, -5, -5, 4);
+//        encoderDrive(TURN_SPEED, 21.5, -21.5, 4.0);
+//        encoderDrive(DRIVE_SPEED, -16.5, -16.5, 4.0);
+//        encoderStrafe(DRIVE_SPEED, -13, -13, 4);
+//        makeDroppieWork(-900);
+
+
+
+        //Push Sample
+//        encoderDrive(DRIVE_SPEED, -3.5, -3.5, 4.0);
+//        encoderStrafe(DRIVE_SPEED, 23, 23, 4);
+//        encoderDrive(DRIVE_SPEED, -4.4, -4.4, 4.0);
+//        encoderDrive(TURN_SPEED, 1.8, -1.8, 4.0);
+//        encoderStrafe(0.45, -18, -18, 4);
+//        encoderStrafe(DRIVE_SPEED, 4, 4, 4);
+//        encoderDrive(DRIVE_SPEED, 3, 3, 4.0);
+//        makeDroppieWork(-250);
+//        encoderStrafe(0.45, -10, -10, 4);
+//        //First Specimen
+//        bobby.setPower(-1);
+//        sleep(1000);
+//        makeDroppieWork(-1700);
+//        encoderStrafe(DRIVE_SPEED, 10, 10, 4);
+//        encoderDrive(DRIVE_SPEED, 22, -22, 4.0);
+//        encoderDrive(DRIVE_SPEED, -14.5, -14.5, 4.0);
+//        encoderStrafe(0.3, -3.5, -3.5, 4);
+//        makeDroppieWork(-1000);
+//        sleep(500);
+//        bobby.setPower(-0.5);
+//        encoderStrafe(DRIVE_SPEED, 2, 2, 4);
+//        encoderDrive(DRIVE_SPEED, 14.5, 14.5, 4.0);
+//        bobby.setPower(0);
+//        encoderDrive(DRIVE_SPEED, 21, -21, 4.0);
+//        makeDroppieWork(-250);
+//        encoderStrafe(DRIVE_SPEED, -15, -15, 4);
+//        //Second Specimen
+//        bobby.setPower(-1);
+//        sleep(750);
+//        makeDroppieWork(-1700);
+//        encoderStrafe(DRIVE_SPEED, 10, 10, 4);
+//        encoderDrive(DRIVE_SPEED, 22.5, -22.5, 4.0);
+//        encoderDrive(DRIVE_SPEED, -14, -14, 4.0);
+//        encoderStrafe(DRIVE_SPEED, -2.5, -2.5, 4);
+//        makeDroppieWork(-1000);
+//        sleep(500);
+//        bobby.setPower(0);
 
 
 //        encoderDrive(TURN_SPEED, -5, 5, 4.0);
