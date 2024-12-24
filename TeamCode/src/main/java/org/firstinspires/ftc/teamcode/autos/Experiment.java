@@ -29,7 +29,6 @@
 
  package org.firstinspires.ftc.teamcode.autos;
 
- import com.qualcomm.hardware.bosch.BNO055IMU;
  import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
  import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
  import com.qualcomm.robotcore.hardware.DcMotor;
@@ -100,15 +99,12 @@
      static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1415);
      static final double     DRIVE_SPEED             = 0.575;
      static final double     TURN_SPEED              = 0.5;
-     static final double     HEADING_THRESHOLD       = 1.0 ;    // How close must the heading get to the target before moving to next step.
+     static final double     HEADING_THRESHOLD       = 5.0 ;    // How close must the heading get to the target before moving to next step.
      // Requiring more accuracy (a smaller number) will often make the turn take longer to get into the final position.
      // Define the Proportional control coefficient (or GAIN) for "heading control".
      // We define one value when Turning (larger errors), and the other is used when Driving straight (smaller errors).
      // Increase these numbers if the heading does not correct strongly enough (eg: a heavy robot or using tracks)
      // Decrease these numbers if the heading does not settle on the correct value (eg: very agile robot with omni wheels)
-     static final double     P_TURN_GAIN            = 0.02;     // Larger is more responsive, but also less stable.
-     static final double     P_DRIVE_GAIN           = 0.03;     // Larger is more responsive, but also less stable.
-
      @Override
      public void runOpMode() {
 
@@ -167,6 +163,7 @@
 
          // Wait for the game to start (driver presses START)
          waitForStart();
+
 //      *******************************
 //       The actual movements go here!
 //      *******************************
@@ -185,27 +182,34 @@
       */
 
      public void turnToHeading(double speed,
-                               double angle) {
+                               double targetAngle) {
          // Run getSteeringCorrection() once to pre-calculate the current error
-         getSteeringCorrection(angle, P_DRIVE_GAIN);
+         getSteeringCorrection(targetAngle);
 
          // keep looping while we are still active, and not on heading.
-         while (opModeIsActive() && headingError > 1) {
-             frontleft.setPower(-speed);
-             frontright.setPower(speed);
-             backleft.setPower(speed);
-             backright.setPower(-speed);
-             odo.update();
+         while (opModeIsActive() && (Math.abs(headingError) > HEADING_THRESHOLD)) {
+             if (headingError > 0) {
+                 frontleft.setPower(-speed);
+                 frontright.setPower(speed);
+                 backleft.setPower(speed);
+                 backright.setPower(-speed);
+                 odo.update();
+             } else {
+                 frontleft.setPower(speed);
+                 frontright.setPower(-speed);
+                 backleft.setPower(-speed);
+                 backright.setPower(speed);
+                 odo.update();
              }
-         while (opModeIsActive() && headingError < -1) {
-             frontleft.setPower(speed);
-             frontright.setPower(-speed);
-             backleft.setPower(-speed);
-             backright.setPower(speed);
-             odo.update();
+             getSteeringCorrection(targetAngle);
          }
+         // Stop all motion;
+         frontright.setPower(0);
+         frontleft.setPower(0);
+         backright.setPower(0);
+         backleft.setPower(0);
      }
-     public double getSteeringCorrection(double targetHeading, double proportionalGain) {
+     public double getSteeringCorrection(double targetHeading) {
 
          // Determine the heading current error
          headingError = targetHeading - odo.getHeading(AngleUnit.DEGREES);
@@ -214,8 +218,7 @@
          while (headingError > 180)  headingError -= 360;
          while (headingError <= -180) headingError += 360;
 
-         // Multiply the error by the gain to determine the required steering correction/  Limit the result to +/- 1.0
-         return Range.clip(headingError * proportionalGain, -1, 1);
+        return(headingError);
      }
 
      public void encoderDrive(double speed,
@@ -397,10 +400,10 @@
 
              // reset the timeout time and start motion.
              runtime.reset();
-             frontright.setPower(Math.abs(speed));
-             frontleft.setPower(Math.abs(speed));
-             backleft.setPower(Math.abs(speed));
-             backright.setPower(Math.abs(speed));
+             frontright.setPower(speed);
+             frontleft.setPower(speed);
+             backleft.setPower(speed);
+             backright.setPower(speed);
 
              // keep looping while we are still active, and there is time left, and both motors are running.
              // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
