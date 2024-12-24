@@ -76,6 +76,9 @@ public class GoBildaPinpointDriver extends I2cDeviceSynchDevice<I2cDeviceSynch> 
     //i2c address of the device
     public static final byte DEFAULT_ADDRESS = 0x31;
 
+    public double getHeading(AngleUnit angleUnit) {
+    }
+
     //Register map of the i2c device
     private enum Register {
         DEVICE_ID       (1),
