@@ -184,6 +184,27 @@
       *  3) Driver stops the OpMode running.
       */
 
+     public void turnToHeading(double speed,
+                               double angle) {
+         // Run getSteeringCorrection() once to pre-calculate the current error
+         getSteeringCorrection(angle, P_DRIVE_GAIN);
+
+         // keep looping while we are still active, and not on heading.
+         while (opModeIsActive() && headingError > 1) {
+             frontleft.setPower(-speed);
+             frontright.setPower(speed);
+             backleft.setPower(speed);
+             backright.setPower(-speed);
+             odo.update();
+             }
+         while (opModeIsActive() && headingError < -1) {
+             frontleft.setPower(speed);
+             frontright.setPower(-speed);
+             backleft.setPower(-speed);
+             backright.setPower(speed);
+             odo.update();
+         }
+     }
      public double getSteeringCorrection(double targetHeading, double proportionalGain) {
 
          // Determine the heading current error
@@ -195,28 +216,6 @@
 
          // Multiply the error by the gain to determine the required steering correction/  Limit the result to +/- 1.0
          return Range.clip(headingError * proportionalGain, -1, 1);
-     }
-
-     public void turnToHeading(double speed,
-                               double angle) {
-         // Run getSteeringCorrection() once to pre-calculate the current error
-         getSteeringCorrection(angle, P_DRIVE_GAIN);
-
-         // keep looping while we are still active, and not on heading.
-         while (opModeIsActive() && headingError > 1) {
-             frontleft.setPower(-TURN_SPEED);
-             frontright.setPower(TURN_SPEED);
-             backleft.setPower(TURN_SPEED);
-             backright.setPower(-TURN_SPEED);
-             odo.update();
-             }
-         while (opModeIsActive() && headingError < -1) {
-             frontleft.setPower(TURN_SPEED);
-             frontright.setPower(-TURN_SPEED);
-             backleft.setPower(-TURN_SPEED);
-             backright.setPower(TURN_SPEED);
-             odo.update();
-         }
      }
 
      public void encoderDrive(double speed,
