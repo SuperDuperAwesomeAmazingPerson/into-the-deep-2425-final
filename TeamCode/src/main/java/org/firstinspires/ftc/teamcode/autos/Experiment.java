@@ -139,17 +139,9 @@
 
          // Wait for the game to start (driver presses START)
          waitForStart();
-         goToPos(DRIVE_SPEED, 3, -25, 3);
-         goToPos(DRIVE_SPEED, 9, 5, 3);
-         turnToHeading(TURN_SPEED, Math.toRadians(-20));
-         sleep(1500);
-         turnToHeading(TURN_SPEED, Math.toRadians(-135));
-         sleep(1500);
-         turnToHeading(TURN_SPEED,Math.toRadians(180));
-         goToPos(DRIVE_SPEED, 7, 12, 3);
-         goToPos(DRIVE_SPEED, 0, 4, 3);
-         goToPos(DRIVE_SPEED, -25, -25, 3);
-         turnToHeading(TURN_SPEED,Math.toRadians(0));
+         goToPos(DRIVE_SPEED, 50, 0, 0,3);
+         goToPos(DRIVE_SPEED, 0, 0, -Math.PI/2, 3);
+         goToPos(DRIVE_SPEED, 50, 0, 0, 3);
 
 //      *******************************
 //       The actual movements go here!
@@ -167,24 +159,29 @@
       *  2) Move runs out of time
       *  3) Driver stops the OpMode running.
       */
-     public void goToPos(double speed, double x, double y, int timeoutS) {
-         double correctionFactor = 1.5;
-         double FlTarget = correctionFactor * 0.707 * (x + y);
-         double FrTarget = correctionFactor * 0.707 * (x - y);
-         double BlTarget = correctionFactor * 0.707 * (x - y);
-         double BrTarget = correctionFactor * 0.707 * (x + y);
+     public void goToPos(double speed, double x, double y, double h, int timeoutS) {
+         double correctionFactor = 0.57;
+         double robotLength = 30;//cm
+         double robotWidth = 40;//cm
+         double robotR = Math.hypot(robotLength, robotWidth) / 2;
+         double phi = Math.atan(robotWidth/robotLength);
+         double turnPower = 1.3 * (Math.cos(phi) + Math.sin(phi) - Math.cos(h + phi) - Math.sin(h + phi)) * robotR;
+         double FlTarget = 0.707 * (x + y - turnPower);
+         double FrTarget = 0.707 * (x - y + turnPower);
+         double BlTarget = 0.707 * (x - y - turnPower);
+         double BrTarget = 0.707 * (x + y + turnPower);
 
-         double maxDistance = Math.max(Math.abs(FlTarget), Math.abs(FrTarget));
+         double maxPower = 0.707 * (Math.abs(x) + Math.abs(y) + Math.abs(turnPower));
          double initialHeading = odo.getHeading(AngleUnit.DEGREES);
 
          // Ensure that the OpMode is still active
          if (opModeIsActive()) {
 //
 //             // Determine new target position, and pass to motor controller
-             int RobotFlTarget = frontleft.getCurrentPosition() + (int) (FlTarget * COUNTS_PER_INCH);
-             int RobotFrTarget = frontright.getCurrentPosition() + (int) (FrTarget * COUNTS_PER_INCH);
-             int RobotBlTarget = backleft.getCurrentPosition() + (int) (BlTarget * COUNTS_PER_INCH);
-             int RobotBrTarget = backright.getCurrentPosition() + (int) (BrTarget * COUNTS_PER_INCH);
+             int RobotFlTarget = frontleft.getCurrentPosition() + (int) (FlTarget * correctionFactor *  COUNTS_PER_INCH);
+             int RobotFrTarget = frontright.getCurrentPosition() + (int) (FrTarget * correctionFactor * COUNTS_PER_INCH);
+             int RobotBlTarget = backleft.getCurrentPosition() + (int) (BlTarget * correctionFactor * COUNTS_PER_INCH);
+             int RobotBrTarget = backright.getCurrentPosition() + (int) (BrTarget * correctionFactor * COUNTS_PER_INCH);
 
              frontleft.setTargetPosition(RobotFlTarget);
              frontright.setTargetPosition(RobotFrTarget);
@@ -199,10 +196,10 @@
 
 //             // reset the timeout time and start motion.
              runtime.reset();
-             frontleft.setPower(FlTarget / maxDistance * speed);
-             frontright.setPower(FrTarget / maxDistance * speed);
-             backleft.setPower(BlTarget / maxDistance * speed);
-             backright.setPower(BrTarget / maxDistance * speed);
+             frontleft.setPower(FlTarget / maxPower * speed);
+             frontright.setPower(FrTarget / maxPower * speed);
+             backleft.setPower(BlTarget / maxPower * speed);
+             backright.setPower(BrTarget / maxPower * speed);
 
              // keep looping while we are still active, and there is time left, and both motors are running.
              // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
@@ -222,8 +219,6 @@
 //                         backright.getCurrentPosition(), frontleft.getCurrentPosition(), frontright.getCurrentPosition());
 //                 telemetry.update();
 //
-
-             turnToHeading(speed, initialHeading);
 //
 //             // Stop all motion;
              frontright.setPower(0);

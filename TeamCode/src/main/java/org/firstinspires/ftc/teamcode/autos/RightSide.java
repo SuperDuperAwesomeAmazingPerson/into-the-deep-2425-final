@@ -26,6 +26,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -70,8 +71,8 @@ public class RightSide extends LinearOpMode {
     private DcMotor FLMotor = null;
     private DcMotor BRMotor = null;
     private DcMotor BLMotor = null;
-    private DcMotor droppie = null;
-    private CRServo bobby = null;
+//    private DcMotor droppie = null;
+//    private CRServo bobby = null;
 
     //private DcMotor intakie;  // Motor for the extending/retracting mechanism
 
@@ -92,17 +93,17 @@ public class RightSide extends LinearOpMode {
         FLMotor = hardwareMap.get(DcMotor.class, "FL");
         BRMotor = hardwareMap.get(DcMotor.class, "BR");
         BLMotor = hardwareMap.get(DcMotor.class, "BL");
-        droppie = hardwareMap.get(DcMotor.class, "droppie");
-        bobby = hardwareMap.get(CRServo.class, "bobby");
+//        droppie = hardwareMap.get(DcMotor.class, "droppie");
+//        bobby = hardwareMap.get(CRServo.class, "bobby");
 
         //intakie = hardwareMap.get(DcMotor.class, "intakie");
 
         odo = hardwareMap.get(GoBildaPinpointDriver.class,"odo");
 
-        FRMotor.setDirection(DcMotor.Direction.REVERSE);
         FLMotor.setDirection(DcMotor.Direction.REVERSE);
-        BRMotor.setDirection(DcMotor.Direction.REVERSE);
-        BLMotor.setDirection(DcMotor.Direction.FORWARD);
+        FRMotor.setDirection(DcMotor.Direction.FORWARD);
+        BLMotor.setDirection(DcMotor.Direction.REVERSE);
+        BRMotor.setDirection(DcMotor.Direction.FORWARD);
 
         //intakie.setDirection(DcMotor.Direction.FORWARD);
 
@@ -111,19 +112,19 @@ public class RightSide extends LinearOpMode {
         BLMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         FRMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         BRMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        droppie.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        droppie.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         FLMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         FRMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         BRMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         BLMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        droppie.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        droppie.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         FLMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         FRMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         BRMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         BLMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        droppie.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        droppie.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
         //intakie.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -138,7 +139,7 @@ public class RightSide extends LinearOpMode {
          */
         //  odo.setOffsets(-84.0, -224.0); //these are tuned for 3110-0002-0001 Product Insight #1
         //odo.setOffsets(-153.71, -215.019);
-        odo.setOffsets(-192, -68);
+        odo.setOffsets(-210, -160);
         //New Offsets (x-201.61, y-173.04)
         /*
         Set the kind of pods used by your robot. If you're using goBILDA odometry pods, select either
@@ -155,7 +156,7 @@ public class RightSide extends LinearOpMode {
         increase when you move the robot forward. And the Y (strafe) pod should increase when
         you move the robot to the left.
          */
-        odo.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.FORWARD);
+        odo.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.REVERSED, GoBildaPinpointDriver.EncoderDirection.FORWARD);
 
 
         /*
@@ -179,7 +180,11 @@ public class RightSide extends LinearOpMode {
         // Wait for the game to start (driver presses START)
         waitForStart();
 
-        //goToPos(3000, 0, Math.toRadians(0), .4, 25, Math.toRadians(5));
+        goToPos(500, 0, Math.toRadians(0), 1, 10, Math.toRadians(5));
+//        goToPos(500, 0, Math.toRadians(90), 0.3, 10, Math.toRadians(5));
+        goToPos(0, 0, Math.toRadians(0), 1, 10, Math.toRadians(5));
+        goToPos(500, 0, Math.toRadians(0), 1, 10, Math.toRadians(5));
+        goToPos(0, 0, Math.toRadians(0), 1, 10, Math.toRadians(5));
         //goToPos(0, 500 , Math.toRadians(0), .6, 15, Math.toRadians(5));
         //Y OFFSET SHOULD BE 76.7 mm
 
@@ -187,38 +192,46 @@ public class RightSide extends LinearOpMode {
         //HANG A SPECIMEN AND PARK WITH A SAMPLE!!!
         //*******************************************
 
-        //Lift goes up
-        droppie.setTargetPosition(-1700);
-        droppie.setPower(-0.8);
-        droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        sleep(1000);
-        //Robot drives forward (Movement #1)
-        goToPos(-760, -127 , Math.toRadians(0), .35, 30, Math.toRadians(2));
-        telemetry.addData("Finished",0);
-        telemetry.update();
-        sleep(1000);
-        //Lift goes on and specimen hooks onto the bar
-        droppie.setTargetPosition(-1250);
-        droppie.setPower(-0.6);
-        droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        //Wait
-        //sleep(500);
-        //Claw releases specimen
-        bobby.setPower(-0.6);
-        sleep(1500);
-        bobby.setPower(0);
-        goToPos(-650.6, -127 , Math.toRadians(0), .35, 25, Math.toRadians(2));
-        sleep(1000);
-        //Lift drops down all the way
-        droppie.setTargetPosition(0);
-        droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        sleep(1000);
-        //Robot moves to diagonal midpoint (Movement #2)
-        goToPos(-150, -150 , Math.toRadians(0), .35, 25, Math.toRadians(5));
-        sleep(1000);
-        goToPos(-88.9, 950 , Math.toRadians(0), .35, 25, Math.toRadians(5));
-//        goToPos(-609.6, 374.65 , Math.toRadians(-180), .35, 25, Math.toRadians(5));
-        sleep(1000);
+//        goToPos(50, 0, 0, 0.6, 1, Math.toRadians(5));
+        while(opModeIsActive()) {
+            Pose2D pos = odo.getPosition();
+            String data = String.format(Locale.US, "{X: %.3f, Y: %.3f, H: %.3f}", pos.getX(DistanceUnit.MM), pos.getY(DistanceUnit.MM), pos.getHeading(AngleUnit.DEGREES));
+            telemetry.addData("Position", data);
+            telemetry.update();
+        }
+
+//        //Lift goes up
+//        droppie.setTargetPosition(-1700);
+//        droppie.setPower(-0.8);
+//        droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        sleep(1000);
+//        //Robot drives forward (Movement #1)
+//        goToPos(-760, -127 , Math.toRadians(0), .35, 30, Math.toRadians(2));
+//        telemetry.addData("Finished",0);
+//        telemetry.update();
+//        sleep(1000);
+//        //Lift goes on and specimen hooks onto the bar
+//        droppie.setTargetPosition(-1250);
+//        droppie.setPower(-0.6);
+//        droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        //Wait
+//        //sleep(500);
+//        //Claw releases specimen
+//        bobby.setPower(-0.6);
+//        sleep(1500);
+//        bobby.setPower(0);
+//        goToPos(-650.6, -127 , Math.toRadians(0), .35, 25, Math.toRadians(2));
+//        sleep(1000);
+//        //Lift drops down all the way
+//        droppie.setTargetPosition(0);
+//        droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        sleep(1000);
+//        //Robot moves to diagonal midpoint (Movement #2)
+//        goToPos(-150, -150 , Math.toRadians(0), .35, 25, Math.toRadians(5));
+//        sleep(1000);
+//        goToPos(-88.9, 950 , Math.toRadians(0), .35, 25, Math.toRadians(5));
+////        goToPos(-609.6, 374.65 , Math.toRadians(-180), .35, 25, Math.toRadians(5));
+//        sleep(1000);
 
 //        //Robot moves to first spike mark (Movement #3)
 //        goToPos(-1295.4, 914.4 , Math.toRadians(180), .35, 25, Math.toRadians(2));
@@ -267,6 +280,26 @@ public class RightSide extends LinearOpMode {
 //        telemetry.update();
 
     }
+
+    public void moveForward(double x, double speed) {
+        while((x - GlobalH) > Math.toRadians(5)) {
+            FLMotor.setPower(-speed);
+            BLMotor.setPower(-speed);
+            FRMotor.setPower(speed);
+            BRMotor.setPower(speed);
+            refresh();
+            Pose2D pos = odo.getPosition();
+            String data = String.format(Locale.US, "{X: %.3f, Y: %.3f, H: %.3f}", pos.getX(DistanceUnit.MM), pos.getY(DistanceUnit.MM), pos.getHeading(AngleUnit.DEGREES));
+            telemetry.addData("Position", data);
+            telemetry.addData("GlobalH", GlobalH);
+            telemetry.update();
+        }
+        FLMotor.setPower(0);
+        BLMotor.setPower(0);
+        FRMotor.setPower(0);
+        BRMotor.setPower(0);
+    }
+
     // used to mantain angle values between Pi and -Pi
     public double angleWrapRad(double angle)
     {
@@ -287,7 +320,7 @@ public class RightSide extends LinearOpMode {
         Pose2D pos = odo.getPosition();
         GlobalX = pos.getX(DistanceUnit.MM);
         GlobalY = pos.getY(DistanceUnit.MM);
-        GlobalH = -pos.getHeading(AngleUnit.RADIANS);
+        GlobalH = pos.getHeading(AngleUnit.RADIANS);
     }
 
     public void goToPosSingle(double x, double y, double h, double speed){
@@ -298,8 +331,8 @@ public class RightSide extends LinearOpMode {
         double distanceToTarget = Math.hypot(x - GlobalX, y - GlobalY);
         double absoluteAngleToTarget = Math.atan2(x - GlobalX, y - GlobalY);
         double reletiveAngleToTarget = angleWrapRad(absoluteAngleToTarget - GlobalH-Math.toRadians(90));
-        double reletiveXToTarget = -Math.cos(reletiveAngleToTarget) * distanceToTarget;
-        double reletiveYToTarget = -Math.sin(reletiveAngleToTarget) * distanceToTarget;
+        double reletiveXToTarget = Math.cos(reletiveAngleToTarget) * distanceToTarget;
+        double reletiveYToTarget = Math.sin(reletiveAngleToTarget) * distanceToTarget;
 
         //slow down ensures the robot does not over shoot the target
         double slowDown = Range.clip(distanceToTarget / 2, -speed, speed);
@@ -311,10 +344,10 @@ public class RightSide extends LinearOpMode {
         double reletiveTurnAngle = angleWrapRad(h - GlobalH);
         double movementTurnPower = Range.clip(reletiveTurnAngle / Math.toRadians(10), -speed, speed);
 
-        FLMotor.setPower(-movementYpower - movementXpower - movementTurnPower);
-        BLMotor.setPower(-movementYpower + movementXpower - movementTurnPower);
-        FRMotor.setPower(-movementYpower + movementXpower + movementTurnPower);
-        BRMotor.setPower(-movementYpower - movementXpower + movementTurnPower);
+        FLMotor.setPower(movementXpower + movementYpower - movementTurnPower);
+        FRMotor.setPower(movementXpower - movementYpower + movementTurnPower);
+        BLMotor.setPower(movementXpower - movementYpower - movementTurnPower);
+        BRMotor.setPower(movementXpower + movementYpower + movementTurnPower);
 
     }
 
