@@ -52,7 +52,7 @@ public class StrafeVelocityTuner extends OpMode {
 
     private PoseUpdater poseUpdater;
 
-    public static double DISTANCE = 48;
+    public static double DISTANCE = 40;
     public static double RECORD_NUMBER = 10;
 
     private Telemetry telemetryA;
@@ -67,10 +67,10 @@ public class StrafeVelocityTuner extends OpMode {
     public void init() {
         poseUpdater = new PoseUpdater(hardwareMap);
 
-        leftFront = hardwareMap.get(DcMotorEx.class, leftFrontMotorName);
-        leftRear = hardwareMap.get(DcMotorEx.class, leftRearMotorName);
-        rightRear = hardwareMap.get(DcMotorEx.class, rightRearMotorName);
-        rightFront = hardwareMap.get(DcMotorEx.class, rightFrontMotorName);
+        leftFront = hardwareMap.get(DcMotorEx.class, "FL");
+        leftRear = hardwareMap.get(DcMotorEx.class, "BL");
+        rightRear = hardwareMap.get(DcMotorEx.class, "BR");
+        rightFront = hardwareMap.get(DcMotorEx.class, "FR");
 
         // TODO: Make sure that this is the direction your motors need to be reversed in.
         leftFront.setDirection(DcMotorSimple.Direction.REVERSE);

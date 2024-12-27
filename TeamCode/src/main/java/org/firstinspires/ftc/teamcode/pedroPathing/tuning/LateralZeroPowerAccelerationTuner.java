@@ -70,10 +70,10 @@ public class LateralZeroPowerAccelerationTuner extends OpMode {
     public void init() {
         poseUpdater = new PoseUpdater(hardwareMap);
 
-        leftFront = hardwareMap.get(DcMotorEx.class, leftFrontMotorName);
-        leftRear = hardwareMap.get(DcMotorEx.class, leftRearMotorName);
-        rightRear = hardwareMap.get(DcMotorEx.class, rightRearMotorName);
-        rightFront = hardwareMap.get(DcMotorEx.class, rightFrontMotorName);
+        leftFront = hardwareMap.get(DcMotorEx.class, "FL");
+        leftRear = hardwareMap.get(DcMotorEx.class, "BL");
+        rightRear = hardwareMap.get(DcMotorEx.class, "BR");
+        rightFront = hardwareMap.get(DcMotorEx.class, "FR");
 
         // TODO: Make sure that this is the direction your motors need to be reversed in.
         leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -128,10 +128,10 @@ public class LateralZeroPowerAccelerationTuner extends OpMode {
         }
 
         poseUpdater.update();
-        Vector heading = new Vector(1.0, poseUpdater.getPose().getHeading() - Math.PI / 2);
+        Vector heading = new Vector(1.0, poseUpdater.getPose().getHeading() + Math.PI / 2);
         if (!end) {
             if (!stopping) {
-                if (MathFunctions.dotProduct(poseUpdater.getVelocity(), heading) > VELOCITY) {
+                if (Math.abs(MathFunctions.dotProduct(poseUpdater.getVelocity(), heading)) > VELOCITY) {
                     previousVelocity = MathFunctions.dotProduct(poseUpdater.getVelocity(), heading);
                     previousTimeNano = System.nanoTime();
                     stopping = true;

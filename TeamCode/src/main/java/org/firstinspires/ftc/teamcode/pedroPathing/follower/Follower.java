@@ -163,14 +163,16 @@ public class Follower {
         driveVectorScaler = new DriveVectorScaler(FollowerConstants.frontLeftVector);
         poseUpdater = new PoseUpdater(hardwareMap);
 
-        leftFront = hardwareMap.get(DcMotorEx.class, leftFrontMotorName);
-        leftRear = hardwareMap.get(DcMotorEx.class, leftRearMotorName);
-        rightRear = hardwareMap.get(DcMotorEx.class, rightRearMotorName);
-        rightFront = hardwareMap.get(DcMotorEx.class, rightFrontMotorName);
+        leftFront = hardwareMap.get(DcMotorEx.class, "FL");
+        leftRear = hardwareMap.get(DcMotorEx.class, "BL");
+        rightRear = hardwareMap.get(DcMotorEx.class, "BR");
+        rightFront = hardwareMap.get(DcMotorEx.class, "FR");
 
         // TODO: Make sure that this is the direction your motors need to be reversed in.
         leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightFront.setDirection(DcMotorSimple.Direction.FORWARD);
         leftRear.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightRear.setDirection(DcMotorSimple.Direction.FORWARD);
 
         motors = Arrays.asList(leftFront, leftRear, rightFront, rightRear);
 
@@ -1020,7 +1022,7 @@ public class Follower {
     /**
      * This resets the IMU, if applicable.
      */
-    public void resetIMU() {
+    public void resetIMU() throws InterruptedException {
         poseUpdater.resetIMU();
     }
 }

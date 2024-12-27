@@ -49,19 +49,19 @@ import java.util.Arrays;
 
 public class GoBildaPinpointDriver extends I2cDeviceSynchDevice<I2cDeviceSynch> {
 
-    private int deviceStatus   = 0;
-    private int loopTime       = 0;
-    private int xEncoderValue  = 0;
-    private int yEncoderValue  = 0;
-    private float xPosition    = 0;
-    private float yPosition    = 0;
+    private int deviceStatus = 0;
+    private int loopTime = 0;
+    private int xEncoderValue = 0;
+    private int yEncoderValue = 0;
+    private float xPosition = 0;
+    private float yPosition = 0;
     private float hOrientation = 0;
-    private float xVelocity    = 0;
-    private float yVelocity    = 0;
-    private float hVelocity    = 0;
+    private float xVelocity = 0;
+    private float yVelocity = 0;
+    private float hVelocity = 0;
 
     private static final float goBILDA_SWINGARM_POD = 13.26291192f; //ticks-per-mm for the goBILDA Swingarm Pod
-    private static final float goBILDA_4_BAR_POD    = 19.89436789f; //ticks-per-mm for the goBILDA 4-Bar Pod
+    private static final float goBILDA_4_BAR_POD = 19.89436789f; //ticks-per-mm for the goBILDA 4-Bar Pod
 
 
     public GoBildaPinpointDriver(I2cDeviceSynch deviceClient, boolean deviceClientIsOwned) {
@@ -76,8 +76,9 @@ public class GoBildaPinpointDriver extends I2cDeviceSynchDevice<I2cDeviceSynch> 
     //i2c address of the device
     public static final byte DEFAULT_ADDRESS = 0x31;
 
-    public double getHeading(AngleUnit angleUnit) {
+    public void getHeading(AngleUnit angleUnit) {
     }
+
 
     //Register map of the i2c device
     private enum Register {

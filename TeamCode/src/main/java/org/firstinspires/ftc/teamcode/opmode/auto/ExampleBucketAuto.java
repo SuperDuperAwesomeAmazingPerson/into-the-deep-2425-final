@@ -25,7 +25,7 @@ import org.firstinspires.ftc.teamcode.config.subsystem.ClawSubsystem;
  */
 
 @Autonomous(name = "Example Auto Blue", group = "Examples")
-public class ExampleBucketAuto2 extends OpMode {
+public class ExampleBucketAuto extends OpMode {
 
     private Follower follower;
     private Timer pathTimer, actionTimer, opmodeTimer;
@@ -36,7 +36,7 @@ public class ExampleBucketAuto2 extends OpMode {
 
     /** This is our claw subsystem.
      * We call its methods to manipulate the servos that it has within the subsystem. */
-    public ClawSubsystem claw;
+//    public ClawSubsystem claw;
 
     /** Create and Define Poses + Paths
      * Poses are built with three constructors: x, y, and heading (in Radians).
@@ -48,16 +48,16 @@ public class ExampleBucketAuto2 extends OpMode {
      * Lets assume the Robot is facing the human player and we want to score in the bucket */
 
     /** Start Pose of our robot */
-    private final Pose startPose = new Pose(9, 111, Math.toRadians(270));
+    private final Pose startPose = new Pose(0, 0, Math.toRadians(270));
 
     /** Scoring Pose of our robot. It is facing the submersible at a -45 degree (315 degree) angle. */
-    private final Pose scorePose = new Pose(14, 129, Math.toRadians(315));
+    private final Pose scorePose = new Pose(20, 0, Math.toRadians(315));
 
     /** Lowest (First) Sample from the Spike Mark */
-    private final Pose pickup1Pose = new Pose(37, 121, Math.toRadians(0));
+    private final Pose pickup1Pose = new Pose(20, 20, Math.toRadians(0));
 
     /** Middle (Second) Sample from the Spike Mark */
-    private final Pose pickup2Pose = new Pose(43, 130, Math.toRadians(0));
+    private final Pose pickup2Pose = new Pose(20, 0, Math.toRadians(0));
 
     /** Highest (Third) Sample from the Spike Mark */
     private final Pose pickup3Pose = new Pose(49, 135, Math.toRadians(0));
@@ -160,8 +160,8 @@ public class ExampleBucketAuto2 extends OpMode {
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
                 if(follower.getPose().getX() > (scorePose.getX() - 1) && follower.getPose().getY() > (scorePose.getY() - 1)) {
                     /* Score Preload */
-                    claw.scoringClaw();
-                    claw.openClaw();
+//                    claw.scoringClaw();
+//                    claw.openClaw();
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                     follower.followPath(grabPickup1,true);
                     setPathState(2);
@@ -171,8 +171,8 @@ public class ExampleBucketAuto2 extends OpMode {
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup1Pose's position */
                 if(follower.getPose().getX() > (pickup1Pose.getX() - 1) && follower.getPose().getY() > (pickup1Pose.getY() - 1)) {
                     /* Grab Sample */
-                    claw.groundClaw();
-                    claw.closeClaw();
+//                    claw.groundClaw();
+//                    claw.closeClaw();
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
                     follower.followPath(scorePickup1,true);
                     setPathState(3);
@@ -182,8 +182,8 @@ public class ExampleBucketAuto2 extends OpMode {
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
                 if(follower.getPose().getX() > (scorePose.getX() - 1) && follower.getPose().getY() > (scorePose.getY() - 1)) {
                     /* Score Sample */
-                    claw.scoringClaw();
-                    claw.openClaw();
+//                    claw.scoringClaw();
+//                    claw.openClaw();
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                     follower.followPath(grabPickup2,true);
                     setPathState(4);
@@ -193,8 +193,8 @@ public class ExampleBucketAuto2 extends OpMode {
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup2Pose's position */
                 if(follower.getPose().getX() > (pickup2Pose.getX() - 1) && follower.getPose().getY() > (pickup2Pose.getY() - 1)) {
                     /* Grab Sample */
-                    claw.groundClaw();
-                    claw.closeClaw();
+//                    claw.groundClaw();
+//                    claw.closeClaw();
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
                     follower.followPath(scorePickup2,true);
                     setPathState(5);
@@ -204,8 +204,8 @@ public class ExampleBucketAuto2 extends OpMode {
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
                 if(follower.getPose().getX() > (scorePose.getX() - 1) && follower.getPose().getY() > (scorePose.getY() - 1)) {
                     /* Score Sample */
-                    claw.scoringClaw();
-                    claw.openClaw();
+//                    claw.scoringClaw();
+//                    claw.openClaw();
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                     follower.followPath(grabPickup3,true);
                     setPathState(6);
@@ -215,8 +215,8 @@ public class ExampleBucketAuto2 extends OpMode {
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup3Pose's position */
                 if(follower.getPose().getX() > (pickup3Pose.getX() - 1) && follower.getPose().getY() > (pickup3Pose.getY() - 1)) {
                     /* Grab Sample */
-                    claw.groundClaw();
-                    claw.closeClaw();
+//                    claw.groundClaw();
+//                    claw.closeClaw();
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
                     follower.followPath(scorePickup3, true);
                     setPathState(7);
@@ -226,8 +226,8 @@ public class ExampleBucketAuto2 extends OpMode {
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
                 if(follower.getPose().getX() > (scorePose.getX() - 1) && follower.getPose().getY() > (scorePose.getY() - 1)) {
                     /* Score Sample */
-                    claw.scoringClaw();
-                    claw.openClaw();
+//                    claw.scoringClaw();
+//                    claw.openClaw();
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are parked */
                     follower.followPath(park,true);
                     setPathState(8);
@@ -237,8 +237,8 @@ public class ExampleBucketAuto2 extends OpMode {
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
                 if(follower.getPose().getX() > (parkPose.getX() - 1) && follower.getPose().getY() > (parkPose.getY() - 1)) {
                     /* Put the claw in position to get a level 1 ascent */
-                    claw.startClaw();
-                    claw.closeClaw();
+//                    claw.startClaw();
+//                    claw.closeClaw();
 
                     /* Set the state to a Case we won't use or define, so it just stops running an new paths */
                     setPathState(-1);
@@ -283,11 +283,11 @@ public class ExampleBucketAuto2 extends OpMode {
 
         buildPaths();
 
-        claw = new ClawSubsystem(hardwareMap);
-
-        // Set the claw to positions for init
-        claw.closeClaw();
-        claw.startClaw();
+//        claw = new ClawSubsystem(hardwareMap);
+//
+//        // Set the claw to positions for init
+//        claw.closeClaw();
+//        claw.startClaw();
     }
 
     /** This method is called continuously after Init while waiting for "play". **/

@@ -32,6 +32,7 @@
  import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
  import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
  import com.qualcomm.robotcore.hardware.DcMotor;
+ import com.qualcomm.robotcore.hardware.DcMotorSimple;
  import com.qualcomm.robotcore.util.ElapsedTime;
  import com.qualcomm.robotcore.hardware.CRServo;
  import com.qualcomm.robotcore.hardware.Servo;
@@ -46,21 +47,21 @@
  public class Experiment extends LinearOpMode {
 
      /* Declare OpMode members. */
-     private DcMotor frontleft   = null;
-     private DcMotor frontright  = null;
-     private DcMotor backleft  = null;
-     private DcMotor backright  = null;
-     private DcMotor droppie = null;
-     private DcMotor intakie = null;
-     private Servo flipity = null;
-     private Servo flopity = null;
-     private CRServo indulgey = null;
-     private CRServo bobby = null;
+     private DcMotor frontleft = null;
+     private DcMotor frontright = null;
+     private DcMotor backleft = null;
+     private DcMotor backright = null;
+     //     private DcMotor droppie = null;
+//     private DcMotor intakie = null;
+//     private Servo flipity = null;
+//     private Servo flopity = null;
+//     private CRServo indulgey = null;
+//     private CRServo bobby = null;
      GoBildaPinpointDriver odo;
 
-     private double          headingError  = 0;
+     private double headingError = 0;
 
-     private ElapsedTime     runtime = new ElapsedTime();
+     private ElapsedTime runtime = new ElapsedTime();
 
      // Calculate the COUNTS_PER_INCH for your specific drive train.
      // Go to your motor vendor website to determine your motor's COUNTS_PER_MOTOR_REV
@@ -68,30 +69,30 @@
      // For example, use a value of 2.0 for a 12-tooth spur gear driving a 24-tooth spur gear.
      // This is gearing DOWN for less speed and more torque.
      // For gearing UP, use a gear ratio less than 1.0. Note this will affect the direction of wheel rotation.
-     static final double     COUNTS_PER_MOTOR_REV    = 537.7 ;    // eg: GoBilda 312 RPM Yellow Jacket
-     static final double     DRIVE_GEAR_REDUCTION    = 1.0 ;     // No External Gearing.
-     static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
-     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1415);
-     static final double     DRIVE_SPEED             = 0.575;
-     static final double     TURN_SPEED              = 0.5;
-     static final double     HEADING_THRESHOLD       = 5.0 ;    // How close must the heading get to the target before moving to next step.
+     static final double COUNTS_PER_MOTOR_REV = 537.7;    // eg: GoBilda 312 RPM Yellow Jacket
+     static final double DRIVE_GEAR_REDUCTION = 1.0;     // No External Gearing.
+     static final double WHEEL_DIAMETER_INCHES = 4.0;     // For figuring circumference
+     static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1415);
+     static final double DRIVE_SPEED = 0.575;
+     static final double TURN_SPEED = 0.5;
+     static final double HEADING_THRESHOLD = Math.PI/72;    // How close must the heading get to the target before moving to next step.
 
      @Override
 
      public void runOpMode() {
 
          // Initialize the drive system variables.
-         frontleft  = hardwareMap.get(DcMotor.class, "FL");
+         frontleft = hardwareMap.get(DcMotor.class, "FL");
          backleft = hardwareMap.get(DcMotor.class, "BL");
-         frontright  = hardwareMap.get(DcMotor.class, "FR");
+         frontright = hardwareMap.get(DcMotor.class, "FR");
          backright = hardwareMap.get(DcMotor.class, "BR");
-         droppie = hardwareMap.get(DcMotor.class, "droppie");
-         intakie = hardwareMap.get(DcMotor.class, "intakie");
-         flipity = hardwareMap.get(Servo.class, "flipity");
-         flopity = hardwareMap.get(Servo.class, "flopity");
-         bobby = hardwareMap.get(CRServo.class, "bobby");
-         indulgey = hardwareMap.get(CRServo.class, "indulgey");
-         odo = hardwareMap.get(GoBildaPinpointDriver.class,"odo");
+//         droppie = hardwareMap.get(DcMotor.class, "droppie");
+//         intakie = hardwareMap.get(DcMotor.class, "intakie");
+//         flipity = hardwareMap.get(Servo.class, "flipity");
+//         flopity = hardwareMap.get(Servo.class, "flopity");
+//         bobby = hardwareMap.get(CRServo.class, "bobby");
+//         indulgey = hardwareMap.get(CRServo.class, "indulgey");
+         odo = hardwareMap.get(GoBildaPinpointDriver.class, "odo");
 
 
          // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
@@ -106,35 +107,49 @@
          frontright.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
          backleft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
          frontleft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-         droppie.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-         intakie.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//         droppie.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//         intakie.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
          backleft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
          backright.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
          frontleft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
          frontright.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-         droppie.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-         intakie.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//         droppie.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//         intakie.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
          backleft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
          backright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
          frontleft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
          frontright.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-         droppie.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-         intakie.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//         droppie.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//         intakie.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
          odo.resetPosAndIMU();
+         odo.recalibrateIMU();
+         odo.update();
 
          // Send telemetry message to indicate successful Encoder reset
-         telemetry.addData("Starting at",  "%7d :%7d",
+         telemetry.addData("Starting at", "%7d :%7d",
                  frontleft.getCurrentPosition(),
                  frontright.getCurrentPosition()
-                 ,backleft.getCurrentPosition(),
+                 , backleft.getCurrentPosition(),
                  backright.getCurrentPosition());
+         telemetry.addData("InitialHeading:", odo.getHeading(AngleUnit.RADIANS));
          telemetry.update();
 
          // Wait for the game to start (driver presses START)
          waitForStart();
+         goToPos(DRIVE_SPEED, 3, -25, 3);
+         goToPos(DRIVE_SPEED, 9, 5, 3);
+         turnToHeading(TURN_SPEED, Math.toRadians(-20));
+         sleep(1500);
+         turnToHeading(TURN_SPEED, Math.toRadians(-135));
+         sleep(1500);
+         turnToHeading(TURN_SPEED,Math.toRadians(180));
+         goToPos(DRIVE_SPEED, 7, 12, 3);
+         goToPos(DRIVE_SPEED, 0, 4, 3);
+         goToPos(DRIVE_SPEED, -25, -25, 3);
+         turnToHeading(TURN_SPEED,Math.toRadians(0));
 
 //      *******************************
 //       The actual movements go here!
@@ -153,10 +168,11 @@
       *  3) Driver stops the OpMode running.
       */
      public void goToPos(double speed, double x, double y, int timeoutS) {
-         double FlTarget = 1 / Math.sqrt(2) * (x + y);
-         double FrTarget = 1 / Math.sqrt(2) * (x - y);
-         double BlTarget = 1 / Math.sqrt(2) * (x - y);
-         double BrTarget = 1 / Math.sqrt(2) * (x + y);
+         double correctionFactor = 1.5;
+         double FlTarget = correctionFactor * 0.707 * (x + y);
+         double FrTarget = correctionFactor * 0.707 * (x - y);
+         double BlTarget = correctionFactor * 0.707 * (x - y);
+         double BrTarget = correctionFactor * 0.707 * (x + y);
 
          double maxDistance = Math.max(Math.abs(FlTarget), Math.abs(FrTarget));
          double initialHeading = odo.getHeading(AngleUnit.DEGREES);
@@ -183,27 +199,29 @@
 
 //             // reset the timeout time and start motion.
              runtime.reset();
-             frontleft.setPower(FlTarget/maxDistance*speed);
-             frontright.setPower(FrTarget/maxDistance*speed);
-             backleft.setPower(BlTarget/maxDistance*speed);
-             backright.setPower(BrTarget/maxDistance*speed);
+             frontleft.setPower(FlTarget / maxDistance * speed);
+             frontright.setPower(FrTarget / maxDistance * speed);
+             backleft.setPower(BlTarget / maxDistance * speed);
+             backright.setPower(BrTarget / maxDistance * speed);
 
-//             // keep looping while we are still active, and there is time left, and both motors are running.
-//             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
-//             // its target position, the motion will stop.  This is "safer" in the event that the robot will
-//             // always end the motion as soon as possible.
-//             // However, if you require that BOTH motors have finished their moves before the robot continues
-//             // onto the next step, use (isBusy() || isBusy()) in the loop test.
+             // keep looping while we are still active, and there is time left, and both motors are running.
+             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
+             // its target position, the motion will stop.  This is "safer" in the event that the robot will
+             // always end the motion as soon as possible.
+             // However, if you require that BOTH motors have finished their moves before the robot continues
+             // onto the next step, use (isBusy() || isBusy()) in the loop test.
              while (opModeIsActive() &&
                      (runtime.seconds() < timeoutS) &&
                      (backleft.isBusy() && backright.isBusy() && frontleft.isBusy() && frontright.isBusy())) {
 
-//                 // Display it for the driver.
-                 telemetry.addData("Running to", " %7d :%7d", FlTarget, FrTarget, BlTarget, BrTarget);
-                 telemetry.addData("Currently at", " at %7d :%7d", backleft.getCurrentPosition(),
-                 backright.getCurrentPosition(), frontleft.getCurrentPosition(), frontright.getCurrentPosition());
-                 telemetry.update();
              }
+
+////                 // Display it for the driver.
+//                 telemetry.addData("Running to", " %7d :%7d", FlTarget, FrTarget, BlTarget, BrTarget);
+//                 telemetry.addData("Currently at", " at %7d :%7d", backleft.getCurrentPosition(),
+//                         backright.getCurrentPosition(), frontleft.getCurrentPosition(), frontright.getCurrentPosition());
+//                 telemetry.update();
+//
 
              turnToHeading(speed, initialHeading);
 //
@@ -225,23 +243,28 @@
                                double targetAngle) {
          // Run getSteeringCorrection() once to pre-calculate the current error
          getSteeringCorrection(targetAngle);
-
+         telemetry.addData("Current Heading:", odo.getHeading(AngleUnit.RADIANS));
+         telemetry.update();
          // keep looping while we are still active, and not on heading.
-         while (opModeIsActive() && (Math.abs(headingError) > HEADING_THRESHOLD)) {
+         while (opModeIsActive() && getSteeringCorrection(targetAngle) > HEADING_THRESHOLD) {
              if (headingError > 0) {
                  frontleft.setPower(-speed);
                  frontright.setPower(speed);
-                 backleft.setPower(speed);
-                 backright.setPower(-speed);
-                 odo.update();
-             } else {
-                 frontleft.setPower(speed);
-                 frontright.setPower(-speed);
                  backleft.setPower(-speed);
                  backright.setPower(speed);
                  odo.update();
              }
-             getSteeringCorrection(targetAngle);
+             else {
+                 frontleft.setPower(speed);
+                 frontright.setPower(-speed);
+                 backleft.setPower(speed);
+                 backright.setPower(-speed);
+                 odo.update();
+             }
+             telemetry.addData("headingError: %7d", headingError);
+             telemetry.addData("heading:" ,odo.getHeading(AngleUnit.RADIANS));
+             telemetry.update();
+
          }
          // Stop all motion;
          frontright.setPower(0);
@@ -249,161 +272,163 @@
          backright.setPower(0);
          backleft.setPower(0);
      }
+
      public double getSteeringCorrection(double targetHeading) {
 
          // Determine the heading current error
-         headingError = targetHeading - odo.getHeading(AngleUnit.DEGREES);
+         headingError = targetHeading - odo.getHeading(AngleUnit.RADIANS);
 
          // Normalize the error to be within +/- 180 degrees
-         while (headingError > 180)  headingError -= 360;
-         while (headingError <= -180) headingError += 360;
+         while (headingError > 2 * Math.PI) headingError -= 2 * Math.PI;
+         while (headingError <= -2 * Math.PI) headingError += 2 * Math.PI;
 
-        return(headingError);
+         return (headingError);
      }
 
-//     public void encoderDrive(double speed,
-//                              double leftInches, double rightInches, //double heading,
-//                              double timeoutS) {
-//         int FlTarget;
-//         int FrTarget;
-//
-//         // Ensure that the OpMode is still active
-//         if (opModeIsActive()) {
-//
-//             // Determine new target position, and pass to motor controller
-//             FlTarget = backleft.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
-//             FrTarget = backright.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
-//
-//             backleft.setTargetPosition(FlTarget);
-//             backright.setTargetPosition(FrTarget);
-//             frontright.setTargetPosition(FrTarget);
-//             frontleft.setTargetPosition(FlTarget);
-//
-//             // Turn On RUN_TO_POSITION
-//             frontleft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//             frontright.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//             backright.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//             backleft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//
-//             // reset the timeout time and start motion.
-//             runtime.reset();
-//             frontright.setPower(Math.abs(speed));
-//             frontleft.setPower(Math.abs(speed));
-//             backleft.setPower(Math.abs(speed));
-//             backright.setPower(Math.abs(speed));
-//
-//             // keep looping while we are still active, and there is time left, and both motors are running.
-//             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
-//             // its target position, the motion will stop.  This is "safer" in the event that the robot will
-//             // always end the motion as soon as possible.
-//             // However, if you require that BOTH motors have finished their moves before the robot continues
-//             // onto the next step, use (isBusy() || isBusy()) in the loop test.
-//             while (opModeIsActive() &&
-//                     (runtime.seconds() < timeoutS) &&
-//                     (backleft.isBusy() && backright.isBusy() && frontleft.isBusy() && frontright.isBusy())) {
-//
-//                 // Display it for the driver.
-//                 telemetry.addData("Running to",  " %7d :%7d", FlTarget,  FrTarget);
-//                 telemetry.addData("Currently at",  " at %7d :%7d",
-//                         backleft.getCurrentPosition(), backright.getCurrentPosition(), frontleft.getCurrentPosition(), frontright.getCurrentPosition());
-//                 telemetry.update();
-//             }
-//
-//             // Stop all motion;
-//             frontright.setPower(0);
-//             frontleft.setPower(0);
-//             backright.setPower(0);
-//             backleft.setPower(0);
-//
-//             // Turn off RUN_TO_POSITION
-//             frontleft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//             frontright.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//             backright.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//             backleft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//         }
-//
-//     }
-//
-//     public void encoderStrafe(double speed,
-//                               double inchesToStrafeLeft,
-//                               double inchesToStrafeRight,
-//                               int timeoutS) {
-//         double FlInches = inchesToStrafeLeft;
-//         double FrInches = -inchesToStrafeRight;
-//         double BlInches = -inchesToStrafeLeft;
-//         double BrInches = inchesToStrafeRight;
-//
-//
-//         int newFrontLeftTarget;
-//         int newFrontRightTarget;
-//         int newBackLeftTarget;
-//         int newBackRightTarget;
-//
-//         // Ensure that the OpMode is still active
-//         if (opModeIsActive()) {
-//
-//             // Determine new target position, and pass to motor controller
-//             newFrontLeftTarget = frontleft.getCurrentPosition() + (int)(FlInches * COUNTS_PER_INCH);
-//             newFrontRightTarget = frontright.getCurrentPosition() + (int)(FrInches * COUNTS_PER_INCH);
-//             newBackRightTarget = backright.getCurrentPosition() + (int)(BrInches * COUNTS_PER_INCH);
-//             newBackLeftTarget = backleft.getCurrentPosition() + (int)(BlInches * COUNTS_PER_INCH);
-//
-//             backleft.setTargetPosition(newBackLeftTarget);
-//             backright.setTargetPosition(newBackRightTarget);
-//             frontright.setTargetPosition(newFrontRightTarget);
-//             frontleft.setTargetPosition(newFrontLeftTarget);
-//
-//             // Turn On RUN_TO_POSITION
-//             frontleft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//             frontright.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//             backright.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//             backleft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//
-//
-//
-//             // reset the timeout time and start motion.
-//             runtime.reset();
-//             frontright.setPower(Math.abs(speed));
-//             frontleft.setPower(Math.abs(speed));
-//             backleft.setPower(Math.abs(speed));
-//             backright.setPower(Math.abs(speed));
-//
-//             // keep looping while we are still active, and there is time left, and both motors are running.
-//             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
-//             // its target position, the motion will stop.  This is "safer" in the event that the robot will
-//             // always end the motion as soon as possible.
-//             // However, if you require that BOTH motors have finished their moves before the robot continues
-//             // onto the next step, use (isBusy() || isBusy()) in the loop test.
-//             while (opModeIsActive() &&
-//                     (runtime.seconds() < timeoutS) &&
-//                     (backleft.isBusy() && backright.isBusy() && frontleft.isBusy() && frontright.isBusy())) {
-//
-//                 // Display it for the driver.
-//                 telemetry.addData("Test %7d", backright.getCurrentPosition());
-////                telemetry.addData("Running to",  " %7d :%7d", FlTarget,  FrTarget);
-////                telemetry.addData("Currently at",  " at %7d :%7d",
-////                        backleft.getCurrentPosition(), backright.getCurrentPosition(), frontleft.getCurrentPosition(), frontright.getCurrentPosition());
-//                 telemetry.update();
-//             }
-//
-//             // Stop all motion;
-//             frontright.setPower(0);
-//             frontleft.setPower(0);
-//             backright.setPower(0);
-//             backleft.setPower(0);
-//
-//             // Turn off RUN_TO_POSITION
-//             frontleft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//             frontright.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//             backright.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//             backleft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//
-//             frontleft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//             frontright.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//             backright.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//             backleft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//         }
-//     }
+
+     public void encoderDrive(double speed,
+                              double leftInches, double rightInches, //double heading,
+                              double timeoutS) {
+         int FlTarget;
+         int FrTarget;
+
+         // Ensure that the OpMode is still active
+         if (opModeIsActive()) {
+
+             // Determine new target position, and pass to motor controller
+             FlTarget = backleft.getCurrentPosition() + (int) (leftInches * COUNTS_PER_INCH);
+             FrTarget = backright.getCurrentPosition() + (int) (rightInches * COUNTS_PER_INCH);
+
+             backleft.setTargetPosition(FlTarget);
+             backright.setTargetPosition(FrTarget);
+             frontright.setTargetPosition(FrTarget);
+             frontleft.setTargetPosition(FlTarget);
+
+             // Turn On RUN_TO_POSITION
+             frontleft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+             frontright.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+             backright.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+             backleft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+             // reset the timeout time and start motion.
+             runtime.reset();
+             frontright.setPower(Math.abs(speed));
+             frontleft.setPower(Math.abs(speed));
+             backleft.setPower(Math.abs(speed));
+             backright.setPower(Math.abs(speed));
+
+             // keep looping while we are still active, and there is time left, and both motors are running.
+             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
+             // its target position, the motion will stop.  This is "safer" in the event that the robot will
+             // always end the motion as soon as possible.
+             // However, if you require that BOTH motors have finished their moves before the robot continues
+             // onto the next step, use (isBusy() || isBusy()) in the loop test.
+             while (opModeIsActive() &&
+                     (runtime.seconds() < timeoutS) &&
+                     (backleft.isBusy() && backright.isBusy() && frontleft.isBusy() && frontright.isBusy())) {
+
+                 // Display it for the driver.
+                 telemetry.addData("Running to", " %7d :%7d", FlTarget, FrTarget);
+                 telemetry.addData("Currently at", " at %7d :%7d",
+                         backleft.getCurrentPosition(), backright.getCurrentPosition(), frontleft.getCurrentPosition(), frontright.getCurrentPosition());
+                 telemetry.update();
+             }
+
+             // Stop all motion;
+             frontright.setPower(0);
+             frontleft.setPower(0);
+             backright.setPower(0);
+             backleft.setPower(0);
+
+             // Turn off RUN_TO_POSITION
+             frontleft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+             frontright.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+             backright.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+             backleft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+         }
+
+     }
+
+     public void encoderStrafe(double speed,
+                               double inchesToStrafeLeft,
+                               double inchesToStrafeRight,
+                               int timeoutS) {
+         double FlInches = inchesToStrafeLeft;
+         double FrInches = -inchesToStrafeRight;
+         double BlInches = -inchesToStrafeLeft;
+         double BrInches = inchesToStrafeRight;
+
+
+         int newFrontLeftTarget;
+         int newFrontRightTarget;
+         int newBackLeftTarget;
+         int newBackRightTarget;
+
+         // Ensure that the OpMode is still active
+         if (opModeIsActive()) {
+
+             // Determine new target position, and pass to motor controller
+             newFrontLeftTarget = frontleft.getCurrentPosition() + (int) (FlInches * COUNTS_PER_INCH);
+             newFrontRightTarget = frontright.getCurrentPosition() + (int) (FrInches * COUNTS_PER_INCH);
+             newBackRightTarget = backright.getCurrentPosition() + (int) (BrInches * COUNTS_PER_INCH);
+             newBackLeftTarget = backleft.getCurrentPosition() + (int) (BlInches * COUNTS_PER_INCH);
+
+             backleft.setTargetPosition(newBackLeftTarget);
+             backright.setTargetPosition(newBackRightTarget);
+             frontright.setTargetPosition(newFrontRightTarget);
+             frontleft.setTargetPosition(newFrontLeftTarget);
+
+             // Turn On RUN_TO_POSITION
+             frontleft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+             frontright.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+             backright.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+             backleft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+             // reset the timeout time and start motion.
+             runtime.reset();
+             frontright.setPower(Math.abs(speed));
+             frontleft.setPower(Math.abs(speed));
+             backleft.setPower(Math.abs(speed));
+             backright.setPower(Math.abs(speed));
+
+             // keep looping while we are still active, and there is time left, and both motors are running.
+             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
+             // its target position, the motion will stop.  This is "safer" in the event that the robot will
+             // always end the motion as soon as possible.
+             // However, if you require that BOTH motors have finished their moves before the robot continues
+             // onto the next step, use (isBusy() || isBusy()) in the loop test.
+             while (opModeIsActive() &&
+                     (runtime.seconds() < timeoutS) &&
+                     (backleft.isBusy() && backright.isBusy() && frontleft.isBusy() && frontright.isBusy())) {
+
+                 // Display it for the driver.
+                 telemetry.addData("Test %7d", backright.getCurrentPosition());
+//                telemetry.addData("Running to",  " %7d :%7d", FlTarget,  FrTarget);
+//                telemetry.addData("Currently at",  " at %7d :%7d",
+//                        backleft.getCurrentPosition(), backright.getCurrentPosition(), frontleft.getCurrentPosition(), frontright.getCurrentPosition());
+                 telemetry.update();
+             }
+
+             // Stop all motion;
+             frontright.setPower(0);
+             frontleft.setPower(0);
+             backright.setPower(0);
+             backleft.setPower(0);
+
+             // Turn off RUN_TO_POSITION
+             frontleft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+             frontright.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+             backright.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+             backleft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+             frontleft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+             frontright.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+             backright.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+             backleft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+         }
+     }
+ }
 //     public void encoderDiagonal(double speed,
 //                                 double diagonalLeft,
 //                                 double diagonalRight,
@@ -483,31 +508,31 @@
 //     }
 
 
-     public void makeDroppieWork(int position){
-         droppie.setTargetPosition(position); //-1400
-         droppie.setPower(-0.75);
-         droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-     }
-
-     public void makeIntakieWork(int pos){
-         intakie.setTargetPosition(pos);//800
-         intakie.setPower(0.8);//0.8);
-         intakie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-     }
-
-     public void makeBobbyWork(double power){
-         bobby.setPower(power);//-0.6
-     }
-
-     public void makeFlipityWork(double pos){
-         flipity.setPosition(pos);//0.8387);
-     }
-
-     public void makeFlopityWork(double pos){
-         flopity.setPosition(pos);//0.8387);
-     }
-
-     public void makeIndulgeyWork(double power){
-         indulgey.setPower(power);
-     }
- }
+//     public void makeDroppieWork(int position){
+//         droppie.setTargetPosition(position); //-1400
+//         droppie.setPower(-0.75);
+//         droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//     }
+//
+//     public void makeIntakieWork(int pos){
+//         intakie.setTargetPosition(pos);//800
+//         intakie.setPower(0.8);//0.8);
+//         intakie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//     }
+//
+//     public void makeBobbyWork(double power){
+//         bobby.setPower(power);//-0.6
+//     }
+//
+//     public void makeFlipityWork(double pos){
+//         flipity.setPosition(pos);//0.8387);
+//     }
+//
+//     public void makeFlopityWork(double pos){
+//         flopity.setPosition(pos);//0.8387);
+//     }
+//
+//     public void makeIndulgeyWork(double power){
+//         indulgey.setPower(power);
+//     }
+// }

@@ -52,7 +52,7 @@ public class ForwardVelocityTuner extends OpMode {
 
     private PoseUpdater poseUpdater;
 
-    public static double DISTANCE = 48;
+    public static double DISTANCE = 40;
     public static double RECORD_NUMBER = 10;
 
     private Telemetry telemetryA;
@@ -67,14 +67,16 @@ public class ForwardVelocityTuner extends OpMode {
     public void init() {
         poseUpdater = new PoseUpdater(hardwareMap);
 
-        leftFront = hardwareMap.get(DcMotorEx.class, leftFrontMotorName);
-        leftRear = hardwareMap.get(DcMotorEx.class, leftRearMotorName);
-        rightRear = hardwareMap.get(DcMotorEx.class, rightRearMotorName);
-        rightFront = hardwareMap.get(DcMotorEx.class, rightFrontMotorName);
+        leftFront = hardwareMap.get(DcMotorEx.class, "FL");
+        leftRear = hardwareMap.get(DcMotorEx.class, "BL");
+        rightRear = hardwareMap.get(DcMotorEx.class, "BR");
+        rightFront = hardwareMap.get(DcMotorEx.class, "FR");
 
         // TODO: Make sure that this is the direction your motors need to be reversed in.
         leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
         leftRear.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightFront.setDirection(DcMotorSimple.Direction.FORWARD);
+        rightRear.setDirection(DcMotorSimple.Direction.FORWARD);
 
         motors = Arrays.asList(leftFront, leftRear, rightFront, rightRear);
 
@@ -133,6 +135,7 @@ public class ForwardVelocityTuner extends OpMode {
         if (!end) {
             if (Math.abs(poseUpdater.getPose().getX()) > DISTANCE) {
                 end = true;
+
                 for (DcMotorEx motor : motors) {
                     motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
                     motor.setPower(0);

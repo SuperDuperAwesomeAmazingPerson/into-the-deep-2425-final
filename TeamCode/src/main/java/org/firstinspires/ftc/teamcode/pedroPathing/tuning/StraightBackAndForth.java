@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.pedroPathing.tuning;
 
+import static android.os.SystemClock.sleep;
+
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
@@ -72,9 +74,13 @@ public class StraightBackAndForth extends OpMode {
             if (forward) {
                 forward = false;
                 follower.followPath(backwards);
+                telemetryA.addData("foward completed", 0 );
+                sleep(3000);
             } else {
                 forward = true;
                 follower.followPath(forwards);
+                telemetryA.addData("backward completed",0);
+                sleep(3000);
             }
         }
 
