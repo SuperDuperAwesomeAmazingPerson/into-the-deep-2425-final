@@ -24,9 +24,7 @@ package org.firstinspires.ftc.teamcode.autos;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -169,10 +167,13 @@ public class RightSide extends LinearOpMode {
          */
         //odo.recalibrateIMU();
         odo.resetPosAndIMU();
+        Pose2D pos = odo.getPosition();
 
         telemetry.addData("Status", "Initialized");
         telemetry.addData("X offset", odo.getXOffset());
         telemetry.addData("Y offset", odo.getYOffset());
+        String data = String.format(Locale.US, "X: %.3f, Y: %.3f, H: %.3f", pos.getX(DistanceUnit.MM), pos.getY(DistanceUnit.MM), pos.getHeading(AngleUnit.DEGREES));
+        telemetry.addData("Position", data);
         telemetry.addData("Device Version Number:", odo.getDeviceVersion());
         telemetry.addData("Device Scalar", odo.getYawScalar());
         telemetry.update();
@@ -180,11 +181,12 @@ public class RightSide extends LinearOpMode {
         // Wait for the game to start (driver presses START)
         waitForStart();
 
-        goToPos(500, 0, Math.toRadians(0), 1, 10, Math.toRadians(5));
+        goToPos(400, 0, Math.toRadians(0), 0.6, 10, Math.toRadians(5));
+        goToPos(800, 400, Math.toRadians(0), 0.6, 10, Math.toRadians(5));
+        goToPos(200, 200, Math.toRadians(90), 0.6, 10, Math.toRadians(10));
+//        goToPos(500, -50, Math.toRadians(90), 0.3, 10, Math.toRadians(5));
 //        goToPos(500, 0, Math.toRadians(90), 0.3, 10, Math.toRadians(5));
-        goToPos(0, 0, Math.toRadians(0), 1, 10, Math.toRadians(5));
-        goToPos(500, 0, Math.toRadians(0), 1, 10, Math.toRadians(5));
-        goToPos(0, 0, Math.toRadians(0), 1, 10, Math.toRadians(5));
+//        goToPos(500, 500, Math.toRadians(0), 0.6, 10, Math.toRadians(5));
         //goToPos(0, 500 , Math.toRadians(0), .6, 15, Math.toRadians(5));
         //Y OFFSET SHOULD BE 76.7 mm
 
@@ -193,12 +195,6 @@ public class RightSide extends LinearOpMode {
         //*******************************************
 
 //        goToPos(50, 0, 0, 0.6, 1, Math.toRadians(5));
-        while(opModeIsActive()) {
-            Pose2D pos = odo.getPosition();
-            String data = String.format(Locale.US, "{X: %.3f, Y: %.3f, H: %.3f}", pos.getX(DistanceUnit.MM), pos.getY(DistanceUnit.MM), pos.getHeading(AngleUnit.DEGREES));
-            telemetry.addData("Position", data);
-            telemetry.update();
-        }
 
 //        //Lift goes up
 //        droppie.setTargetPosition(-1700);
@@ -307,7 +303,7 @@ public class RightSide extends LinearOpMode {
         {
             angle -= Math.PI * 2;
         }
-        while (angle < -Math.PI)
+        while (angle <= -Math.PI)
         {
             angle += Math.PI * 2;
         }
@@ -329,25 +325,48 @@ public class RightSide extends LinearOpMode {
 
         //math to calculate distances to the target
         double distanceToTarget = Math.hypot(x - GlobalX, y - GlobalY);
-        double absoluteAngleToTarget = Math.atan2(x - GlobalX, y - GlobalY);
-        double reletiveAngleToTarget = angleWrapRad(absoluteAngleToTarget - GlobalH-Math.toRadians(90));
-        double reletiveXToTarget = Math.cos(reletiveAngleToTarget) * distanceToTarget;
-        double reletiveYToTarget = Math.sin(reletiveAngleToTarget) * distanceToTarget;
+        double absoluteAngleToTarget = Math.atan2(y - GlobalY, x - GlobalX);
+        double relativeAngleToTarget = angleWrapRad(absoluteAngleToTarget - GlobalH);
+//        double relativeXToTarget = Math.cos(relativeAngleToTarget) * distanceToTarget;
+//        double relativeYToTarget = Math.sin(relativeAngleToTarget) * distanceToTarget;
+        double relativeXToTarget = x - GlobalX;
+        double relativeYToTarget = y - GlobalY;
+
+
+        double correctionFactor = 50;
+
+
 
         //slow down ensures the robot does not over shoot the target
         double slowDown = Range.clip(distanceToTarget / 2, -speed, speed);
 
+
+        double relativeTurnAngle = angleWrapRad(h - GlobalH);
+
+        double maxPower = Math.abs(relativeXToTarget) + Math.abs(relativeYToTarget) + Math.abs(relativeTurnAngle) * correctionFactor;
+
         //calculate the vector powers for the mecanum math
-        double movementXpower = (reletiveXToTarget / (Math.abs(reletiveXToTarget) + Math.abs(reletiveYToTarget))) * slowDown;
-        double movementYpower = (reletiveYToTarget / (Math.abs(reletiveYToTarget) + Math.abs(reletiveXToTarget))) * slowDown;
+        double movementXpower = relativeXToTarget / maxPower * speed;
+        double movementYpower = relativeYToTarget / maxPower * speed;
+        double movementTurnPower = relativeTurnAngle*correctionFactor / maxPower * speed;
 
-        double reletiveTurnAngle = angleWrapRad(h - GlobalH);
-        double movementTurnPower = Range.clip(reletiveTurnAngle / Math.toRadians(10), -speed, speed);
+        telemetry.addData("distanceToTarget", distanceToTarget);
+        telemetry.addData("movementXpower", movementXpower);
+        telemetry.addData("movementYpower", movementYpower);
+        telemetry.addData("movementTurnPower", movementTurnPower);
+        telemetry.addData("relativeXToTarget", relativeXToTarget);
+        telemetry.addData("relativeYToTarget", relativeYToTarget);
+//        telemetry.addData("absoluteAngleToTarget", absoluteAngleToTarget);
+        telemetry.addData("GlobalX", GlobalX);
+        telemetry.addData("GlobalY", GlobalY);
+        telemetry.addData("GlobalH", GlobalH);
+//        telemetry.addData("relativeAngleToTarget", relativeAngleToTarget);
+        telemetry.update();
 
-        FLMotor.setPower(movementXpower + movementYpower - movementTurnPower);
-        FRMotor.setPower(movementXpower - movementYpower + movementTurnPower);
-        BLMotor.setPower(movementXpower - movementYpower - movementTurnPower);
-        BRMotor.setPower(movementXpower + movementYpower + movementTurnPower);
+        FLMotor.setPower(movementXpower - movementYpower - movementTurnPower);
+        FRMotor.setPower(movementXpower + movementYpower + movementTurnPower);
+        BLMotor.setPower(movementXpower + movementYpower - movementTurnPower);
+        BRMotor.setPower(movementXpower - movementYpower + movementTurnPower);
 
     }
 
@@ -357,10 +376,10 @@ public class RightSide extends LinearOpMode {
        // while(true){
             goToPosSingle(x, y, h, speed);
 
-            Pose2D pos = odo.getPosition();
-            String data = String.format(Locale.US, "{X: %.3f, Y: %.3f, H: %.3f}", pos.getX(DistanceUnit.MM), pos.getY(DistanceUnit.MM), pos.getHeading(AngleUnit.DEGREES));
-            telemetry.addData("Position", data);
-            telemetry.update();
+//            Pose2D pos = odo.getPosition();
+//            String data = String.format(Locale.US, "{X: %.3f, Y: %.3f, H: %.3f}", pos.getX(DistanceUnit.MM), pos.getY(DistanceUnit.MM), pos.getHeading(AngleUnit.DEGREES));
+//            telemetry.addData("Position", data);
+//            telemetry.update();
 
 
         }
