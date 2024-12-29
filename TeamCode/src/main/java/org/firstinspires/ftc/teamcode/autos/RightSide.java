@@ -22,9 +22,12 @@
 
 package org.firstinspires.ftc.teamcode.autos;
 
+import static java.lang.Math.atan;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -32,6 +35,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.notUsing.GoBildaPinpointDriver;
 
+import java.security.ProtectionDomain;
 import java.util.Locale;
 
 /*
@@ -137,7 +141,7 @@ public class RightSide extends LinearOpMode {
          */
         //  odo.setOffsets(-84.0, -224.0); //these are tuned for 3110-0002-0001 Product Insight #1
         //odo.setOffsets(-153.71, -215.019);
-        odo.setOffsets(-210, -160);
+        odo.setOffsets(-210, -150);
         //New Offsets (x-201.61, y-173.04)
         /*
         Set the kind of pods used by your robot. If you're using goBILDA odometry pods, select either
@@ -181,10 +185,42 @@ public class RightSide extends LinearOpMode {
         // Wait for the game to start (driver presses START)
         waitForStart();
 
-        goToPos(400, 0, Math.toRadians(0), 0.6, 10, Math.toRadians(5));
-        goToPos(800, 400, Math.toRadians(0), 0.6, 10, Math.toRadians(5));
-        goToPos(200, 200, Math.toRadians(90), 0.6, 10, Math.toRadians(10));
-//        goToPos(500, -50, Math.toRadians(90), 0.3, 10, Math.toRadians(5));
+        //Specimen #1
+        goToPos(10, 750, Math.toRadians(0), 0.7, 40, 30, Math.toRadians(10));
+//        goToPos(10, 940, Math.toRadians(0), 0.8, 40,205, Math.toRadians(10));
+        sleep(1000);
+
+        //Pickup sample from spike mark and place in observation zone
+        goToPos(500, 600, Math.toRadians(40), 0.8, 40,40, Math.toRadians(10));
+        sleep(1500);
+        goToPos(500, 600, Math.toRadians(-60), 0.8, 40,40, Math.toRadians(20));
+        sleep(1000);
+        goToPos(550, 600, Math.toRadians(40), 0.8, 40,40, Math.toRadians(10));
+        sleep(1500);
+        goToPos(550, 600, Math.toRadians(-60), 0.8, 40,40, Math.toRadians(20));
+        sleep(1000);
+
+        //Specimen 2
+        goToPos(1000, 30, Math.toRadians(-179), 0.8, 30,30, Math.toRadians(10));
+        goToPos(1000, -200, Math.toRadians(-179), 0.8, 30,205, Math.toRadians(10));
+        sleep(1000);
+        goToPos(20, 755, Math.toRadians(0), 0.8, 40, 20, Math.toRadians(10));
+        sleep(1000);
+
+        //Specimen #3
+        goToPos(500, 400, Math.toRadians(-100), 0.8, 40,40, Math.toRadians(20));
+        goToPos(1000, 30, Math.toRadians(-179), 0.8, 30,30, Math.toRadians(10));
+        goToPos(1000, -200, Math.toRadians(-179), 0.8, 30,205, Math.toRadians(10));
+        sleep(1000);
+        goToPos(10, 755, Math.toRadians(0), 0.8, 40, 20, Math.toRadians(10));
+        sleep(1000);
+
+        //Park
+        goToPos(1000, 10, Math.toRadians(0), 0.8, 30,30, Math.toRadians(10));
+
+//        goToPos(800, 1000, Math.toRadians(40), 0.6, 50, Math.toRadians(10));
+//        goToPos(0, 0, Math.toRadians(0), 0.4, 50, Math.toRadians(10));
+//        goToPos(600, 600, Math.toRadians(90), 0.9, 30, Math.toRadians(20));
 //        goToPos(500, 0, Math.toRadians(90), 0.3, 10, Math.toRadians(5));
 //        goToPos(500, 500, Math.toRadians(0), 0.6, 10, Math.toRadians(5));
         //goToPos(0, 500 , Math.toRadians(0), .6, 15, Math.toRadians(5));
@@ -319,61 +355,122 @@ public class RightSide extends LinearOpMode {
         GlobalH = pos.getHeading(AngleUnit.RADIANS);
     }
 
+    double integralSum = 0;
+    double feedfoward = 0;
+    double Kp = 0.6;
+    double Ki = 0.2;
+    double Kd = 0.00;
+    double Kf = 1;
+    private double lastError = 0;
+
+    double integralSumX = 0;
+    double KpX=0.04;
+    double KiX=0.002;   //Kxp/KYp ratio is affected by the robot weight balance
+    double KdX=0.008;// KXf/KYf ratio is affected by the robot weight balance
+    double feedfowardX = 0;
+    private double lastErrorX = 0;
+
+    double integralSumY = 0;
+    double KpY=0.04;
+    double KiY=0.002;   //Kxp/KYp ratio is affected by the robot weight balance
+    double KdY=0.008;// KXf/KYf ratio is affected by the robot weight balance
+    double feedfowardY = 0;
+    private double lastErrorY = 0;
+
+    double correctFactor = 300;
+
+    ElapsedTime timer = new ElapsedTime();
+    ElapsedTime timerX = new ElapsedTime();
+    ElapsedTime timerY = new ElapsedTime();
+
+    public double PIDControlH(double reference, double state) {
+        double error = angleWrapRad(reference - state);
+        integralSum += error*timer.seconds();
+        double derivative = (error - lastError) / (timer.seconds());
+        lastError = error;
+        timer.reset();
+        double output = (error*Kp) + (derivative*Kd) + (integralSum*Ki) + (feedfoward*Kf);
+        return output;
+    }
+
+    public double PIDControlX(double reference, double state) {
+        double error = reference - state;
+        integralSumX += error*timerX.seconds();
+        double derivative = (error - lastErrorX) / (timerX.seconds());
+        lastErrorX = error;
+        timerX.reset();
+        double output = (error*KpX) + (derivative*KdX) + (integralSumX*KiX);
+        return output;
+    }
+
+    public double PIDControlY(double reference, double state) {
+        double error = reference - state;
+        integralSumY += error*timerY.seconds();
+        double derivative = (error - lastErrorY) / (timerY.seconds());
+        lastErrorY = error;
+        timerY.reset();
+        double output = (error*KpY) + (derivative*KdY) + (integralSumY*KiY);
+        return output;
+    }
+
+
     public void goToPosSingle(double x, double y, double h, double speed){
 
         refresh();
-
         //math to calculate distances to the target
         double distanceToTarget = Math.hypot(x - GlobalX, y - GlobalY);
-        double absoluteAngleToTarget = Math.atan2(y - GlobalY, x - GlobalX);
-        double relativeAngleToTarget = angleWrapRad(absoluteAngleToTarget - GlobalH);
-//        double relativeXToTarget = Math.cos(relativeAngleToTarget) * distanceToTarget;
-//        double relativeYToTarget = Math.sin(relativeAngleToTarget) * distanceToTarget;
-        double relativeXToTarget = x - GlobalX;
-        double relativeYToTarget = y - GlobalY;
+        double absoluteTurnAngle = Math.atan2(y - GlobalY, x- GlobalX);
+        double relativeAngleToTarget = angleWrapRad(absoluteTurnAngle - GlobalH);
+        double relativeXToTarget = distanceToTarget * Math.cos(relativeAngleToTarget);
+        double relativeYToTarget = distanceToTarget * Math.sin(relativeAngleToTarget);
 
+        double maxPower = Math.abs(relativeXToTarget) + Math.abs(relativeYToTarget) + correctFactor*Math.abs(relativeAngleToTarget) ;
 
-        double correctionFactor = 50;
+//        double movementXpower = relativeXToTarget / maxPower * speed;
+//        double movementYpower = relativeYToTarget / maxPower * speed;
 
+        double PIDX = PIDControlX(x, GlobalX)*Math.signum(Math.cos(GlobalH));
+        double PIDY = PIDControlY(y, GlobalY)*Math.signum(Math.cos(GlobalH));
+//        double PIDX = PIDControlX(x, GlobalX);
+//        double PIDY = PIDControlY(y, GlobalY);
+        double movementXpower = PIDX * speed * (Math.abs(relativeXToTarget)/maxPower) ;
+        double movementYpower = PIDY * speed * (Math.abs(relativeYToTarget)/maxPower);
 
-
-        //slow down ensures the robot does not over shoot the target
-        double slowDown = Range.clip(distanceToTarget / 2, -speed, speed);
-
-
-        double relativeTurnAngle = angleWrapRad(h - GlobalH);
-
-        double maxPower = Math.abs(relativeXToTarget) + Math.abs(relativeYToTarget) + Math.abs(relativeTurnAngle) * correctionFactor;
-
-        //calculate the vector powers for the mecanum math
-        double movementXpower = relativeXToTarget / maxPower * speed;
-        double movementYpower = relativeYToTarget / maxPower * speed;
-        double movementTurnPower = relativeTurnAngle*correctionFactor / maxPower * speed;
+        double relativeTurnAngle = angleWrapRad(h-GlobalH);
+        double PIDH = PIDControlH(h, GlobalH);
+        double movementTurnPower = PIDH * speed * (correctFactor*Math.abs(relativeTurnAngle)/maxPower);
 
         telemetry.addData("distanceToTarget", distanceToTarget);
         telemetry.addData("movementXpower", movementXpower);
         telemetry.addData("movementYpower", movementYpower);
         telemetry.addData("movementTurnPower", movementTurnPower);
-        telemetry.addData("relativeXToTarget", relativeXToTarget);
         telemetry.addData("relativeYToTarget", relativeYToTarget);
-//        telemetry.addData("absoluteAngleToTarget", absoluteAngleToTarget);
+        telemetry.addData("absoluteAngleToTarget", absoluteTurnAngle);
+        telemetry.addData("relativeAngleToTarget", relativeAngleToTarget);
         telemetry.addData("GlobalX", GlobalX);
         telemetry.addData("GlobalY", GlobalY);
-        telemetry.addData("GlobalH", GlobalH);
-//        telemetry.addData("relativeAngleToTarget", relativeAngleToTarget);
+        telemetry.addData("GlobalH", Math.toDegrees(GlobalH));
         telemetry.update();
 
-        FLMotor.setPower(movementXpower - movementYpower - movementTurnPower);
-        FRMotor.setPower(movementXpower + movementYpower + movementTurnPower);
-        BLMotor.setPower(movementXpower + movementYpower - movementTurnPower);
-        BRMotor.setPower(movementXpower - movementYpower + movementTurnPower);
+        FLMotor.setPower(Range.clip(movementXpower - movementYpower - movementTurnPower, -speed, speed));
+        FRMotor.setPower(Range.clip(movementXpower + movementYpower + movementTurnPower, -speed, speed));
+        BLMotor.setPower(Range.clip(movementXpower + movementYpower - movementTurnPower, -speed, speed));
+        BRMotor.setPower(Range.clip(movementXpower - movementYpower + movementTurnPower, -speed, speed));
 
     }
 
-    public void goToPos(double x, double y, double h, double speed, double moveAccuracy, double angleAccuracy){
+    public void goToPos(double x, double y, double h, double speed, double moveAccuracyX, double moveAccuracyY, double angleAccuracy){
         //while loop makes the code keep running till the desired location is reached. (within the accuracy constraints)
-        while(Math.abs(x-GlobalX) > moveAccuracy || Math.abs(y-GlobalY) > moveAccuracy || Math.abs(angleWrapRad(h - GlobalH)) > angleAccuracy) {
+        integralSum=0;
+        integralSumX=0;
+        integralSumY=0;
+        refresh();
+        feedfowardX=x-GlobalX;
+        feedfowardY=y-GlobalY;
+        feedfoward=h-GlobalH;
+        while(Math.abs(x-GlobalX) > moveAccuracyX || Math.abs(y-GlobalY) > moveAccuracyY || Math.abs(angleWrapRad(h - GlobalH)) > angleAccuracy) {
        // while(true){
+
             goToPosSingle(x, y, h, speed);
 
 //            Pose2D pos = odo.getPosition();
