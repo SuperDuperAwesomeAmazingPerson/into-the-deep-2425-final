@@ -85,6 +85,7 @@ public class RightSide extends LinearOpMode {
     public double GlobalY = 0;
     public double GlobalH = 0;
 
+
     @Override
     public void runOpMode() {
 
@@ -185,50 +186,110 @@ public class RightSide extends LinearOpMode {
         // Wait for the game to start (driver presses START)
         waitForStart();
 
+        //*******************************************
+        //SAMPLE PICK AND DEPOSIT MODE!!!
+        //*******************************************
+/*
         //Specimen #1
-        goToPos(10, 750, Math.toRadians(0), 0.7, 40, 30, Math.toRadians(10));
-//        goToPos(10, 940, Math.toRadians(0), 0.8, 40,205, Math.toRadians(10));
+        goToPos(0, 750, Math.toRadians(0), 0.7, 30, 20, Math.toRadians(10));
+        goToPos(0, 950, Math.toRadians(0), 0.7, 30, 205, Math.toRadians(10));
+        goToPosStop();
         sleep(1000);
 
-        //Pickup sample from spike mark and place in observation zone
-        goToPos(500, 600, Math.toRadians(40), 0.8, 40,40, Math.toRadians(10));
-        sleep(1500);
-        goToPos(500, 600, Math.toRadians(-60), 0.8, 40,40, Math.toRadians(20));
-        sleep(1000);
-        goToPos(550, 600, Math.toRadians(40), 0.8, 40,40, Math.toRadians(10));
-        sleep(1500);
-        goToPos(550, 600, Math.toRadians(-60), 0.8, 40,40, Math.toRadians(20));
+        //Pickup sample #1 from spike marks
+        goToPos(500, 600, Math.toRadians(40), 0.7, 40,40, Math.toRadians(10));
+        goToPosStop();
         sleep(1000);
 
-        //Specimen 2
-        goToPos(1000, 30, Math.toRadians(-179), 0.8, 30,30, Math.toRadians(10));
-        goToPos(1000, -200, Math.toRadians(-179), 0.8, 30,205, Math.toRadians(10));
-        sleep(1000);
-        goToPos(20, 755, Math.toRadians(0), 0.8, 40, 20, Math.toRadians(10));
+        //Deposit sample #1
+        goToPos(500, 600, Math.toRadians(-60), 0.7, 40,40, Math.toRadians(20));
+        goToPosStop();
         sleep(1000);
 
-        //Specimen #3
-        goToPos(500, 400, Math.toRadians(-100), 0.8, 40,40, Math.toRadians(20));
-        goToPos(1000, 30, Math.toRadians(-179), 0.8, 30,30, Math.toRadians(10));
-        goToPos(1000, -200, Math.toRadians(-179), 0.8, 30,205, Math.toRadians(10));
+        // Pickup specimen #2;
+        goToPos(1000, 0, Math.toRadians(-179), 0.7, 40,20, Math.toRadians(10));
+        goToPos(1000, -200, Math.toRadians(-179), 0.7, 40,205, Math.toRadians(10));
+        goToPosStop();
         sleep(1000);
-        goToPos(10, 755, Math.toRadians(0), 0.8, 40, 20, Math.toRadians(10));
+
+        //Place specimen #2
+        goToPos(0, 750, Math.toRadians(0), 0.7, 30, 20, Math.toRadians(10));
+        goToPos(0, 950, Math.toRadians(0), 0.7, 30, 205, Math.toRadians(10));
+        goToPosStop();
+        sleep(1000);
+
+        //Pickup specimen #3
+        goToPos(1000, 10, Math.toRadians(-179), 0.75, 40,40, Math.toRadians(10));
+        goToPosShortDis(1000, 0, Math.toRadians(-179), 0.3, 20, 10, Math.toRadians(10));
+        goToPosStop();
+        sleep(1000);
+
+        //Place specimen #3
+        goToPos(0, 750, Math.toRadians(0), 0.7, 30, 20, Math.toRadians(10));
+        goToPos(0, 950, Math.toRadians(0), 0.7, 30, 205, Math.toRadians(10));
+        goToPosStop();
         sleep(1000);
 
         //Park
-        goToPos(1000, 10, Math.toRadians(0), 0.8, 30,30, Math.toRadians(10));
+        goToPos(1000, 10, Math.toRadians(0), 0.8, 30,30, Math.toRadians(20));
+        goToPosStop();
 
-//        goToPos(800, 1000, Math.toRadians(40), 0.6, 50, Math.toRadians(10));
-//        goToPos(0, 0, Math.toRadians(0), 0.4, 50, Math.toRadians(10));
-//        goToPos(600, 600, Math.toRadians(90), 0.9, 30, Math.toRadians(20));
-//        goToPos(500, 0, Math.toRadians(90), 0.3, 10, Math.toRadians(5));
-//        goToPos(500, 500, Math.toRadians(0), 0.6, 10, Math.toRadians(5));
-        //goToPos(0, 500 , Math.toRadians(0), .6, 15, Math.toRadians(5));
-        //Y OFFSET SHOULD BE 76.7 mm
+*/
 
         //*******************************************
-        //HANG A SPECIMEN AND PARK WITH A SAMPLE!!!
+        //SAMPLE PUSH MODE!!
         //*******************************************
+
+        goToPos(0, 750, Math.toRadians(0), 0.6, 30, 20, Math.toRadians(10));
+        goToPos(0, 945, Math.toRadians(0), 0.4, 30, 205, Math.toRadians(10));
+        goToPosStop();
+        sleep(1000);
+
+        //Push
+        goToPos(600, 600, Math.toRadians(90), 0.6, 100,100, Math.toRadians(20));
+        goToPos(750, 1000, Math.toRadians(90), 0.6, 100,100, Math.toRadians(20));
+        goToPos(800, 1300, Math.toRadians(90), 0.4, 50,50, Math.toRadians(20));
+        goToPosStop();
+        goToPos(800, 300, Math.toRadians(90), 0.6, 100,100, Math.toRadians(20));
+        goToPos(900, 1000, Math.toRadians(90), 0.6, 100,100, Math.toRadians(20));
+        goToPos(1000, 1300, Math.toRadians(90), 0.4, 50,50, Math.toRadians(20));
+        goToPosStop();
+        goToPos(1000, 300, Math.toRadians(90), 0.6, 100,100, Math.toRadians(20));
+//        goToPos(1000, 600, Math.toRadians(90), 0.5, 100,100, Math.toRadians(20));
+
+
+        // Pickup specimen #2;
+        goToPos(1000, 0, Math.toRadians(181), 0.6, 50,20, Math.toRadians(10));
+        goToPos(1000, -200, Math.toRadians(181), 0.6, 50,205, Math.toRadians(10));
+        goToPosStop();
+        sleep(1000);
+
+        //Place specimen #2
+        goToPos(0, 450, Math.toRadians(-10), 0.7, 50, 40, Math.toRadians(20));
+        goToPos(0, 750, Math.toRadians(0), 0.6, 50, 20, Math.toRadians(10));
+        goToPos(0, 945, Math.toRadians(0), 0.4, 50, 205, Math.toRadians(10));
+        goToPosStop();
+        sleep(1000);
+
+        //Pickup specimen #3
+        goToPos(1000, 600, Math.toRadians(-90), 0.6, 50,30, Math.toRadians(20));
+        goToPos(1000, 600, Math.toRadians(-179), 0.6, 50,30, Math.toRadians(20));
+        goToPos(1000, 0, Math.toRadians(-179), 0.6, 20,30, Math.toRadians(20));
+        goToPos(1000, -200, Math.toRadians(-179), 0.6, 50,205, Math.toRadians(10));
+        goToPosStop();
+        sleep(1000);
+
+        //Place specimen #3
+        goToPos(0, 450, Math.toRadians(-10), 0.7, 50, 40, Math.toRadians(20));
+        goToPos(0, 750, Math.toRadians(0), 0.6, 50, 20, Math.toRadians(10));
+        goToPos(0, 945, Math.toRadians(0), 0.4, 50, 205, Math.toRadians(10));
+        goToPosStop();
+        sleep(1000);
+
+        //Park
+        goToPos(1000, 10, Math.toRadians(0), 1, 30,30, Math.toRadians(20));
+        goToPosStop();
+
 
 //        goToPos(50, 0, 0, 0.6, 1, Math.toRadians(5));
 
@@ -339,7 +400,7 @@ public class RightSide extends LinearOpMode {
         {
             angle -= Math.PI * 2;
         }
-        while (angle <= -Math.PI)
+        while (angle < -Math.PI)
         {
             angle += Math.PI * 2;
         }
@@ -358,9 +419,9 @@ public class RightSide extends LinearOpMode {
     double integralSum = 0;
     double feedfoward = 0;
     double Kp = 0.6;
-    double Ki = 0.2;
-    double Kd = 0.00;
-    double Kf = 1;
+    double Ki = 0.3;
+    double Kd = 0.17;
+    double Kf = 0.25;
     private double lastError = 0;
 
     double integralSumX = 0;
@@ -377,7 +438,8 @@ public class RightSide extends LinearOpMode {
     double feedfowardY = 0;
     private double lastErrorY = 0;
 
-    double correctFactor = 300;
+    double correctFactorCoeff = 300;
+    double initialDistanceToTarget = 0;
 
     ElapsedTime timer = new ElapsedTime();
     ElapsedTime timerX = new ElapsedTime();
@@ -423,22 +485,22 @@ public class RightSide extends LinearOpMode {
         double relativeAngleToTarget = angleWrapRad(absoluteTurnAngle - GlobalH);
         double relativeXToTarget = distanceToTarget * Math.cos(relativeAngleToTarget);
         double relativeYToTarget = distanceToTarget * Math.sin(relativeAngleToTarget);
+        double relativeTurnAngle = angleWrapRad(h-GlobalH);
 
-        double maxPower = Math.abs(relativeXToTarget) + Math.abs(relativeYToTarget) + correctFactor*Math.abs(relativeAngleToTarget) ;
+        double correctFactor = correctFactorCoeff;
+        if (initialDistanceToTarget>1200) { correctFactor = 3.5*correctFactorCoeff;}
+        double maxPower = Math.abs(relativeXToTarget) + Math.abs(relativeYToTarget) + correctFactor*Math.abs(relativeTurnAngle) ;
 
 //        double movementXpower = relativeXToTarget / maxPower * speed;
 //        double movementYpower = relativeYToTarget / maxPower * speed;
 
         double PIDX = PIDControlX(x, GlobalX)*Math.signum(Math.cos(GlobalH));
         double PIDY = PIDControlY(y, GlobalY)*Math.signum(Math.cos(GlobalH));
-//        double PIDX = PIDControlX(x, GlobalX);
-//        double PIDY = PIDControlY(y, GlobalY);
+        double PIDH = PIDControlH(h, GlobalH);
         double movementXpower = PIDX * speed * (Math.abs(relativeXToTarget)/maxPower) ;
         double movementYpower = PIDY * speed * (Math.abs(relativeYToTarget)/maxPower);
-
-        double relativeTurnAngle = angleWrapRad(h-GlobalH);
-        double PIDH = PIDControlH(h, GlobalH);
         double movementTurnPower = PIDH * speed * (correctFactor*Math.abs(relativeTurnAngle)/maxPower);
+
 
         telemetry.addData("distanceToTarget", distanceToTarget);
         telemetry.addData("movementXpower", movementXpower);
@@ -459,17 +521,38 @@ public class RightSide extends LinearOpMode {
 
     }
 
-    public void goToPos(double x, double y, double h, double speed, double moveAccuracyX, double moveAccuracyY, double angleAccuracy){
+    public void goToPos(double x, double y, double h, double speed, double moveAccuracyX, double moveAccuracyY, double angleAccuracy) {
         //while loop makes the code keep running till the desired location is reached. (within the accuracy constraints)
-        integralSum=0;
-        integralSumX=0;
-        integralSumY=0;
+        integralSum = 0;
+        integralSumX = 0;
+        integralSumY = 0;
         refresh();
-        feedfowardX=x-GlobalX;
-        feedfowardY=y-GlobalY;
-        feedfoward=h-GlobalH;
-        while(Math.abs(x-GlobalX) > moveAccuracyX || Math.abs(y-GlobalY) > moveAccuracyY || Math.abs(angleWrapRad(h - GlobalH)) > angleAccuracy) {
-       // while(true){
+        feedfowardX = x - GlobalX;
+        feedfowardY = y - GlobalY;
+        feedfoward = h - GlobalH;
+
+        double distanceToTarget = Math.hypot(x - GlobalX, y - GlobalY);
+        double absoluteTurnAngle = Math.atan2(y - GlobalY, x - GlobalX);
+        double relativeAngleToTarget = angleWrapRad(absoluteTurnAngle - GlobalH);
+        double relativeXToTarget = distanceToTarget * Math.cos(relativeAngleToTarget);
+        double relativeYToTarget = distanceToTarget * Math.sin(relativeAngleToTarget);
+        double relativeTurnAngle = angleWrapRad(h - GlobalH);
+        double correctFactor =  correctFactorCoeff;
+        double maxPower = Math.abs(relativeXToTarget) + Math.abs(relativeYToTarget) + correctFactor * Math.abs(relativeTurnAngle);
+
+        double initialSpeed=0.2;
+        double movementXpower = initialSpeed * relativeXToTarget / maxPower ;
+        double movementYpower = initialSpeed * relativeYToTarget / maxPower ;
+        double movementTurnPower = initialSpeed * correctFactor * relativeTurnAngle / maxPower;
+
+        FLMotor.setPower(Range.clip(movementXpower - movementYpower - movementTurnPower, -initialSpeed, initialSpeed));
+        FRMotor.setPower(Range.clip(movementXpower + movementYpower + movementTurnPower, -initialSpeed, initialSpeed));
+        BLMotor.setPower(Range.clip(movementXpower + movementYpower - movementTurnPower, -initialSpeed, initialSpeed));
+        BRMotor.setPower(Range.clip(movementXpower - movementYpower + movementTurnPower, -initialSpeed, initialSpeed));
+//        sleep(5);
+        initialDistanceToTarget = distanceToTarget;
+        while (Math.abs(x - GlobalX) > moveAccuracyX || Math.abs(y - GlobalY) > moveAccuracyY || Math.abs(angleWrapRad(h - GlobalH)) > angleAccuracy) {
+            // while(true){
 
             goToPosSingle(x, y, h, speed);
 
@@ -482,13 +565,78 @@ public class RightSide extends LinearOpMode {
         }
 
         //stop all movement at the end of while loop
+    }
+
+    public void goToPosShortDis(double x, double y, double h, double speed, double moveAccuracyX, double moveAccuracyY, double angleAccuracy){
+
+            refresh();
+            double distanceToTarget = Math.hypot(x - GlobalX, y - GlobalY);
+            double absoluteTurnAngle = Math.atan2(y - GlobalY, x - GlobalX);
+            double relativeAngleToTarget = angleWrapRad(absoluteTurnAngle - GlobalH);
+            double relativeXToTarget = distanceToTarget * Math.cos(relativeAngleToTarget);
+            double relativeYToTarget = distanceToTarget * Math.sin(relativeAngleToTarget);
+            double relativeTurnAngle = angleWrapRad(h - GlobalH);
+
+            double correctFactor=300;
+            double maxPower = Math.abs(relativeXToTarget) + Math.abs(relativeYToTarget) + correctFactor * Math.abs(relativeTurnAngle);
+
+            double movementXpower = speed * relativeXToTarget / maxPower ;
+            double movementYpower = speed * relativeYToTarget / maxPower ;
+            double movementTurnPower = speed * correctFactor * relativeTurnAngle / maxPower;
+
+            while (Math.abs(x - GlobalX) > moveAccuracyX || Math.abs(y - GlobalY) > moveAccuracyY || Math.abs(angleWrapRad(h - GlobalH)) > angleAccuracy) {
+                // while(true){
+
+                FLMotor.setPower(Range.clip(movementXpower - movementYpower - movementTurnPower, -speed, speed));
+                FRMotor.setPower(Range.clip(movementXpower + movementYpower + movementTurnPower, -speed, speed));
+                BLMotor.setPower(Range.clip(movementXpower + movementYpower - movementTurnPower, -speed, speed));
+                BRMotor.setPower(Range.clip(movementXpower - movementYpower + movementTurnPower, -speed, speed));
+
+                telemetry.addData("movementXpower", movementXpower);
+                telemetry.addData("movementYpower", movementYpower);
+                telemetry.addData("movementTurnPower", movementTurnPower);
+                telemetry.addData("relativeYToTarget", relativeYToTarget);
+                telemetry.addData("sign:", Math.signum(Math.cos(GlobalH)));
+                telemetry.addData("maxPower", maxPower);
+                telemetry.addData("GlobalX", GlobalX);
+                telemetry.addData("GlobalY", GlobalY);
+                telemetry.addData("GlobalH", Math.toDegrees(GlobalH));
+                telemetry.update();
+                refresh();
+            }
+    }
+
+    public void goToPosStop (){
         FLMotor.setPower(0);
         BLMotor.setPower(0);
         FRMotor.setPower(0);
         BRMotor.setPower(0);
+    }
+    /*
+    public void goToStart(double x, double y, double h, double speed, int sleep_time){
 
-}}
+        refresh();
+        double distanceToTarget = Math.hypot(x - GlobalX, y - GlobalY);
+        double absoluteTurnAngle = Math.atan2(y - GlobalY, x - GlobalX);
+        double relativeAngleToTarget = angleWrapRad(absoluteTurnAngle - GlobalH);
+        double relativeXToTarget = distanceToTarget * Math.cos(relativeAngleToTarget);
+        double relativeYToTarget = distanceToTarget * Math.sin(relativeAngleToTarget);
+        double relativeTurnAngle = angleWrapRad(h - GlobalH);
 
+        double maxPower = Math.abs(relativeXToTarget) + Math.abs(relativeYToTarget) + correctFactor * Math.abs(relativeTurnAngle);
+
+        double movementXpower = speed * relativeXToTarget / maxPower ;
+        double movementYpower = speed * relativeYToTarget / maxPower ;
+        double movementTurnPower = speed * correctFactor * relativeTurnAngle / maxPower;
+
+            FLMotor.setPower(Range.clip(movementXpower - movementYpower - movementTurnPower, -speed, speed));
+            FRMotor.setPower(Range.clip(movementXpower + movementYpower + movementTurnPower, -speed, speed));
+            BLMotor.setPower(Range.clip(movementXpower + movementYpower - movementTurnPower, -speed, speed));
+            BRMotor.setPower(Range.clip(movementXpower - movementYpower + movementTurnPower, -speed, speed));
+        sleep(sleep_time);
+    }
+*/
+}
 // vertical distance 43 inches 109.22 cm - 1092.2 mm
 // horizontal distance  odometer at 26.5 inches 67.31 cm - 673.1 mm
 //                      start of wheel 31 inches 78.74 - 787.4 mm
