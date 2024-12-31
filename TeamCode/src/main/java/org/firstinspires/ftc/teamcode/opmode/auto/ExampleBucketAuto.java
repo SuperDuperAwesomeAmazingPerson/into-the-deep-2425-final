@@ -48,13 +48,13 @@ public class ExampleBucketAuto extends OpMode {
      * Lets assume the Robot is facing the human player and we want to score in the bucket */
 
     /** Start Pose of our robot */
-    private final Pose startPose = new Pose(0, 0, Math.toRadians(270));
+    private final Pose startPose = new Pose(0, 0, Math.toRadians(0));
 
     /** Scoring Pose of our robot. It is facing the submersible at a -45 degree (315 degree) angle. */
-    private final Pose scorePose = new Pose(20, 0, Math.toRadians(315));
+    private final Pose scorePose = new Pose(50, 50, Math.toRadians(90));
 
     /** Lowest (First) Sample from the Spike Mark */
-    private final Pose pickup1Pose = new Pose(20, 20, Math.toRadians(0));
+    private final Pose pickup1Pose = new Pose(20, 20, Math.toRadians(90));
 
     /** Middle (Second) Sample from the Spike Mark */
     private final Pose pickup2Pose = new Pose(20, 0, Math.toRadians(0));
@@ -101,8 +101,8 @@ public class ExampleBucketAuto extends OpMode {
 
         /* This is our grabPickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         grabPickup1 = follower.pathBuilder()
-                .addPath(new BezierLine(new Point(scorePose), new Point(pickup1Pose)))
-                .setLinearHeadingInterpolation(scorePose.getHeading(), pickup1Pose.getHeading())
+                .addPath(new BezierLine(new Point(startPose), new Point(pickup1Pose)))
+                .setLinearHeadingInterpolation(startPose.getHeading(), pickup1Pose.getHeading())
                 .build();
 
         /* This is our scorePickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
@@ -146,7 +146,7 @@ public class ExampleBucketAuto extends OpMode {
     public void autonomousPathUpdate() {
         switch (pathState) {
             case 0:
-                follower.followPath(scorePreload);
+                follower.followPath(grabPickup1);
                 setPathState(1);
                 break;
             case 1:
@@ -163,7 +163,7 @@ public class ExampleBucketAuto extends OpMode {
 //                    claw.scoringClaw();
 //                    claw.openClaw();
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
-                    follower.followPath(grabPickup1,true);
+                    follower.followPath(scorePickup1,true);
                     setPathState(2);
                 }
                 break;
