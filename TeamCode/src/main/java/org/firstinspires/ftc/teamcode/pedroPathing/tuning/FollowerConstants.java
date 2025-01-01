@@ -38,9 +38,9 @@ public class FollowerConstants {
 
     // Translational PIDF coefficients (don't use integral)
     public static CustomPIDFCoefficients translationalPIDFCoefficients = new CustomPIDFCoefficients(
-            0.06,
+            0.1,
             0,
-            0,
+            0.01,
             0.01);
 
     // Translational Integral
@@ -56,9 +56,9 @@ public class FollowerConstants {
 
     // Heading error PIDF coefficients
     public static CustomPIDFCoefficients headingPIDFCoefficients = new CustomPIDFCoefficients(
-            1,
+            2,
             0,
-            0,
+            0.0,
             0);
 
     // Feed forward constant added on to the heading PIDF
@@ -69,12 +69,12 @@ public class FollowerConstants {
     public static CustomFilteredPIDFCoefficients drivePIDFCoefficients = new CustomFilteredPIDFCoefficients(
             0.025,
             0.000,
-            0.00005,
+            0.00009,
             0.6,
-            0.01);
+            0.03);
 
     // Feed forward constant added on to the drive PIDF
-    public static double drivePIDFFeedForward = 0.01;
+    public static double drivePIDFFeedForward = 0.02;
 
     // Kalman filter parameters for the drive error Kalman filter
     public static KalmanFilterParameters driveKalmanFilterParameters = new KalmanFilterParameters(
@@ -83,7 +83,7 @@ public class FollowerConstants {
 
 
     // Mass of robot in kilograms
-    public static double mass = 8;
+    public static double mass = 5;
 
     // Centripetal force to power scaling
     public static double centripetalScaling = 0.0005;
@@ -104,13 +104,13 @@ public class FollowerConstants {
     // Decreasing this will cause the deceleration at the end of the Path to be slower, making the
     // robot slower but reducing risk of end-of-path overshoots or localization slippage.
     // This can be set individually for each Path, but this is the default.
-    public static double zeroPowerAccelerationMultiplier = 3;
+    public static double zeroPowerAccelerationMultiplier = 4;
 
 
     // When the robot is at the end of its current Path or PathChain and the velocity goes below
     // this value, then end the Path. This is in inches/second.
     // This can be custom set for each Path.
-    public static double pathEndVelocityConstraint = 0.1;
+    public static double pathEndVelocityConstraint = 1;
 
     // When the robot is at the end of its current Path or PathChain and the translational error
     // goes below this value, then end the Path. This is in inches.
@@ -131,7 +131,7 @@ public class FollowerConstants {
     // When the Path is considered at its end parametrically, then the Follower has this many
     // milliseconds to further correct by default.
     // This can be custom set for each Path.
-    public static double pathEndTimeoutConstraint = 100;
+    public static double pathEndTimeoutConstraint = 200;
     // initial value 500
 
     // This is how many steps the BezierCurve class uses to approximate the length of a BezierCurve.
@@ -146,7 +146,7 @@ public class FollowerConstants {
     // This is the number of times the velocity is recorded for averaging when approximating a first
     // and second derivative for on the fly centripetal correction. The velocity is calculated using
     // half of this number of samples, and the acceleration uses all of this number of samples.
-    public static int AVERAGED_VELOCITY_SAMPLE_NUMBER = 8;
+    public static int AVERAGED_VELOCITY_SAMPLE_NUMBER = 10;
 
     // This is the number of steps the binary search for closest point uses. More steps is more
     // accuracy, and this increases at an exponential rate. However, more steps also does take more
@@ -158,7 +158,7 @@ public class FollowerConstants {
     // the translational, heading, and drive PIDs.
     public static boolean useSecondaryTranslationalPID = false;
     public static boolean useSecondaryHeadingPID = false;
-    public static boolean useSecondaryDrivePID = false;
+    public static boolean useSecondaryDrivePID = true;
 
 
     // the limit at which the translational PIDF switches between the main and secondary translational PIDFs,
@@ -198,13 +198,13 @@ public class FollowerConstants {
 
 
     // the limit at which the heading PIDF switches between the main and secondary drive PIDFs
-    public static double drivePIDFSwitch = 20;
+    public static double drivePIDFSwitch = 3;
 
     // Secondary drive PIDF coefficients
     public static CustomFilteredPIDFCoefficients secondaryDrivePIDFCoefficients = new CustomFilteredPIDFCoefficients(
-            0.02,
+            0.025,
             0,
-            0.0000,
+            0.0001,
             0.6,
             0);
 

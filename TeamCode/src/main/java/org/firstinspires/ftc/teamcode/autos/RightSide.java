@@ -85,6 +85,7 @@ public class RightSide extends LinearOpMode {
     public double GlobalY = 0;
     public double GlobalH = 0;
 
+    private ElapsedTime runtime = new ElapsedTime();
 
     @Override
     public void runOpMode() {
@@ -240,54 +241,54 @@ public class RightSide extends LinearOpMode {
         //SAMPLE PUSH MODE!!
         //*******************************************
 
-        goToPos(0, 750, Math.toRadians(0), 0.6, 30, 20, Math.toRadians(10));
-        goToPos(0, 945, Math.toRadians(0), 0.4, 30, 205, Math.toRadians(10));
+        goToPos(0, 750, Math.toRadians(0), 0.6, 30, 20, Math.toRadians(10), 3);
+        goToPos(0, 945, Math.toRadians(0), 0.4, 30, 205, Math.toRadians(10), 3);
         goToPosStop();
         sleep(1000);
 
         //Push
-        goToPos(600, 600, Math.toRadians(90), 0.6, 100,100, Math.toRadians(20));
-        goToPos(750, 1000, Math.toRadians(90), 0.6, 100,100, Math.toRadians(20));
-        goToPos(800, 1300, Math.toRadians(90), 0.4, 50,50, Math.toRadians(20));
+        goToPos(600, 600, Math.toRadians(90), 0.6, 100,100, Math.toRadians(20), 3);
+        goToPos(750, 1000, Math.toRadians(90), 0.6, 100,100, Math.toRadians(20), 3);
+        goToPos(800, 1300, Math.toRadians(90), 0.4, 50,50, Math.toRadians(20), 3);
         goToPosStop();
-        goToPos(800, 300, Math.toRadians(90), 0.6, 100,100, Math.toRadians(20));
-        goToPos(900, 1000, Math.toRadians(90), 0.6, 100,100, Math.toRadians(20));
-        goToPos(1000, 1300, Math.toRadians(90), 0.4, 50,50, Math.toRadians(20));
+        goToPos(800, 300, Math.toRadians(90), 0.6, 100,100, Math.toRadians(20), 3);
+        goToPos(900, 1000, Math.toRadians(90), 0.6, 100,100, Math.toRadians(20), 3);
+        goToPos(1000, 1300, Math.toRadians(90), 0.4, 50,50, Math.toRadians(20), 3);
         goToPosStop();
-        goToPos(1000, 300, Math.toRadians(90), 0.6, 100,100, Math.toRadians(20));
+        goToPos(1000, 300, Math.toRadians(90), 0.6, 100,100, Math.toRadians(20), 3);
 //        goToPos(1000, 600, Math.toRadians(90), 0.5, 100,100, Math.toRadians(20));
 
 
         // Pickup specimen #2;
-        goToPos(1000, 0, Math.toRadians(181), 0.6, 50,20, Math.toRadians(10));
-        goToPos(1000, -200, Math.toRadians(181), 0.6, 50,205, Math.toRadians(10));
+        goToPos(1000, 0, Math.toRadians(181), 0.6, 50,20, Math.toRadians(10), 3);
+        goToPos(1000, -200, Math.toRadians(181), 0.6, 50,205, Math.toRadians(10), 3);
         goToPosStop();
         sleep(1000);
 
         //Place specimen #2
-        goToPos(0, 450, Math.toRadians(-10), 0.7, 50, 40, Math.toRadians(20));
-        goToPos(0, 750, Math.toRadians(0), 0.6, 50, 20, Math.toRadians(10));
-        goToPos(0, 945, Math.toRadians(0), 0.4, 50, 205, Math.toRadians(10));
+        goToPos(0, 450, Math.toRadians(-10), 0.7, 50, 40, Math.toRadians(20), 3);
+        goToPos(0, 750, Math.toRadians(0), 0.6, 50, 20, Math.toRadians(10), 3);
+        goToPos(0, 945, Math.toRadians(0), 0.4, 50, 205, Math.toRadians(10), 3);
         goToPosStop();
         sleep(1000);
 
         //Pickup specimen #3
-        goToPos(1000, 600, Math.toRadians(-90), 0.6, 50,30, Math.toRadians(20));
-        goToPos(1000, 600, Math.toRadians(-179), 0.6, 50,30, Math.toRadians(20));
-        goToPos(1000, 0, Math.toRadians(-179), 0.6, 20,30, Math.toRadians(20));
-        goToPos(1000, -200, Math.toRadians(-179), 0.6, 50,205, Math.toRadians(10));
+        goToPos(1000, 600, Math.toRadians(-90), 0.6, 50,30, Math.toRadians(20), 3);
+        goToPos(1000, 600, Math.toRadians(-179), 0.6, 50,30, Math.toRadians(20), 3);
+        goToPos(1000, 0, Math.toRadians(-179), 0.6, 20,30, Math.toRadians(20), 3);
+        goToPos(1000, -200, Math.toRadians(-179), 0.6, 50,205, Math.toRadians(10), 3);
         goToPosStop();
         sleep(1000);
 
         //Place specimen #3
-        goToPos(0, 450, Math.toRadians(-10), 0.7, 50, 40, Math.toRadians(20));
-        goToPos(0, 750, Math.toRadians(0), 0.6, 50, 20, Math.toRadians(10));
-        goToPos(0, 945, Math.toRadians(0), 0.4, 50, 205, Math.toRadians(10));
+        goToPos(0, 450, Math.toRadians(-10), 0.7, 50, 40, Math.toRadians(20), 3);
+        goToPos(0, 750, Math.toRadians(0), 0.6, 50, 20, Math.toRadians(10), 3);
+        goToPos(0, 945, Math.toRadians(0), 0.4, 50, 205, Math.toRadians(10), 3);
         goToPosStop();
         sleep(1000);
 
         //Park
-        goToPos(1000, 10, Math.toRadians(0), 1, 30,30, Math.toRadians(20));
+        goToPos(1000, 10, Math.toRadians(0), 1, 30,30, Math.toRadians(20), 3);
         goToPosStop();
 
 
@@ -521,7 +522,7 @@ public class RightSide extends LinearOpMode {
 
     }
 
-    public void goToPos(double x, double y, double h, double speed, double moveAccuracyX, double moveAccuracyY, double angleAccuracy) {
+    public void goToPos(double x, double y, double h, double speed, double moveAccuracyX, double moveAccuracyY, double angleAccuracy, int timeoutS) {
         //while loop makes the code keep running till the desired location is reached. (within the accuracy constraints)
         integralSum = 0;
         integralSumX = 0;
@@ -539,19 +540,19 @@ public class RightSide extends LinearOpMode {
         double relativeTurnAngle = angleWrapRad(h - GlobalH);
         double correctFactor =  correctFactorCoeff;
         double maxPower = Math.abs(relativeXToTarget) + Math.abs(relativeYToTarget) + correctFactor * Math.abs(relativeTurnAngle);
-
         double initialSpeed=0.2;
         double movementXpower = initialSpeed * relativeXToTarget / maxPower ;
         double movementYpower = initialSpeed * relativeYToTarget / maxPower ;
         double movementTurnPower = initialSpeed * correctFactor * relativeTurnAngle / maxPower;
 
+        runtime.reset();
         FLMotor.setPower(Range.clip(movementXpower - movementYpower - movementTurnPower, -initialSpeed, initialSpeed));
         FRMotor.setPower(Range.clip(movementXpower + movementYpower + movementTurnPower, -initialSpeed, initialSpeed));
         BLMotor.setPower(Range.clip(movementXpower + movementYpower - movementTurnPower, -initialSpeed, initialSpeed));
         BRMotor.setPower(Range.clip(movementXpower - movementYpower + movementTurnPower, -initialSpeed, initialSpeed));
 //        sleep(5);
         initialDistanceToTarget = distanceToTarget;
-        while (Math.abs(x - GlobalX) > moveAccuracyX || Math.abs(y - GlobalY) > moveAccuracyY || Math.abs(angleWrapRad(h - GlobalH)) > angleAccuracy) {
+        while (((Math.abs(x - GlobalX) > moveAccuracyX || Math.abs(y - GlobalY) > moveAccuracyY || Math.abs(angleWrapRad(h - GlobalH)) > angleAccuracy)) && opModeIsActive() && (runtime.seconds() < timeoutS)){
             // while(true){
 
             goToPosSingle(x, y, h, speed);

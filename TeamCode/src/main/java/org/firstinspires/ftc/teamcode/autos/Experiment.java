@@ -213,13 +213,13 @@
 
              }
 
-////                 // Display it for the driver.
-//                 telemetry.addData("Running to", " %7d :%7d", FlTarget, FrTarget, BlTarget, BrTarget);
-//                 telemetry.addData("Currently at", " at %7d :%7d", backleft.getCurrentPosition(),
-//                         backright.getCurrentPosition(), frontleft.getCurrentPosition(), frontright.getCurrentPosition());
-//                 telemetry.update();
-//
-//
+////             // Display it for the driver.
+                 telemetry.addData("Running to", " %7d :%7d", FlTarget, FrTarget, BlTarget, BrTarget);
+                 telemetry.addData("Currently at", " at %7d :%7d", backleft.getCurrentPosition(),
+                         backright.getCurrentPosition(), frontleft.getCurrentPosition(), frontright.getCurrentPosition());
+                 telemetry.update();
+
+
 //             // Stop all motion;
              frontright.setPower(0);
              frontleft.setPower(0);
