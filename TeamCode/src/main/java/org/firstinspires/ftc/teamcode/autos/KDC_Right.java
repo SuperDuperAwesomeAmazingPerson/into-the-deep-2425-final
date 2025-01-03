@@ -435,7 +435,7 @@ public class KDC_Right extends LinearOpMode {
 
     public void makeDroppieWork(int position){
         droppie.setTargetPosition(position); //-1400
-        droppie.setPower(-0.75);
+        droppie.setPower(-0.8);
         droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 

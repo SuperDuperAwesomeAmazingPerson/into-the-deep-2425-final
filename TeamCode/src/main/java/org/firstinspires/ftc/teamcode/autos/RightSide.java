@@ -28,6 +28,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -74,10 +75,15 @@ public class RightSide extends LinearOpMode {
     private DcMotor FLMotor = null;
     private DcMotor BRMotor = null;
     private DcMotor BLMotor = null;
-    private DcMotor droppie = null;
-    private CRServo bobby = null;
 
-    //private DcMotor intakie;  // Motor for the extending/retracting mechanism
+    private DcMotor droppie = null;
+    private DcMotor intakie = null;
+
+    private Servo flipity = null;
+    private Servo flopity = null;
+    private CRServo bobby = null;
+    private CRServo indulgey = null;
+
 
     GoBildaPinpointDriver odo; // Declare OpMode member for the Odometry Computer
 
@@ -98,7 +104,13 @@ public class RightSide extends LinearOpMode {
         FLMotor = hardwareMap.get(DcMotor.class, "FL");
         BRMotor = hardwareMap.get(DcMotor.class, "BR");
         BLMotor = hardwareMap.get(DcMotor.class, "BL");
+
         droppie = hardwareMap.get(DcMotor.class, "droppie");
+        intakie = hardwareMap.get(DcMotor.class, "intakie");
+
+        flipity = hardwareMap.get(Servo.class, "flipity");
+        flopity = hardwareMap.get(Servo.class, "flopity");
+        indulgey = hardwareMap.get(CRServo.class, "indulgey");
         bobby = hardwareMap.get(CRServo.class, "bobby");
 
         //intakie = hardwareMap.get(DcMotor.class, "intakie");
@@ -189,7 +201,73 @@ public class RightSide extends LinearOpMode {
         // Wait for the game to start (driver presses START)
         waitForStart();
 
-        goToPos(0, 0, Math.toRadians(180), 0.6, 10, 10, Math.toRadians(10), 4);
+        //Specimen #1
+        makeFlipityWork(0.3);
+        makeDroppieWork(-1550);
+        makeBobbyWork(-0.5);
+        goToPos(0, 800, Math.toRadians(0), 0.6, 20, 20, Math.toRadians(10), 4);
+        goToPosStop();
+        makeDroppieWork(-900);
+        makeBobbyWork(1);
+        sleep(1000);
+        makeBobbyWork(0);
+        makeFlopityWork(0.6);
+        makeDroppieWork(-250);
+
+        //Push Samples
+        goToPos(0, 550, Math.toRadians(90), 0.6, 100,100, Math.toRadians(20), 3);
+        goToPos(300, 550, Math.toRadians(90), 0.6, 100,100, Math.toRadians(20), 3);
+        goToPos(750, 1000, Math.toRadians(90), 0.6, 100,100, Math.toRadians(20), 3);
+        goToPos(900, 1300, Math.toRadians(90), 0.4, 50,50, Math.toRadians(20), 3);
+        goToPosStop();
+        goToPos(900, 200, Math.toRadians(90), 0.6, 100,100, Math.toRadians(20), 3);
+        goToPos(1000, 1100, Math.toRadians(90), 0.6, 100,100, Math.toRadians(20), 3);
+        goToPos(1200, 1300, Math.toRadians(90), 0.4, 50,50, Math.toRadians(20), 3);
+        goToPosStop();
+        goToPos(1200, 450, Math.toRadians(90), 0.6, 100,100, Math.toRadians(20), 3);
+
+        //Pickup Specimen #2
+        goToPos(1100, 200, Math.toRadians(181), 0.6, 50,20, Math.toRadians(10), 3);
+        goToPos(1000, -200, Math.toRadians(181), 0.6, 50,205, Math.toRadians(10), 3);
+        goToPosStop();
+        makeBobbyWork(-1);
+        sleep(1000);
+        makeBobbyWork(-0.5);
+
+        //Place specimen #2
+        makeDroppieWork(-1550);
+        goToPos(0, 450, Math.toRadians(-10), 0.7, 50, 40, Math.toRadians(20), 3);
+        goToPos(0, 750, Math.toRadians(0), 0.6, 50, 20, Math.toRadians(10), 3);
+        goToPos(0, 945, Math.toRadians(0), 0.4, 50, 205, Math.toRadians(10), 3);
+        goToPosStop();
+        makeDroppieWork(-900);
+        makeBobbyWork(1);
+        sleep(1000);
+        makeBobbyWork(0);
+
+        //Pickup specimen #3
+        makeDroppieWork(-250);
+        goToPos(1000, 600, Math.toRadians(-90), 0.6, 50,30, Math.toRadians(20), 3);
+        goToPos(1000, 600, Math.toRadians(-179), 0.6, 50,30, Math.toRadians(20), 3);
+        goToPos(1000, 0, Math.toRadians(-179), 0.6, 20,30, Math.toRadians(20), 3);
+        goToPos(1000, -200, Math.toRadians(-179), 0.6, 50,205, Math.toRadians(10), 3);
+        goToPosStop();
+        makeBobbyWork(-1);
+        sleep(1000);
+        makeBobbyWork(-0.5);
+
+        //Place specimen #3
+        makeDroppieWork(-1550);
+        goToPos(0, 450, Math.toRadians(-10), 0.7, 50, 40, Math.toRadians(20), 3);
+        goToPos(0, 750, Math.toRadians(0), 0.6, 50, 20, Math.toRadians(10), 3);
+        goToPos(0, 945, Math.toRadians(0), 0.4, 50, 205, Math.toRadians(10), 3);
+        goToPosStop();
+        makeBobbyWork(1);
+        sleep(1000);
+        makeBobbyWork(0);
+
+        //Park
+        goToPos(1000, 10, Math.toRadians(0), 1, 30,30, Math.toRadians(20), 3);
         goToPosStop();
 
         //*******************************************
@@ -540,6 +618,36 @@ public class RightSide extends LinearOpMode {
         FRMotor.setPower(0);
         BRMotor.setPower(0);
     }
+
+    public void makeDroppieWork(int position){
+        droppie.setTargetPosition(position); //-1400
+        droppie.setPower(-0.8);
+        droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
+
+    public void makeIntakieWork(int pos){
+        intakie.setTargetPosition(pos);//800
+        intakie.setPower(0.8);//0.8);
+        intakie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
+
+    public void makeBobbyWork(double power){
+        bobby.setPower(power);//-0.6
+    }
+
+    public void makeFlipityWork(double pos){
+        flipity.setPosition(pos);//0.8387);
+    }
+
+    public void makeFlopityWork(double pos){
+        flopity.setPosition(pos);//0.8387);
+    }
+
+    public void makeIndulgeyWork(double power){
+        indulgey.setPower(power);
+    }
+}
+
     /*
     public void goToStart(double x, double y, double h, double speed, int sleep_time){
 
@@ -564,7 +672,7 @@ public class RightSide extends LinearOpMode {
         sleep(sleep_time);
     }
 */
-}
+
 // vertical distance 43 inches 109.22 cm - 1092.2 mm
 // horizontal distance  odometer at 26.5 inches 67.31 cm - 673.1 mm
 //                      start of wheel 31 inches 78.74 - 787.4 mm

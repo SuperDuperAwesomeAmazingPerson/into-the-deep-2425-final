@@ -312,11 +312,11 @@ public class REAL_Teleop extends LinearOpMode {
             //Added by Aish
 
                 intakie.setPower(extendArm);
-                droppie.setPower(extendLeg);
-//            droppiePos += round(gamepad2.left_stick_y * 3);
-//            droppie.setTargetPosition(droppiePos);
-//            droppie.setPower(0.8);
-//            droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                droppie.setPower(extendLeg);
+            droppiePos += round(gamepad2.left_stick_y * 8);
+            droppie.setTargetPosition(droppiePos);
+            droppie.setPower(-1);
+            droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 //            if (gamepad2.right_trigger > 0.3) {
 //                indulgey.setPower(gamepad2.right_trigger);
@@ -334,9 +334,9 @@ public class REAL_Teleop extends LinearOpMode {
 
 
                 if (gamepad2.dpad_right) {
-                    flipity.setPosition(-0.7);
+                    flipity.setPosition(0.95);
                 } else if (gamepad2.dpad_left) {
-                    flipity.setPosition(0);
+                    flipity.setPosition(0.1);
                 }
 
 
