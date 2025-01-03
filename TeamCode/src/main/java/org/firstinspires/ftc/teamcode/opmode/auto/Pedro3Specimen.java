@@ -52,34 +52,46 @@ public class Pedro3Specimen extends OpMode {
 
     /** Scoring Pose of our robot. It is facing the submersible at a -45 degree (315 degree) angle. */
     private final Pose scorePose = new Pose(2, 29, Math.toRadians(0));
+
+    private final Pose preloadScoreControlPose = new Pose(2, 20, 0);
 //    private final Pose scorePose = new Pose(14, 129, Math.toRadians(315));
 
     /** Lowest (First) Sample from the Spike Mark */
-    private final Pose push1ControlPose = new Pose(27, 16, Math.toRadians(90));
+    private final Pose push1ControlPose = new Pose(27, 16, Math.toRadians(-90));
 
     /** Middle (Second) Sample from the Spike Mark */
 
-    private final Pose push1Pose = new Pose(30, 50, Math.toRadians(90));
+    private final Pose push1Pose = new Pose(30, 50, Math.toRadians(-90));
 
     /** Highest (Third) Sample from the Spike Mark */
-    private final Pose obs1ControlPose = new Pose(30, 20, Math.toRadians(90));
+    private final Pose obs1ControlPose = new Pose(30, 20, Math.toRadians(-90));
 
     /** Park Pose for our robot, after we do all of the scoring. */
-    private final Pose obs1Pose = new Pose(33, 10, Math.toRadians(90));
+    private final Pose obs1Pose = new Pose(33, 10, Math.toRadians(-90));
 
     /** Park Control Pose for our robot, this is used to manipulate the bezier curve that we will create for the parking.
      * The Robot will not go to this pose, it is used a control point for our bezier curve. */
-    private final Pose push2ControlPose = new Pose(33, 50, Math.toRadians(90));
+    private final Pose obs2ControlPose = new Pose(38, 20, Math.toRadians(-90));
 
-    private final Pose push2Pose = new Pose(38, 49, Math.toRadians(90));
+    private final Pose push2Pose = new Pose(38, 49, Math.toRadians(-90));
 
-    private final Pose obs2Pose = new Pose(38, 20, Math.toRadians(90));
+    private final Pose push2ControlPose = new Pose(33, 49, Math.toRadians(-90));
 
-    private final Pose prePickupPose = new Pose(38, 15, Math.toRadians(179));
+    private final Pose obs2Pose = new Pose(38, 10, Math.toRadians(-90));
 
-    private final Pose pickupPose = new Pose(38, 2, Math.toRadians(179));
+    private final Pose prePickup2ControlPose = new Pose(38, 8, Math.toRadians(-135));
+
+    private final Pose prePickup3ControlPose = new Pose(20, 10, Math.toRadians(-90));
+
+    private final Pose prePickupPose = new Pose(38, 5, Math.toRadians(-179));
+
+    private final Pose pickupPose = new Pose(38, 0, Math.toRadians(-179));
+
+    private final Pose pickupControlPose = new Pose(38, 5, Math.toRadians(-90));
 
     private final Pose scoreControlPose = new Pose( 10, 20, 0);
+
+    private final Pose parkControlPose = new Pose(20, 20, 0);
 
     private final Pose parkPose = new Pose(50, 0, 0);
 
@@ -106,8 +118,8 @@ public class Pedro3Specimen extends OpMode {
          * PathChains hold Path(s) within it and are able to hold their end point, meaning that they will holdPoint until another path is followed.
          * Here is a explanation of the difference between Paths and PathChains <https://pedropathing.com/commonissues/pathtopathchain.html> */
 
-        /* This is our scorePreload path. We are using a BezierLine, which is a straight line. */
-        scorePreload = new Path(new BezierLine(new Point(startPose), new Point(scorePose)));
+
+        scorePreload = new Path(new BezierCurve(new Point(startPose), new Point(preloadScoreControlPose), new Point(scorePose)));
         scorePreload.setConstantHeadingInterpolation(startPose.getHeading());
 
         /* Here is an example for Constant Interpolation
@@ -133,23 +145,23 @@ public class Pedro3Specimen extends OpMode {
                 .build();
 
         pushToObs2 = follower.pathBuilder()
-                .addPath(new BezierLine(new Point(push2Pose), new Point(obs2Pose)))
-                .setLinearHeadingInterpolation(push2Pose.getHeading(), obs2Pose.getHeading())
+                .addPath(new BezierCurve(new Point(push2Pose), new Point(obs2ControlPose), new Point(obs2Pose)))
+                .setLinearHeadingInterpolation(push2Pose.getHeading(), obs2ControlPose.getHeading(), obs2Pose.getHeading())
                 .build();
 
         pickupSpecimen = follower.pathBuilder()
-                .addPath(new BezierLine(new Point(prePickupPose), new Point(pickupPose)))
-                .setLinearHeadingInterpolation(prePickupPose.getHeading(), pickupPose.getHeading())
+                .addPath(new BezierCurve(new Point(prePickupPose), new Point(pickupControlPose), new Point(pickupPose)))
+                .setLinearHeadingInterpolation(prePickupPose.getHeading(), pickupControlPose.getHeading(), pickupPose.getHeading())
                 .build();
 
         prePickupSpecimen2 = follower.pathBuilder()
-                .addPath(new BezierLine(new Point(obs2Pose), new Point(prePickupPose)))
-                .setLinearHeadingInterpolation(obs2Pose.getHeading(), prePickupPose.getHeading())
+                .addPath(new BezierCurve(new Point(obs2Pose), new Point(prePickup2ControlPose), new Point(prePickupPose)))
+                .setLinearHeadingInterpolation(obs2Pose.getHeading(), prePickup2ControlPose.getHeading(), prePickupPose.getHeading())
                 .build();
 
         prePickupSpecimen3 = follower.pathBuilder()
-                .addPath(new BezierLine(new Point(scorePose), new Point(prePickupPose)))
-                .setLinearHeadingInterpolation(scorePose.getHeading(), prePickupPose.getHeading())
+                .addPath(new BezierCurve(new Point(scorePose), new Point(prePickup3ControlPose), new Point(prePickupPose)))
+                .setLinearHeadingInterpolation(scorePose.getHeading(), prePickup3ControlPose.getHeading(), prePickupPose.getHeading())
                 .build();
 
         scoreSpecimen = follower.pathBuilder()
@@ -158,8 +170,8 @@ public class Pedro3Specimen extends OpMode {
                 .build();
 
         park = follower.pathBuilder()
-                .addPath(new BezierLine(new Point(scorePose), new Point(parkPose)))
-                .setLinearHeadingInterpolation(scorePose.getHeading(), parkPose.getHeading())
+                .addPath(new BezierCurve(new Point(scorePose), new Point(parkControlPose), new Point(parkPose)))
+                .setLinearHeadingInterpolation(scorePose.getHeading(), parkControlPose.getHeading(), parkPose.getHeading())
                 .build();
 
 
