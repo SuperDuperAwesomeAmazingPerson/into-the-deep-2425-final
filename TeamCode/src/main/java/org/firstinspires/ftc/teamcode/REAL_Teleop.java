@@ -83,6 +83,7 @@ public class REAL_Teleop extends LinearOpMode {
 
     private Servo flipity = null;
     private Servo flopity = null;
+    private Servo logan = null;
     private CRServo indulgey = null;
     private CRServo bobby = null;
 
@@ -135,6 +136,7 @@ public class REAL_Teleop extends LinearOpMode {
         flopity = hardwareMap.get(Servo.class, "flopity");
         indulgey = hardwareMap.get(CRServo.class, "indulgey");
         bobby = hardwareMap.get(CRServo.class, "bobby");
+        logan = hardwareMap.get(Servo.class, "logan");
 
         // ########################################################################################
         // !!!            IMPORTANT Drive Information. Test your motor directions.            !!!!!
@@ -340,9 +342,9 @@ public class REAL_Teleop extends LinearOpMode {
                 }
 
 
-                if (gamepad2.right_bumper) {
+                if (gamepad2.left_bumper) {
                     bobby.setPower(0.5);
-                } else if (gamepad2.left_bumper) {
+                } else if (gamepad2.right_bumper) {
                     bobby.setPower(-0.5);
                 } else {
                     bobby.setPower(0);
@@ -354,6 +356,12 @@ public class REAL_Teleop extends LinearOpMode {
                     indulgey.setPower(1);
                 } else {
                     indulgey.setPower(0);
+                }
+
+                if (gamepad1.x) {
+                logan.setPosition(.7);
+                } else if (gamepad1.a) {
+                logan.setPosition(-1);
                 }
 
 
