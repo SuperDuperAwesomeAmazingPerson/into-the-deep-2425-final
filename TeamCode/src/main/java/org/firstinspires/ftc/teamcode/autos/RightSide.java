@@ -26,8 +26,8 @@ import static java.lang.Math.atan;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
@@ -81,9 +81,8 @@ public class RightSide extends LinearOpMode {
 
     private Servo flipity = null;
     private Servo flopity = null;
-    private CRServo bobby = null;
     private CRServo indulgey = null;
-
+    private CRServo bobby = null;
 
     GoBildaPinpointDriver odo; // Declare OpMode member for the Odometry Computer
 
@@ -113,8 +112,6 @@ public class RightSide extends LinearOpMode {
         indulgey = hardwareMap.get(CRServo.class, "indulgey");
         bobby = hardwareMap.get(CRServo.class, "bobby");
 
-        //intakie = hardwareMap.get(DcMotor.class, "intakie");
-
         odo = hardwareMap.get(GoBildaPinpointDriver.class,"odo");
 
         FLMotor.setDirection(DcMotor.Direction.REVERSE);
@@ -141,7 +138,6 @@ public class RightSide extends LinearOpMode {
         FRMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         BRMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         BLMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
         droppie.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
@@ -157,7 +153,7 @@ public class RightSide extends LinearOpMode {
          */
         //  odo.setOffsets(-84.0, -224.0); //these are tuned for 3110-0002-0001 Product Insight #1
         //odo.setOffsets(-153.71, -215.019);
-        odo.setOffsets(-201.61, -173.04);
+        odo.setOffsets(-210, -150);
         //New Offsets (x-201.61, y-173.04)
         /*
         Set the kind of pods used by your robot. If you're using goBILDA odometry pods, select either
@@ -200,75 +196,6 @@ public class RightSide extends LinearOpMode {
 
         // Wait for the game to start (driver presses START)
         waitForStart();
-
-        //Specimen #1
-        makeFlipityWork(0.3);
-        makeDroppieWork(-1550);
-        makeBobbyWork(-0.5);
-        goToPos(0, 800, Math.toRadians(0), 0.6, 20, 20, Math.toRadians(10), 4);
-        goToPosStop();
-        makeDroppieWork(-900);
-        makeBobbyWork(1);
-        sleep(1000);
-        makeBobbyWork(0);
-        makeFlopityWork(0.6);
-        makeDroppieWork(-250);
-
-        //Push Samples
-        goToPos(0, 550, Math.toRadians(90), 0.6, 100,100, Math.toRadians(20), 3);
-        goToPos(300, 550, Math.toRadians(90), 0.6, 100,100, Math.toRadians(20), 3);
-        goToPos(750, 1000, Math.toRadians(90), 0.6, 100,100, Math.toRadians(20), 3);
-        goToPos(900, 1300, Math.toRadians(90), 0.4, 50,50, Math.toRadians(20), 3);
-        goToPosStop();
-        goToPos(900, 200, Math.toRadians(90), 0.6, 100,100, Math.toRadians(20), 3);
-        goToPos(1000, 1100, Math.toRadians(90), 0.6, 100,100, Math.toRadians(20), 3);
-        goToPos(1200, 1300, Math.toRadians(90), 0.4, 50,50, Math.toRadians(20), 3);
-        goToPosStop();
-        goToPos(1200, 450, Math.toRadians(90), 0.6, 100,100, Math.toRadians(20), 3);
-
-        //Pickup Specimen #2
-        goToPos(1100, 200, Math.toRadians(181), 0.6, 50,20, Math.toRadians(10), 3);
-        goToPos(1000, -200, Math.toRadians(181), 0.6, 50,205, Math.toRadians(10), 3);
-        goToPosStop();
-        makeBobbyWork(-1);
-        sleep(1000);
-        makeBobbyWork(-0.5);
-
-        //Place specimen #2
-        makeDroppieWork(-1550);
-        goToPos(0, 450, Math.toRadians(-10), 0.7, 50, 40, Math.toRadians(20), 3);
-        goToPos(0, 750, Math.toRadians(0), 0.6, 50, 20, Math.toRadians(10), 3);
-        goToPos(0, 945, Math.toRadians(0), 0.4, 50, 205, Math.toRadians(10), 3);
-        goToPosStop();
-        makeDroppieWork(-900);
-        makeBobbyWork(1);
-        sleep(1000);
-        makeBobbyWork(0);
-
-        //Pickup specimen #3
-        makeDroppieWork(-250);
-        goToPos(1000, 600, Math.toRadians(-90), 0.6, 50,30, Math.toRadians(20), 3);
-        goToPos(1000, 600, Math.toRadians(-179), 0.6, 50,30, Math.toRadians(20), 3);
-        goToPos(1000, 0, Math.toRadians(-179), 0.6, 20,30, Math.toRadians(20), 3);
-        goToPos(1000, -200, Math.toRadians(-179), 0.6, 50,205, Math.toRadians(10), 3);
-        goToPosStop();
-        makeBobbyWork(-1);
-        sleep(1000);
-        makeBobbyWork(-0.5);
-
-        //Place specimen #3
-        makeDroppieWork(-1550);
-        goToPos(0, 450, Math.toRadians(-10), 0.7, 50, 40, Math.toRadians(20), 3);
-        goToPos(0, 750, Math.toRadians(0), 0.6, 50, 20, Math.toRadians(10), 3);
-        goToPos(0, 945, Math.toRadians(0), 0.4, 50, 205, Math.toRadians(10), 3);
-        goToPosStop();
-        makeBobbyWork(1);
-        sleep(1000);
-        makeBobbyWork(0);
-
-        //Park
-        goToPos(1000, 10, Math.toRadians(0), 1, 30,30, Math.toRadians(20), 3);
-        goToPosStop();
 
         //*******************************************
         //SAMPLE PICK AND DEPOSIT MODE!!!
@@ -320,63 +247,167 @@ public class RightSide extends LinearOpMode {
 
 */
 
-//        //*******************************************
-//        //SAMPLE PUSH MODE!!
-//        //*******************************************
-//
-//        goToPos(0, 750, Math.toRadians(0), 0.6, 30, 20, Math.toRadians(10), 3);
-//        goToPos(0, 945, Math.toRadians(0), 0.4, 30, 205, Math.toRadians(10), 3);
-//        goToPosStop();
-//        sleep(1000);
-//
-//        //Push
-//        goToPos(600, 600, Math.toRadians(90), 0.6, 100,100, Math.toRadians(20), 3);
-//        goToPos(750, 1000, Math.toRadians(90), 0.6, 100,100, Math.toRadians(20), 3);
-//        goToPos(800, 1300, Math.toRadians(90), 0.4, 50,50, Math.toRadians(20), 3);
-//        goToPosStop();
-//        goToPos(800, 300, Math.toRadians(90), 0.6, 100,100, Math.toRadians(20), 3);
-//        goToPos(900, 1000, Math.toRadians(90), 0.6, 100,100, Math.toRadians(20), 3);
-//        goToPos(1000, 1300, Math.toRadians(90), 0.4, 50,50, Math.toRadians(20), 3);
-//        goToPosStop();
-//        goToPos(1000, 300, Math.toRadians(90), 0.6, 100,100, Math.toRadians(20), 3);
-////        goToPos(1000, 600, Math.toRadians(90), 0.5, 100,100, Math.toRadians(20));
-//
-//
-//        // Pickup specimen #2;
-//        goToPos(1000, 0, Math.toRadians(181), 0.6, 50,20, Math.toRadians(10), 3);
-//        goToPos(1000, -200, Math.toRadians(181), 0.6, 50,205, Math.toRadians(10), 3);
-//        goToPosStop();
-//        sleep(1000);
-//
-//        //Place specimen #2
-//        goToPos(0, 450, Math.toRadians(-10), 0.7, 50, 40, Math.toRadians(20), 3);
-//        goToPos(0, 750, Math.toRadians(0), 0.6, 50, 20, Math.toRadians(10), 3);
-//        goToPos(0, 945, Math.toRadians(0), 0.4, 50, 205, Math.toRadians(10), 3);
-//        goToPosStop();
-//        sleep(1000);
-//
-//        //Pickup specimen #3
-//        goToPos(1000, 600, Math.toRadians(-90), 0.6, 50,30, Math.toRadians(20), 3);
-//        goToPos(1000, 600, Math.toRadians(-179), 0.6, 50,30, Math.toRadians(20), 3);
-//        goToPos(1000, 0, Math.toRadians(-179), 0.6, 20,30, Math.toRadians(20), 3);
-//        goToPos(1000, -200, Math.toRadians(-179), 0.6, 50,205, Math.toRadians(10), 3);
-//        goToPosStop();
-//        sleep(1000);
-//
-//        //Place specimen #3
-//        goToPos(0, 450, Math.toRadians(-10), 0.7, 50, 40, Math.toRadians(20), 3);
-//        goToPos(0, 750, Math.toRadians(0), 0.6, 50, 20, Math.toRadians(10), 3);
-//        goToPos(0, 945, Math.toRadians(0), 0.4, 50, 205, Math.toRadians(10), 3);
-//        goToPosStop();
-//        sleep(1000);
-//
-//        //Park
-//        goToPos(1000, 10, Math.toRadians(0), 1, 30,30, Math.toRadians(20), 3);
-//        goToPosStop();
+        //*******************************************
+        //SAMPLE PUSH MODE!! (3+0)
+        //*******************************************
+
+        //Specimen #1 (Preload)
+        makeFlipityWork(0.35);
+        makeDroppieWork(-1550);
+        makeFlopityWork(0.6);
+        goToPos(0, 740, Math.toRadians(0), 0.6, 30, 20, Math.toRadians(10), 3);
+        goToPos(0, 950, Math.toRadians(0), 0.4, 30, 210, Math.toRadians(10), 3);
+        goToPosStop();
+        makeBobbyWork(0.5);
+        makeDroppieWork(-900);
+        makeBobbyWork(-1);
+        sleep(750);
+        makeBobbyWork(0);
+
+        //Push
+        makeDroppieWork(-250);
+        goToPos(0, 450, Math.toRadians(0), 0.6, 100, 100, Math.toRadians(20), 3);
+        goToPos(630, 450, Math.toRadians(90), 0.6, 100, 100, Math.toRadians(20), 3);
+        goToPos(650, 600, Math.toRadians(90), 0.6, 100, 100, Math.toRadians(20), 3);
+        goToPos(750, 1100, Math.toRadians(90), 0.6, 100, 100, Math.toRadians(20), 3);
+        goToPos(910, 1300, Math.toRadians(90), 0.4, 50, 50, Math.toRadians(20), 3);
+        goToPosStop();
+        goToPos(910, 190, Math.toRadians(90), 0.9, 150, 200, Math.toRadians(20), 3);
+        goToPos(970, 1250, Math.toRadians(90), 0.6, 120,120, Math.toRadians(20), 3);
+        goToPos(1220, 1320, Math.toRadians(90), 0.4, 150, 150, Math.toRadians(20), 3);
+        goToPosStop();
+        goToPos(1200, 380, Math.toRadians(90), 0.8, 150, 150, Math.toRadians(20), 3);
+
+        // Pickup specimen #2
+        goToPos(1000, 0, Math.toRadians(181), 0.6, 50,20, Math.toRadians(10), 3);
+        goToPos(1000, -200, Math.toRadians(181), 0.6, 50, 205, Math.toRadians(10), 3);
+        goToPosStop();
+        makeBobbyWork(1);
+        sleep(750);
+        makeBobbyWork(0.5);
+
+        //Place specimen #2
+        makeDroppieWork(-1550);
+        goToPos(0, 450, Math.toRadians(-10), 0.7, 50, 40, Math.toRadians(20), 3);
+        goToPos(0, 750, Math.toRadians(0), 0.6, 50, 20, Math.toRadians(10), 3);
+        goToPos(0, 945, Math.toRadians(0), 0.4, 50, 190, Math.toRadians(10), 3);
+        goToPosStop();
+        makeDroppieWork(-900);
+        makeBobbyWork(-1);
+        sleep(750);
+        makeBobbyWork(0);
+
+        //Pickup specimen #3
+        makeDroppieWork(-250);
+        goToPos(1000, 600, Math.toRadians(90), 0.6, 50, 30, Math.toRadians(20), 3);
+        goToPos(1000, 600, Math.toRadians(195), 0.6, 50, 30, Math.toRadians(15), 3);
+        goToPos(1000, 5, Math.toRadians(195), 0.6, 20, 30, Math.toRadians(10), 1);
+        goToPos(1000, -200, Math.toRadians(195), 0.6, 50, 210, Math.toRadians(10), 1);
+        goToPosStop();
+        makeBobbyWork(1);
+        sleep(750);
+        makeBobbyWork(0.5);
+
+        //Place specimen #3
+        makeDroppieWork(-1550);
+        goToPos(0, 450, Math.toRadians(-10), 0.7, 50, 40, Math.toRadians(20), 3);
+        goToPos(0, 750, Math.toRadians(0), 0.6, 50, 20, Math.toRadians(10), 3);
+        goToPos(0, 945, Math.toRadians(0), 0.4, 50, 190, Math.toRadians(10), 3);
+        goToPosStop();
+        makeDroppieWork(-900);
+        makeBobbyWork(-1);
+        sleep(750);
+        makeBobbyWork(0);
+
+        //Park
+        makeDroppieWork(0);
+        goToPos(200, 500, Math.toRadians(-30), 1, 30, 30, Math.toRadians(20), 3);
+        makeIntakieWork(-800);
+        makeFlipityWork(0.65);
+        goToPos(600, 300, Math.toRadians(-40), 1, 30, 30, Math.toRadians(20), 3);
+        goToPosStop();
 
 
+//        goToPos(50, 0, 0, 0.6, 1, Math.toRadians(5));
+
+//        //Lift goes up
+//        droppie.setTargetPosition(-1700);
+//        droppie.setPower(-0.8);
+//        droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        sleep(1000);
+//        //Robot drives forward (Movement #1)
+//        goToPos(-760, -127 , Math.toRadians(0), .35, 30, Math.toRadians(2));
+//        telemetry.addData("Finished",0);
+//        telemetry.update();
+//        sleep(1000);
+//        //Lift goes on and specimen hooks onto the bar
+//        droppie.setTargetPosition(-1250);
+//        droppie.setPower(-0.6);
+//        droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        //Wait
+//        //sleep(500);
+//        //Claw releases specimen
+//        bobby.setPower(-0.6);
+//        sleep(1500);
+//        bobby.setPower(0);
+//        goToPos(-650.6, -127 , Math.toRadians(0), .35, 25, Math.toRadians(2));
+//        sleep(1000);
+//        //Lift drops down all the way
+//        droppie.setTargetPosition(0);
+//        droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        sleep(1000);
+//        //Robot moves to diagonal midpoint (Movement #2)
+//        goToPos(-150, -150 , Math.toRadians(0), .35, 25, Math.toRadians(5));
+//        sleep(1000);
+//        goToPos(-88.9, 950 , Math.toRadians(0), .35, 25, Math.toRadians(5));
+////        goToPos(-609.6, 374.65 , Math.toRadians(-180), .35, 25, Math.toRadians(5));
+//        sleep(1000);
+
+//        //Robot moves to first spike mark (Movement #3)
+//        goToPos(-1295.4, 914.4 , Math.toRadians(180), .35, 25, Math.toRadians(2));
+//        sleep(2000);
+//        //Robot pushes sample into Observation Zone (Movement #4)
+//        goToPos(-88.9, 914.4 , Math.toRadians(180), .35, 25, Math.toRadians(2));
 
 
+        // Motor power is based on gyro angle/rotation
+       // sleep(5000);
+        //goToPos(-670, -110 , Math.toRadians(0), .5, 15, Math.toRadians(1));
+        //goToPos(1092.2, 673.1 , Math.toRadians(180), .6, 15, Math.toRadians(5));
+        //673.1-91.4 = 581.7
+        //goToPos(1092.2, 581.7 , Math.toRadians(180), .6, 15, Math.toRadians(5));
+//        resetRuntime();
+
+//        /*
+//        gets the current Position (x & y in mm, and heading in degrees) of the robot, and prints it.
+//         */
+//        Pose2D pos = odo.getPosition();
+//        String data = String.format(Locale.US, "{X: %.3f, Y: %.3f, H: %.3f}", pos.getX(DistanceUnit.MM), pos.getY(DistanceUnit.MM), pos.getHeading(AngleUnit.DEGREES));
+//        telemetry.addData("Position", data);
+//
+//        /*
+//        gets the current Velocity (x & y in mm/sec and heading in degrees/sec) and prints it.
+//         */
+//        Pose2D vel = odo.getVelocity();
+//        String velocity = String.format(Locale.US,"{XVel: %.3f, YVel: %.3f, HVel: %.3f}", vel.getX(DistanceUnit.MM), vel.getY(DistanceUnit.MM), vel.getHeading(AngleUnit.DEGREES));
+//        telemetry.addData("Velocity", velocity);
+//
+//
+//        /*
+//        Gets the Pinpoint device status. Pinpoint can reflect a few states. But we'll primarily see
+//        READY: the device is working as normal
+//        CALIBRATING: the device is calibrating and outputs are put on hold
+//        NOT_READY: the device is resetting from scratch. This should only happen after a power-cycle
+//        FAULT_NO_PODS_DETECTED - the device does not detect any pods plugged in
+//        FAULT_X_POD_NOT_DETECTED - The device does not detect an X pod plugged in
+//        FAULT_Y_POD_NOT_DETECTED - The device does not detect a Y pod plugged in
+//        */
+//        telemetry.addData("Status", odo.getDeviceStatus());
+//
+//        telemetry.addData("Pinpoint Frequency", odo.getFrequency()); //prints/gets the current refresh rate of the Pinpoint
+//
+//        telemetry.addData("REV Hub Frequency: ", frequency); //prints the control system refresh rate
+//        telemetry.update();
 
     }
 
@@ -425,23 +456,23 @@ public class RightSide extends LinearOpMode {
     double integralSum = 0;
     double feedfoward = 0;
     double Kp = 0.6;
-    double Ki = 0.2;
-    double Kd = 0;
-    double Kf = 0.1;
+    double Ki = 0.32;
+    double Kd = 0.17;
+    double Kf = 0.25;
     private double lastError = 0;
 
     double integralSumX = 0;
-    double KpX=0.06;
-    double KiX=0.0003;   //Kxp/KYp ratio is affected by the robot weight balance
-    double KdX=0.0009;// KXf/KYf ratio is affected by the robot weight balance
+    double KpX=0.04;
+    double KiX=0.002;   //Kxp/KYp ratio is affected by the robot weight balance
+    double KdX=0.008;// KXf/KYf ratio is affected by the robot weight balance
     double feedfowardX = 0;
     private double lastErrorX = 0;
 
     double integralSumY = 0;
     double KpY=0.04;
-    double KiY=0.0003;   //Kxp/KYp ratio is affected by the robot weight balance
-    double KdY=0.004;// KXf/KYf ratio is affected by the robot weight balance
-    double feedfowardY = 0.2;
+    double KiY=0.002;   //Kxp/KYp ratio is affected by the robot weight balance
+    double KdY=0.008;// KXf/KYf ratio is affected by the robot weight balance
+    double feedfowardY = 0;
     private double lastErrorY = 0;
 
     double correctFactorCoeff = 300;
@@ -527,7 +558,7 @@ public class RightSide extends LinearOpMode {
 
     }
 
-    public void goToPos(double x, double y, double h, double speed, double moveAccuracyX, double moveAccuracyY, double angleAccuracy, int timeoutS) {
+    public void goToPos(double x, double y, double h, double speed, double moveAccuracyX, double moveAccuracyY, double angleAccuracy, double timeoutS) {
         //while loop makes the code keep running till the desired location is reached. (within the accuracy constraints)
         integralSum = 0;
         integralSumX = 0;
@@ -618,36 +649,6 @@ public class RightSide extends LinearOpMode {
         FRMotor.setPower(0);
         BRMotor.setPower(0);
     }
-
-    public void makeDroppieWork(int position){
-        droppie.setTargetPosition(position); //-1400
-        droppie.setPower(-0.8);
-        droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-    }
-
-    public void makeIntakieWork(int pos){
-        intakie.setTargetPosition(pos);//800
-        intakie.setPower(0.8);//0.8);
-        intakie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-    }
-
-    public void makeBobbyWork(double power){
-        bobby.setPower(power);//-0.6
-    }
-
-    public void makeFlipityWork(double pos){
-        flipity.setPosition(pos);//0.8387);
-    }
-
-    public void makeFlopityWork(double pos){
-        flopity.setPosition(pos);//0.8387);
-    }
-
-    public void makeIndulgeyWork(double power){
-        indulgey.setPower(power);
-    }
-}
-
     /*
     public void goToStart(double x, double y, double h, double speed, int sleep_time){
 
@@ -672,6 +673,35 @@ public class RightSide extends LinearOpMode {
         sleep(sleep_time);
     }
 */
+    public void makeDroppieWork(int position){
+        droppie.setTargetPosition(position); //-1400
+        droppie.setPower(-0.9);
+        droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
+
+    public void makeIntakieWork(int pos){
+        intakie.setTargetPosition(pos);//800
+        intakie.setPower(1);//0.8);
+        intakie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
+
+    public void makeBobbyWork(double power){
+        bobby.setPower(power);//-0.6
+    }
+
+    public void makeFlipityWork(double pos){
+        flipity.setPosition(pos);//0.8387);
+    }
+
+    public void makeFlopityWork(double pos){
+        flopity.setPosition(pos);//0.8387);
+    }
+
+    public void makeIndulgeyWork(double power){
+        indulgey.setPower(power);
+    }
+}
+
 
 // vertical distance 43 inches 109.22 cm - 1092.2 mm
 // horizontal distance  odometer at 26.5 inches 67.31 cm - 673.1 mm
