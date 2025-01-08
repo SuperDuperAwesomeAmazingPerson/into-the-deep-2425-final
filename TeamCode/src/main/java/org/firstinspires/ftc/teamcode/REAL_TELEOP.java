@@ -66,8 +66,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name="REAL_Teleop", group="Linear OpMode")
-public class REAL_Teleop extends LinearOpMode {
+@TeleOp(name="REAL_TELEOP", group="Linear OpMode")
+public class REAL_TELEOP extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors.
     private ElapsedTime runtime = new ElapsedTime();
@@ -163,19 +163,14 @@ public class REAL_Teleop extends LinearOpMode {
         hangie.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         mike.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-//        droppie.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        droppie.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        droppie.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        droppie.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         int droppiePos = 0;
 
         // Wait for the game to start (driver presses START)
         telemetry.addData("Status", "Initialized");
         telemetry.update();
-
-        int startPos = 0;
-        int specimenRack = 700;
-        int wall = 300;
-        int topBasket = 1500;
 
 //        droppie.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 //        droppie.setTargetPosition(startPos);
@@ -236,13 +231,13 @@ public class REAL_Teleop extends LinearOpMode {
             }
 
 
-                if (gamepad1.right_bumper) {
-                    speedMode = 0.4;
-                } else if (gamepad1.right_trigger > 0.5) {
-                    speedMode = 1;
-                } else {
-                    speedMode = 0.7;
-                }
+            if (gamepad1.right_bumper) {
+                speedMode = 0.4;
+            } else if (gamepad1.right_trigger > 0.5) {
+                speedMode = 1;
+            } else {
+                speedMode = 0.7;
+            }
 
 //                //Added by Leo for Game d pad -- Begin
 //                if (gamepad1.dpad_down) {
@@ -313,9 +308,9 @@ public class REAL_Teleop extends LinearOpMode {
 
             //Added by Aish
 
-                intakie.setPower(extendArm);
+            intakie.setPower(extendArm);
 //                droppie.setPower(extendLeg);
-            droppiePos += round(gamepad2.left_stick_y * 8);
+            droppiePos += round(gamepad2.left_stick_y * 6);
             droppie.setTargetPosition(droppiePos);
             droppie.setPower(-1);
             droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -328,68 +323,68 @@ public class REAL_Teleop extends LinearOpMode {
 //                indulgey.setPower(0);
 //            }
 
-                if (gamepad2.dpad_up) {
-                    flopity.setPosition(0.1);
-                } else if (gamepad2.dpad_down) {
-                    flopity.setPosition(0.6);
-                }
+            if (gamepad2.dpad_up) {
+                flopity.setPosition(0.1);
+            } else if (gamepad2.dpad_down) {
+                flopity.setPosition(0.6);
+            }
 
 
-                if (gamepad2.dpad_right) {
-                    flipity.setPosition(0.95);
-                } else if (gamepad2.dpad_left) {
-                    flipity.setPosition(0.1);
-                }
+            if (gamepad2.dpad_right) {
+                flipity.setPosition(0.95);
+            } else if (gamepad2.dpad_left) {
+                flipity.setPosition(0.1);
+            }
 
 
-                if (gamepad2.left_bumper) {
-                    bobby.setPower(0.5);
-                } else if (gamepad2.right_bumper) {
-                    bobby.setPower(-0.5);
-                } else {
-                    bobby.setPower(0);
-                }
+            if (gamepad2.left_bumper) {
+                bobby.setPower(0.5);
+            } else if (gamepad2.right_bumper) {
+                bobby.setPower(-0.5);
+            } else {
+                bobby.setPower(0);
+            }
 
-                if (gamepad2.left_trigger > 0.3) {
-                    indulgey.setPower(-1);
-                } else if (gamepad2.right_trigger > 0.3) {
-                    indulgey.setPower(1);
-                } else {
-                    indulgey.setPower(0);
-                }
+            if (gamepad2.left_trigger > 0.3) {
+                indulgey.setPower(-1);
+            } else if (gamepad2.right_trigger > 0.3) {
+                indulgey.setPower(1);
+            } else {
+                indulgey.setPower(0);
+            }
 
-                if (gamepad1.x) {
+            if (gamepad1.x) {
                 logan.setPosition(.7);
-                } else if (gamepad1.a) {
+            } else if (gamepad1.a) {
                 logan.setPosition(-1);
-                }
+            }
 
 
-                if (gamepad1.y) {
-                    hangie.setPower(1);
-                } else if (gamepad1.b) {
-                    hangie.setPower(-1);
-                } else {
-                    hangie.setPower(0);
-                }
+            if (gamepad1.y) {
+                hangie.setPower(1);
+            } else if (gamepad1.b) {
+                hangie.setPower(-1);
+            } else {
+                hangie.setPower(0);
+            }
 
-                if (gamepad1.left_trigger > 0.3) {
-                    mike.setPower(1);
-                } else if (gamepad1.left_bumper) {
-                    mike.setPower(-1);
-                } else {
-                    mike.setPower(0);
-                }
+            if (gamepad1.left_trigger > 0.3) {
+                mike.setPower(1);
+            } else if (gamepad1.left_bumper) {
+                mike.setPower(-1);
+            } else {
+                mike.setPower(0);
+            }
 
-                // This is test code:
-                //
-                // Uncomment the following code to test your motor directions.
-                // Each button should make the corresponding motor run FORWARD.
-                //   1) First get all the motors to take to correct positions on the robot
-                //      by adjusting your Robot Configuration if necessary.
-                //   2) Then make sure they run in the correct direction by modifying the
-                //      the setDirection() calls above.
-                // Once the correct motors move in the correct direction re-comment this code.
+            // This is test code:
+            //
+            // Uncomment the following code to test your motor directions.
+            // Each button should make the corresponding motor run FORWARD.
+            //   1) First get all the motors to take to correct positions on the robot
+            //      by adjusting your Robot Configuration if necessary.
+            //   2) Then make sure they run in the correct direction by modifying the
+            //      the setDirection() calls above.
+            // Once the correct motors move in the correct direction re-comment this code.
 
             /*
             leftFrontPower  = gamepad1.x ? 1.0 : 0.0;  // X gamepad
@@ -398,23 +393,23 @@ public class REAL_Teleop extends LinearOpMode {
             rightBackPower  = gamepad1.b ? 1.0 : 0.0;  // B gamepad
             */
 
-                // Send calculated power to wheels
-                FLMotor.setPower(leftFrontPower);
-                FRMotor.setPower(rightFrontPower);
-                BLMotor.setPower(leftBackPower);
-                BRMotor.setPower(rightBackPower);
+            // Send calculated power to wheels
+            FLMotor.setPower(leftFrontPower);
+            FRMotor.setPower(rightFrontPower);
+            BLMotor.setPower(leftBackPower);
+            BRMotor.setPower(rightBackPower);
 
 
-                // Show the elapsed game time and wheel power.
-                telemetry.addData("Status", "Run Time: " + runtime.toString());
-                telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
-                telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
-                telemetry.update();
+            // Show the elapsed game time and wheel power.
+            telemetry.addData("Status", "Run Time: " + runtime.toString());
+            telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
+            telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
+            telemetry.update();
 
-
-            }
 
         }
+
+    }
 
 //    public void preset() throws InterruptedException {
 //
@@ -449,4 +444,4 @@ public class REAL_Teleop extends LinearOpMode {
 //            }
 //
 //        }
-    }
+}
