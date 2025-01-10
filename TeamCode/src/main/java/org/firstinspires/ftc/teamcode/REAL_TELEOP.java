@@ -338,9 +338,9 @@ public class REAL_TELEOP extends LinearOpMode {
 
 
             if (gamepad2.left_bumper) {
-                bobby.setPower(0.5);
+                bobby.setPower(-0.7);
             } else if (gamepad2.right_bumper) {
-                bobby.setPower(-0.5);
+                bobby.setPower(0.7);
             } else {
                 bobby.setPower(0);
             }

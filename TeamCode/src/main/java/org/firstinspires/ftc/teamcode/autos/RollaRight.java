@@ -255,10 +255,11 @@ public class RollaRight extends LinearOpMode {
         goToPos(0, 740, Math.toRadians(0), 0.6, 30, 20, Math.toRadians(10), 3);
         goToPos(0, 950, Math.toRadians(0), 0.4, 30, 210, Math.toRadians(10), 3);
         goToPosStop();
-        makeBobbyWork(0.5);
+        makeBobbyWork(-0.5);
         makeDroppieWork(-900);
-        makeBobbyWork(-1);
-        sleep(750);
+        sleep(100);
+        makeBobbyWork(1);
+        sleep(1000);
         makeBobbyWork(0);
 
         //Push
@@ -279,9 +280,9 @@ public class RollaRight extends LinearOpMode {
         goToPos(1000, 0, Math.toRadians(181), 0.6, 50,20, Math.toRadians(10), 3);
         goToPos(1000, -200, Math.toRadians(181), 0.6, 50, 205, Math.toRadians(10), 3);
         goToPosStop();
-        makeBobbyWork(1);
+        makeBobbyWork(-1);
         sleep(750);
-        makeBobbyWork(0.5);
+        makeBobbyWork(-0.5);
 
         //Place specimen #2
         makeDroppieWork(-1550);
@@ -290,7 +291,7 @@ public class RollaRight extends LinearOpMode {
         goToPos(-60, 945, Math.toRadians(0), 0.4, 50, 190, Math.toRadians(10), 3);
         goToPosStop();
         makeDroppieWork(-900);
-        makeBobbyWork(-1);
+        makeBobbyWork(1);
         sleep(750);
         makeBobbyWork(0);
 
@@ -301,9 +302,9 @@ public class RollaRight extends LinearOpMode {
         goToPos(1000, 5, Math.toRadians(195), 0.6, 20, 30, Math.toRadians(10), 1);
         goToPos(1000, -300, Math.toRadians(200), 0.6, 50, 310, Math.toRadians(10), 1);
         goToPosStop();
-        makeBobbyWork(1);
+        makeBobbyWork(-1);
         sleep(750);
-        makeBobbyWork(0.5);
+        makeBobbyWork(-0.5);
 
         //Place specimen #3
         makeDroppieWork(-1550);
@@ -312,7 +313,7 @@ public class RollaRight extends LinearOpMode {
         goToPos(-100, 945, Math.toRadians(0), 0.4, 50, 190, Math.toRadians(10), 3);
         goToPosStop();
         makeDroppieWork(-900);
-        makeBobbyWork(-1);
+        makeBobbyWork(1);
         sleep(750);
         makeBobbyWork(0);
 
