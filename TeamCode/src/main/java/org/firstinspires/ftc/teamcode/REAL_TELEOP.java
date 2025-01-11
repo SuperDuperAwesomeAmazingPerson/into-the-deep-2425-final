@@ -163,8 +163,8 @@ public class REAL_TELEOP extends LinearOpMode {
         hangie.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         mike.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        droppie.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        droppie.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        droppie.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        droppie.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         int droppiePos = 0;
 
@@ -309,11 +309,11 @@ public class REAL_TELEOP extends LinearOpMode {
             //Added by Aish
 
             intakie.setPower(extendArm);
-//                droppie.setPower(extendLeg);
-            droppiePos += round(gamepad2.left_stick_y * 6);
-            droppie.setTargetPosition(droppiePos);
-            droppie.setPower(-1);
-            droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            droppie.setPower(extendLeg);
+//            droppiePos += round(gamepad2.left_stick_y * 6);
+//            droppie.setTargetPosition(droppiePos);
+//            droppie.setPower(-1);
+//            droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 //            if (gamepad2.right_trigger > 0.3) {
 //                indulgey.setPower(gamepad2.right_trigger);
