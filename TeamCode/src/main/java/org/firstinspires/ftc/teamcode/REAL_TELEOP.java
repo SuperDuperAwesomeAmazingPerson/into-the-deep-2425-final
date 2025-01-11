@@ -330,17 +330,17 @@ public class REAL_TELEOP extends LinearOpMode {
             }
 
 
-            if (gamepad2.dpad_right) {
+            if (gamepad2.dpad_left) {
                 flipity.setPosition(0.95);
-            } else if (gamepad2.dpad_left) {
+            } else if (gamepad2.dpad_right) {
                 flipity.setPosition(0.1);
             }
 
 
             if (gamepad2.left_bumper) {
-                bobby.setPower(-0.7);
-            } else if (gamepad2.right_bumper) {
                 bobby.setPower(0.7);
+            } else if (gamepad2.right_bumper) {
+                bobby.setPower(-0.7);
             } else {
                 bobby.setPower(0);
             }

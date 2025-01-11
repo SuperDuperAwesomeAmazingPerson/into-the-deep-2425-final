@@ -165,13 +165,13 @@ public class KDC_Left extends LinearOpMode {
         //Drive to the spike mark and pick up a sample
         encoderDrive(0.3, 9.9, 9.9, 4.0);
         makeFlopityWork(0.6);
-        encoderDrive(0.2, -17.8, 17.8, 4.0);
+        encoderDrive(0.2, -17.9, 17.9, 4.0);
         encoderStrafe(0.3, 6, 6, 4);
-        makeIntakieWork(-800);
+        makeIntakieWork(-600);
         sleep(250);
-        makeFlipityWork(0.8387);
+        makeFlipityWork(0.95);
         sleep(750);
-        makeIntakieWork(-1500);
+        makeIntakieWork(-1900);
         makeIndulgeyWork(1);
         sleep(1000);
         makeFlipityWork(0.1);
@@ -193,10 +193,11 @@ public class KDC_Left extends LinearOpMode {
         makeDroppieWork(-2000);
         encoderDrive(0.4, -15.5, 15.5, 4.0);
         encoderStrafe(0.6, -7, -7, 4);
+        encoderStrafe(0.6, 2.5, 2.5, 4);
         encoderDrive(0.6, -25, -25, 4.0);
         sleep(750);
         makeDroppieWork(0);
-        encoderDrive(0.4, -10, -10, 4.0);
+        encoderDrive(0.4, -15, -15, 4.0);
 
 //        encoderDrive(TURN_SPEED, -5, 5, 4.0);
 //        encoderDrive(DRIVE_SPEED, 24, 24, 4.0);  // S3: Reverse 24 Inches with 4 Sec timeout
