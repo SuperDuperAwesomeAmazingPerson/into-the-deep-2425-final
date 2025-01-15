@@ -345,7 +345,7 @@ public class REAL_TELEOP extends LinearOpMode {
                 bobby.setPower(0);
             }
 
-            if (gamepad2.left_trigger > 0.3) {
+            if (gamepad2.left_trigger > 0.35) {
                 indulgey.setPower(-1);
             } else if (gamepad2.right_trigger > 0.3) {
                 indulgey.setPower(1);
