@@ -63,10 +63,10 @@ For support, contact tech@gobilda.com
 -Ethan Doak
  */
 
-@Autonomous(name="RollaRight", group="Linear OpMode")
+@Autonomous(name="LQ_Right", group="Linear OpMode")
 //@Disabled
 
-public class RollaRight extends LinearOpMode {
+public class LQ_Right extends LinearOpMode {
 
     private DcMotor FRMotor = null;
     private DcMotor FLMotor = null;
