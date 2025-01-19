@@ -27,13 +27,11 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.autos;
+package org.firstinspires.ftc.teamcode.notUsing;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -64,9 +62,9 @@ import com.qualcomm.robotcore.hardware.Servo;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Park", group="Robot")
+@Autonomous(name="KDC_Left", group="Robot")
 
-public class Park extends LinearOpMode {
+public class KDC_Left extends LinearOpMode {
 
     /* Declare OpMode members. */
     private DcMotor         frontleft   = null;
@@ -92,7 +90,7 @@ public class Park extends LinearOpMode {
     static final double     DRIVE_GEAR_REDUCTION    = 1.0 ;     // No External Gearing.
     static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
-            (WHEEL_DIAMETER_INCHES * 3.1415);
+                                                      (WHEEL_DIAMETER_INCHES * 3.1415);
     static final double     DRIVE_SPEED             = 0.5;
     static final double     TURN_SPEED              = 0.4;
 
@@ -143,8 +141,8 @@ public class Park extends LinearOpMode {
 
         // Send telemetry message to indicate successful Encoder reset
         telemetry.addData("Starting at",  "%7d :%7d",
-                frontleft.getCurrentPosition(),
-                frontright.getCurrentPosition()
+                          frontleft.getCurrentPosition(),
+                          frontright.getCurrentPosition()
                 ,backleft.getCurrentPosition(),
                 backright.getCurrentPosition());
         telemetry.update();
@@ -154,7 +152,62 @@ public class Park extends LinearOpMode {
 
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
-        encoderDrive(DRIVE_SPEED, 5, 5, 4.0);// S3: Reverse 24 Inches with 4 Sec timeout
+        //First Basket
+        makeFlipityWork(0.4);
+        encoderDrive(DRIVE_SPEED, -7, -7, 4.0);// S3: Reverse 24 Inches with 4 Sec timeout
+        encoderDrive(DRIVE_SPEED,   -5, 5, 4.0);
+        makeDroppieWork(-3000);
+        sleep(1500);//2500
+        makeFlopityWork(-0.8);
+        sleep(1000); //2000
+        encoderDrive(DRIVE_SPEED, 4, 4, 4.0);
+        makeDroppieWork(0);
+        //Drive to the spike mark and pick up a sample
+        encoderDrive(0.3, 9.9, 9.9, 4.0);
+        makeFlopityWork(0.6);
+        encoderDrive(0.2, -17.9, 17.9, 4.0);
+        encoderStrafe(0.3, 6, 6, 4);
+        makeIntakieWork(-600);
+        sleep(250);
+        makeFlipityWork(0.95);
+        sleep(750);
+        makeIntakieWork(-1900);
+        makeIndulgeyWork(1);
+        sleep(1000);
+        makeFlipityWork(0.1);
+        makeIntakieWork(0);
+        sleep(750);
+        makeIndulgeyWork(-1);
+        //Second Basket
+        encoderStrafe(DRIVE_SPEED, -3, -3, 4);
+        makeIndulgeyWork(0);
+        makeFlipityWork(0.4);
+        encoderDrive(TURN_SPEED, 15.3, -15.3, 4.0);
+        makeDroppieWork(-3000);
+        encoderDrive(DRIVE_SPEED, -13.35, -13.35, 4.0);
+        makeFlopityWork(-0.8);
+        sleep(1000);
+        //Park
+        makeFlopityWork(0.6);
+        encoderDrive(DRIVE_SPEED, 5, 5, 4.0);
+        makeDroppieWork(-2000);
+        encoderDrive(0.4, -15.5, 15.5, 4.0);
+        encoderStrafe(0.6, -7, -7, 4);
+        encoderStrafe(0.6, 2.5, 2.5, 4);
+        encoderDrive(0.6, -25, -25, 4.0);
+        sleep(750);
+        makeDroppieWork(0);
+        encoderDrive(0.4, -15, -15, 4.0);
+
+//        encoderDrive(TURN_SPEED, -5, 5, 4.0);
+//        encoderDrive(DRIVE_SPEED, 24, 24, 4.0);  // S3: Reverse 24 Inches with 4 Sec timeout
+//        encoderDrive(TURN_SPEED, -13, 13, 4.0);
+//        makeDroppieWork(-1400);
+//        sleep(3000);
+//        encoderDrive(DRIVE_SPEED, -5, -5, 4.0);
+//        makeDroppieWork(-1200);
+//        makeFlopityWork(-0.8);
+//        sleep(10000);
 
 
         telemetry.addData("Path", "Complete");
@@ -208,13 +261,13 @@ public class Park extends LinearOpMode {
             // However, if you require that BOTH motors have finished their moves before the robot continues
             // onto the next step, use (isBusy() || isBusy()) in the loop test.
             while (opModeIsActive() &&
-                    (runtime.seconds() < timeoutS) &&
-                    (backleft.isBusy() && backright.isBusy() && frontleft.isBusy() && frontright.isBusy())) {
+                   (runtime.seconds() < timeoutS) &&
+                   (backleft.isBusy() && backright.isBusy() && frontleft.isBusy() && frontright.isBusy())) {
 
                 // Display it for the driver.
                 telemetry.addData("Running to",  " %7d :%7d", newLeftTarget,  newRightTarget);
                 telemetry.addData("Currently at",  " at %7d :%7d",
-                        backleft.getCurrentPosition(), backright.getCurrentPosition(), frontleft.getCurrentPosition(), frontright.getCurrentPosition());
+                                            backleft.getCurrentPosition(), backright.getCurrentPosition(), frontleft.getCurrentPosition(), frontright.getCurrentPosition());
                 telemetry.update();
             }
 
@@ -233,13 +286,95 @@ public class Park extends LinearOpMode {
             sleep(250);   // optional pause after each move.
         }
 
-
-
     }
+
+    public void encoderStrafe(double speed,
+                              double inchesToStrafeLeft,
+                              double inchesToStrafeRight,
+                              int timeoutS) {
+        double FlInches = inchesToStrafeLeft;
+        double FrInches = -inchesToStrafeRight;
+        double BlInches = -inchesToStrafeLeft;
+        double BrInches = inchesToStrafeRight;
+
+
+        int newFrontLeftTarget;
+        int newFrontRightTarget;
+        int newBackLeftTarget;
+        int newBackRightTarget;
+
+        // Ensure that the OpMode is still active
+        if (opModeIsActive()) {
+
+            // Determine new target position, and pass to motor controller
+            newFrontLeftTarget = frontleft.getCurrentPosition() + (int)(FlInches * COUNTS_PER_INCH);
+            newFrontRightTarget = frontright.getCurrentPosition() + (int)(FrInches * COUNTS_PER_INCH);
+            newBackRightTarget = backright.getCurrentPosition() + (int)(BrInches * COUNTS_PER_INCH);
+            newBackLeftTarget = backleft.getCurrentPosition() + (int)(BlInches * COUNTS_PER_INCH);
+
+            backleft.setTargetPosition(newBackLeftTarget);
+            backright.setTargetPosition(newBackRightTarget);
+            frontright.setTargetPosition(newFrontRightTarget);
+            frontleft.setTargetPosition(newFrontLeftTarget);
+
+            // Turn On RUN_TO_POSITION
+            frontleft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            frontright.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            backright.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            backleft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+
+            // reset the timeout time and start motion.
+            runtime.reset();
+            frontright.setPower(Math.abs(speed));
+            frontleft.setPower(Math.abs(speed));
+            backleft.setPower(Math.abs(speed));
+            backright.setPower(Math.abs(speed));
+
+            // keep looping while we are still active, and there is time left, and both motors are running.
+            // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
+            // its target position, the motion will stop.  This is "safer" in the event that the robot will
+            // always end the motion as soon as possible.
+            // However, if you require that BOTH motors have finished their moves before the robot continues
+            // onto the next step, use (isBusy() || isBusy()) in the loop test.
+            while (opModeIsActive() &&
+                    (runtime.seconds() < timeoutS) &&
+                    (backleft.isBusy() && backright.isBusy() && frontleft.isBusy() && frontright.isBusy())) {
+
+                // Display it for the driver.
+                telemetry.addData("Test %7d", backright.getCurrentPosition());
+//                telemetry.addData("Running to",  " %7d :%7d", newLeftTarget,  newRightTarget);
+//                telemetry.addData("Currently at",  " at %7d :%7d",
+//                        backleft.getCurrentPosition(), backright.getCurrentPosition(), frontleft.getCurrentPosition(), frontright.getCurrentPosition());
+                telemetry.update();
+            }
+
+            // Stop all motion;
+            frontright.setPower(0);
+            frontleft.setPower(0);
+            backright.setPower(0);
+            backleft.setPower(0);
+
+            // Turn off RUN_TO_POSITION
+            frontleft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            frontright.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            backright.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            backleft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+            frontleft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            frontright.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            backright.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            backleft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+            sleep(250);   // optional pause after each move.
+        }
+    }
+
 
     public void makeDroppieWork(int position){
         droppie.setTargetPosition(position); //-1400
-        droppie.setPower(-0.6);
+        droppie.setPower(-0.75);
         droppie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
@@ -251,8 +386,6 @@ public class Park extends LinearOpMode {
 
     public void makeBobbyWork(double power){
         bobby.setPower(power);//-0.6
-        sleep(1500);
-        bobby.setPower(0);
     }
 
     public void makeFlipityWork(double pos){
@@ -264,8 +397,6 @@ public class Park extends LinearOpMode {
     }
 
     public void makeIndulgeyWork(double power){
-        indulgey.setPower(power);//-0.6
-        sleep(1500);
-        indulgey.setPower(0);
+        indulgey.setPower(power);
     }
 }

@@ -20,7 +20,7 @@
  *   SOFTWARE.
  */
 
-package org.firstinspires.ftc.teamcode.autos;
+package org.firstinspires.ftc.teamcode.notUsing;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -33,7 +33,6 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
-import org.firstinspires.ftc.teamcode.notUsing.GoBildaPinpointDriver;
 
 import java.util.Locale;
 
@@ -63,10 +62,10 @@ For support, contact tech@gobilda.com
 -Ethan Doak
  */
 
-@Autonomous(name="LQ_Left", group="Linear OpMode")
+@Autonomous(name="RollaLeft", group="Linear OpMode")
 //@Disabled
 
-public class LQ_Left extends LinearOpMode {
+public class RollaLeft extends LinearOpMode {
 
     private DcMotor FRMotor = null;
     private DcMotor FLMotor = null;
@@ -195,70 +194,73 @@ public class LQ_Left extends LinearOpMode {
         waitForStart();
 
         //Basket #1 (Preload)
-        makeDroppieWork(-2850);
+        makeDroppieWork(-2700);
         makeFlipityWork(0.45);
         makeFlopityWork(0.6);
-        goToPos(400, 400, Math.toRadians(-45), 0.7, 20, 20, Math.toRadians(20), 2);
-        goToPos(200, 600, Math.toRadians(-45), 0.7, 20, 20, Math.toRadians(20), 1);
+        sleep(1000);
+        goToPos(-175, 175, 0, 0.65, 10, 20, Math.toRadians(20), 3);
         goToPosStop();
         makeFlopityWork(0.1);
-        sleep(1500);
-        makeFlopityWork(0.6);
+        sleep(1250);
 
         //Pickup Sample #2
-        goToPos(300, -100, Math.toRadians(60), 0.7, 40, 40, Math.toRadians(20), 3);
-        goToPos(900, -100, Math.toRadians(105), 0.7, 40, 40, Math.toRadians(20), 3);
+        goToPos(500, 150, Math.toRadians(135), 0.5, 10, 20, Math.toRadians(25), 3);
+        makeIntakieWork(-450);
+        goToPos(750, 350, Math.toRadians(135), 0.5, 10, 10, Math.toRadians(10), 3);
         goToPosStop();
-        makeDroppieWork(0);
-        makeIntakieWork(-900);
-        sleep(1000);
         makeFlipityWork(0.95);
+        makeDroppieWork(0);
+        makeFlopityWork(0.1);
         makeIndulgeyWork(1);
-        sleep(1500);
+        sleep(500);
+        makeIntakieWork(-1200);
+        sleep(1000);
+        makeFlipityWork(0.1);
+        makeIntakieWork(0);
+        makeFlopityWork(0.6);
+        sleep(750);
+        makeIndulgeyWork(-0.7);
+        sleep(750);
+        makeIndulgeyWork(0);
+        makeIntakieWork(-400);
+        sleep(500);
+
+        //Basket #2
+        makeDroppieWork(-2700);
+        goToPos(-175, 225, 0, 0.5, 10, 20, Math.toRadians(10), 4);
+        goToPosStop();
+        makeFlopityWork(0.1);
+        sleep(1250);
+
+        //Pickup Sample #3
+        goToPos(500, 150, Math.toRadians(135), 0.5, 10, 20, Math.toRadians(15), 4);
+        makeIntakieWork(-1200);
+        goToPos(750, 350, Math.toRadians(135), 0.5, 10, 10, Math.toRadians(10), 4);
+        goToPosStop();
+        makeFlipityWork(0.95);
+        makeDroppieWork(0);
+        makeFlopityWork(0.1);
+        makeIndulgeyWork(1);
+        sleep(750);
         makeIntakieWork(-1800);
         sleep(1000);
         makeFlipityWork(0.1);
         makeIntakieWork(0);
+        makeFlopityWork(0.6);
+        sleep(750);
+        makeIndulgeyWork(-0.7);
+        sleep(750);
         makeIndulgeyWork(0);
-        sleep(1000);
-        makeIndulgeyWork(-0.4);
-        sleep(1000);
-        makeFlipityWork(0.45);
-        makeIndulgeyWork(0);
+        makeIntakieWork(-400);
         sleep(500);
 
-        //Basket #2
-        makeIntakieWork(-700);
-        sleep(1000);
-        makeDroppieWork(-2850);
-        goToPos(500, 300, Math.toRadians(-30), 0.7, 20, 20, Math.toRadians(20), 3);
-        goToPos(100, 300, Math.toRadians(-45), 0.7, 20, 20, Math.toRadians(15), 3);
+        //Basket #3
+        makeDroppieWork(-2700);
+        goToPos(-175, 225, 0, 0.5, 10, 20, Math.toRadians(20), 4);
         goToPosStop();
         makeFlopityWork(0.1);
         sleep(1000);
 
-
-        //Push Sample Into Net Zone
-        goToPos(300, -150, Math.toRadians(0), 0.7, 40, 40, Math.toRadians(20), 3);
-        goToPos(800, -150, Math.toRadians(0), 0.7, 40, 40, Math.toRadians(20), 3);
-        goToPos(1200, -150, Math.toRadians(0), 0.7, 40, 40, Math.toRadians(20), 3);
-        goToPos(1300, -150, Math.toRadians(0), 0.7, 40, 40, Math.toRadians(20), 3);
-        goToPos(900, -150, Math.toRadians(0), 0.7, 40, 40, Math.toRadians(20), 3);
-        goToPos(50, -150, Math.toRadians(-60), 0.7, 40, 40, Math.toRadians(20), 3);
-        goToPosStop();
-//        goToPos(300, 200, Math.toRadians(0), 0.7, 30, 30, Math.toRadians(20), 3);
-//        goToPos(800, 250, Math.toRadians(0), 0.7, 30, 30, Math.toRadians(20), 3);
-//        goToPos(1200, 300, Math.toRadians(0), 0.7, 30, 30, Math.toRadians(20), 3);
-//        goToPos(1400, 400, Math.toRadians(0), 0.7, 30, 30, Math.toRadians(20), 3);
-//        goToPos(50, 450, Math.toRadians(0), 0.7, 30, 30, Math.toRadians(20), 3);
-//        goToPosStop();
-        goToPos(1000, 0, Math.toRadians(60), 0.7, 30, 30, Math.toRadians(20), 3);
-        goToPos(1200, -200, Math.toRadians(90), 0.7, 30, 30, Math.toRadians(20), 3);
-        goToPos(1500, -500, Math.toRadians(90), 0.7, 30, 100, Math.toRadians(20), 2);
-        makeDroppieWork(-700);
-        goToPos(1500, -800, Math.toRadians(90), 0.5, 30, 250, Math.toRadians(20), 1);
-        makeFlopityWork(0.1);
-        sleep(2000);
     }
 
     public void moveForward(double x, double speed) {
@@ -424,11 +426,11 @@ public class LQ_Left extends LinearOpMode {
         double relativeXToTarget = distanceToTarget * Math.cos(relativeAngleToTarget);
         double relativeYToTarget = distanceToTarget * Math.sin(relativeAngleToTarget);
         double relativeTurnAngle = angleWrapRad(h - GlobalH);
-        double correctFactor = correctFactorCoeff;
+        double correctFactor =  correctFactorCoeff;
         double maxPower = Math.abs(relativeXToTarget) + Math.abs(relativeYToTarget) + correctFactor * Math.abs(relativeTurnAngle);
-        double initialSpeed = 0.2;
-        double movementXpower = initialSpeed * relativeXToTarget / maxPower;
-        double movementYpower = initialSpeed * relativeYToTarget / maxPower;
+        double initialSpeed=0.2;
+        double movementXpower = initialSpeed * relativeXToTarget / maxPower ;
+        double movementYpower = initialSpeed * relativeYToTarget / maxPower ;
         double movementTurnPower = initialSpeed * correctFactor * relativeTurnAngle / maxPower;
 
         runtime.reset();
@@ -436,50 +438,6 @@ public class LQ_Left extends LinearOpMode {
         FRMotor.setPower(Range.clip(movementXpower + movementYpower + movementTurnPower, -initialSpeed, initialSpeed));
         BLMotor.setPower(Range.clip(movementXpower + movementYpower - movementTurnPower, -initialSpeed, initialSpeed));
         BRMotor.setPower(Range.clip(movementXpower - movementYpower + movementTurnPower, -initialSpeed, initialSpeed));
-//        sleep(5);
-        initialDistanceToTarget = distanceToTarget;
-        while (((Math.abs(x - GlobalX) > moveAccuracyX || Math.abs(y - GlobalY) > moveAccuracyY || Math.abs(angleWrapRad(h - GlobalH)) > angleAccuracy)) && opModeIsActive() && (runtime.seconds() < timeoutS)) {
-            // while(true){
-
-            goToPosSingle(x, y, h, speed);
-
-//            Pose2D pos = odo.getPosition();
-//            String data = String.format(Locale.US, "{X: %.3f, Y: %.3f, H: %.3f}", pos.getX(DistanceUnit.MM), pos.getY(DistanceUnit.MM), pos.getHeading(AngleUnit.DEGREES));
-//            telemetry.addData("Position", data);
-//            telemetry.update();
-
-
-        }
-    }
-
-    public void goToTest(double x, double y, double h, double speed, double moveAccuracyX, double moveAccuracyY, double angleAccuracy, double timeoutS) {
-        //while loop makes the code keep running till the desired location is reached. (within the accuracy constraints)
-        integralSum = 0;
-        integralSumX = 0;
-        integralSumY = 0;
-        refresh();
-        feedfowardX = x - GlobalX;
-        feedfowardY = y - GlobalY;
-        feedfoward = h - GlobalH;
-
-        double distanceToTarget = Math.hypot(x - GlobalX, y - GlobalY);
-        double absoluteTurnAngle = Math.atan2(y - GlobalY, x - GlobalX);
-        double relativeAngleToTarget = angleWrapRad(absoluteTurnAngle - GlobalH);
-        double relativeXToTarget = distanceToTarget * Math.cos(relativeAngleToTarget);
-        double relativeYToTarget = distanceToTarget * Math.sin(relativeAngleToTarget);
-        double relativeTurnAngle = angleWrapRad(h - GlobalH);
-        double correctFactor =  correctFactorCoeff;
-        double maxPower = Math.abs(relativeXToTarget) + Math.abs(relativeYToTarget) + correctFactor * Math.abs(relativeTurnAngle);
-//        double initialSpeed=0.2;
-        double movementXpower = relativeXToTarget / maxPower ;
-        double movementYpower = relativeYToTarget / maxPower ;
-        double movementTurnPower = correctFactor * relativeTurnAngle / maxPower;
-
-        runtime.reset();
-        FLMotor.setPower(movementXpower - movementYpower - movementTurnPower);
-        FRMotor.setPower(movementXpower + movementYpower + movementTurnPower);
-        BLMotor.setPower(movementXpower + movementYpower - movementTurnPower);
-        BRMotor.setPower(movementXpower - movementYpower + movementTurnPower);
 //        sleep(5);
         initialDistanceToTarget = distanceToTarget;
         while (((Math.abs(x - GlobalX) > moveAccuracyX || Math.abs(y - GlobalY) > moveAccuracyY || Math.abs(angleWrapRad(h - GlobalH)) > angleAccuracy)) && opModeIsActive() && (runtime.seconds() < timeoutS)){
