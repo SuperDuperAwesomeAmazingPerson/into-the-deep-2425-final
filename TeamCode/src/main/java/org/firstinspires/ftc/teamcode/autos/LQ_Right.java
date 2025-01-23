@@ -245,43 +245,40 @@ public class LQ_Right extends LinearOpMode {
 */
 
         //*******************************************
-        //SAMPLE PUSH MODE!! (3+0)
+        //SAMPLE PUSH MODE!! (1+2)
         //*******************************************
 
         //Specimen #1 (Preload)
         makeFlipityWork(0.45);
-        makeDroppieWork(-2200);
+        makeDroppieWork(-1500);
         makeFlopityWork(0.6);
 //        goToStart(0, 650, Math.toRadians(0), 0.6, 30, 20, Math.toRadians(10), 3);
-//        goToPos(0, 740, Math.toRadians(0), 0.6, 30, 20, Math.toRadians(10), 3);
-        goToPos(0, 950, Math.toRadians(0), 0.725, 30, 210, Math.toRadians(10), 1);
+        goToPos(0, 740, Math.toRadians(0), 0.6, 30, 20, Math.toRadians(10), 3);
+        goToPos(0, 950, Math.toRadians(0), 0.4, 30, 210, Math.toRadians(10), 1);
         goToPosStop();
-//        makeDroppieWork(-900);
-//        sleep(100);
+        makeBobbyWork(-0.5);
+        makeDroppieWork(-1050);
+        sleep(100);
         makeBobbyWork(1);
         sleep(1000);
         makeBobbyWork(0);
 
         //Push
         makeDroppieWork(-250);
+//        goToStart(0, 450, Math.toRadians(0), 0.6, 100, 100, Math.toRadians(20), 3);
         goToPos(0, 450, Math.toRadians(0), 0.6, 100, 100, Math.toRadians(20), 3);
         goToPos(630, 450, Math.toRadians(90), 0.6, 100, 100, Math.toRadians(20), 3);
         goToPos(650, 600, Math.toRadians(90), 0.6, 100, 100, Math.toRadians(20), 3);
-
-        goToPos(750, 1100, Math.toRadians(90), 0.7, 100, 100, Math.toRadians(20), 3);
+        goToPos(750, 1100, Math.toRadians(90), 0.6, 100, 100, Math.toRadians(20), 3);
         goToPos(850, 1300, Math.toRadians(90), 0.4, 50, 50, Math.toRadians(20), 3);
         goToPosStop();
+//        goToStart(850, 600, Math.toRadians(90), 0.9, 150, 200, Math.toRadians(20), 3);
         goToPos(850, 150, Math.toRadians(90), 0.9, 150, 200, Math.toRadians(20), 3);
-
-        goToPos(950, 1250, Math.toRadians(90), 0.7, 120,120, Math.toRadians(20), 3);
-        goToPos(1200, 1320, Math.toRadians(90), 0.4, 150, 150, Math.toRadians(15), 3);
+        goToPos(950, 1250, Math.toRadians(90), 0.6, 120,120, Math.toRadians(20), 3);
+        goToPos(1210, 1320, Math.toRadians(90), 0.4, 150, 150, Math.toRadians(20), 3);
         goToPosStop();
-        goToPos(1150, 350, Math.toRadians(90), 0.9, 150, 150, Math.toRadians(15), 3);
-
-        goToPos(1200, 1250, Math.toRadians(90), 0.8, 100, 100, Math.toRadians(20), 3);
-        goToPos(1350, 1250, Math.toRadians(90), 0.5, 30, 100, Math.toRadians(20), 3);
-        goToPosStop();
-        goToPos(1350, 320, Math.toRadians(90), 0.8, 50, 100, Math.toRadians(20), 3);
+//        goToStart(1150, 600, Math.toRadians(90), 0.8, 150, 150, Math.toRadians(20), 3);
+        goToPos(1200, 320, Math.toRadians(90), 0.8, 150, 150, Math.toRadians(20), 3);
 
         // Pickup specimen #2
 //        goToStart(1000, 300, Math.toRadians(181), 0.6, 50,20, Math.toRadians(10), 3);
@@ -293,37 +290,37 @@ public class LQ_Right extends LinearOpMode {
         makeBobbyWork(-0.5);
 
         //Place specimen #2
-        makeDroppieWork(-1550);
+        makeDroppieWork(-1500);
 //        goToStart(-60, 200, Math.toRadians(-10), 0.7, 50, 40, Math.toRadians(20), 3);
-        goToPos(-60, 450, Math.toRadians(-10), 0.8, 50, 40, Math.toRadians(20), 3);
-        goToPos(-60, 750, Math.toRadians(0), 0.7, 50, 20, Math.toRadians(10), 3);
-        goToPos(-60, 945, Math.toRadians(0), 0.4, 50, 190, Math.toRadians(10), 3);
+        goToPos(-60, 450, Math.toRadians(-10), 0.7, 50, 40, Math.toRadians(20), 3);
+        goToPos(-60, 750, Math.toRadians(0), 0.6, 50, 20, Math.toRadians(10), 3);
+        goToPos(-60, 945, Math.toRadians(0), 0.4, 50, 190, Math.toRadians(10), 1);
         goToPosStop();
-        makeDroppieWork(-900);
+        makeDroppieWork(-1050);
         makeBobbyWork(1);
-        sleep(750);
+        sleep(1000);
         makeBobbyWork(0);
 
         //Pickup specimen #3
         makeDroppieWork(-250);
 //        goToStart(1000, 600, Math.toRadians(90), 0.6, 50, 30, Math.toRadians(20), 3);
-        goToPos(1000, 600, Math.toRadians(90), 0.8, 75, 50, Math.toRadians(20), 3);
-        goToPos(1000, 600, Math.toRadians(195), 0.8, 75, 50, Math.toRadians(15), 3);
+        goToPos(1000, 600, Math.toRadians(90), 0.6, 50, 30, Math.toRadians(20), 3);
+        goToPos(1000, 600, Math.toRadians(195), 0.6, 75, 50, Math.toRadians(15), 3);
         goToPos(1000, 5, Math.toRadians(195), 0.6, 20, 30, Math.toRadians(10), 1);
-        goToPos(1000, -320, Math.toRadians(200), 0.6, 50, 310, Math.toRadians(10), 2);
+        goToPos(1000, -320, Math.toRadians(200), 0.6, 50, 310, Math.toRadians(10), 1);
         goToPosStop();
         makeBobbyWork(-1);
         sleep(750);
         makeBobbyWork(-0.5);
 
         //Place specimen #3
-        makeDroppieWork(-1550);
+        makeDroppieWork(-1500);
 //        goToStart(-100, 450, Math.toRadians(-10), 0.7, 50, 40, Math.toRadians(20), 3);
-        goToPos(600, 450, Math.toRadians(-10), 0.8, 50, 40, Math.toRadians(25), 3);
-        goToPos(-100, 750, Math.toRadians(0), 0.7, 50, 20, Math.toRadians(10), 3);
-        goToPos(-100, 945, Math.toRadians(0), 0.4, 50, 190, Math.toRadians(10), 3);
+        goToPos(-100, 450, Math.toRadians(-10), 0.7, 50, 40, Math.toRadians(20), 3);
+        goToPos(-150, 750, Math.toRadians(0), 0.6, 50, 20, Math.toRadians(10), 3);
+        goToPos(-150, 945, Math.toRadians(0), 0.4, 50, 190, Math.toRadians(10), 1);
         goToPosStop();
-        makeDroppieWork(-900);
+        makeDroppieWork(-1050);
         makeBobbyWork(1);
         sleep(1000);
         makeBobbyWork(0);
@@ -333,9 +330,11 @@ public class LQ_Right extends LinearOpMode {
 //        goToStart(200, 500, Math.toRadians(-30), 1, 30, 30, Math.toRadians(20), 3);
         makeIntakieWork(-2200);
         makeFlipityWork(0.65);
-        goToPos(350, 500, Math.toRadians(-40), 1, 30, 30, Math.toRadians(20), 3);
+        goToPos(500, 400, Math.toRadians(-35), 1, 30, 30, Math.toRadians(20), 3);
 //        goToPos(600, 300, Math.toRadians(-40), 1, 30, 30, Math.toRadians(20), 3);
         goToPosStop();
+        sleep(2000);
+
 
 
 //        goToPos(50, 0, 0, 0.6, 1, Math.toRadians(5));
@@ -381,7 +380,7 @@ public class LQ_Right extends LinearOpMode {
 
 
         // Motor power is based on gyro angle/rotation
-        // sleep(5000);
+       // sleep(5000);
         //goToPos(-670, -110 , Math.toRadians(0), .5, 15, Math.toRadians(1));
         //goToPos(1092.2, 673.1 , Math.toRadians(180), .6, 15, Math.toRadians(5));
         //673.1-91.4 = 581.7
@@ -660,41 +659,41 @@ public class LQ_Right extends LinearOpMode {
 
     public void goToPosShortDis(double x, double y, double h, double speed, double moveAccuracyX, double moveAccuracyY, double angleAccuracy){
 
-        refresh();
-        double distanceToTarget = Math.hypot(x - GlobalX, y - GlobalY);
-        double absoluteTurnAngle = Math.atan2(y - GlobalY, x - GlobalX);
-        double relativeAngleToTarget = angleWrapRad(absoluteTurnAngle - GlobalH);
-        double relativeXToTarget = distanceToTarget * Math.cos(relativeAngleToTarget);
-        double relativeYToTarget = distanceToTarget * Math.sin(relativeAngleToTarget);
-        double relativeTurnAngle = angleWrapRad(h - GlobalH);
-
-        double correctFactor=300;
-        double maxPower = Math.abs(relativeXToTarget) + Math.abs(relativeYToTarget) + correctFactor * Math.abs(relativeTurnAngle);
-
-        double movementXpower = speed * relativeXToTarget / maxPower ;
-        double movementYpower = speed * relativeYToTarget / maxPower ;
-        double movementTurnPower = speed * correctFactor * relativeTurnAngle / maxPower;
-
-        while (Math.abs(x - GlobalX) > moveAccuracyX || Math.abs(y - GlobalY) > moveAccuracyY || Math.abs(angleWrapRad(h - GlobalH)) > angleAccuracy) {
-            // while(true){
-
-            FLMotor.setPower(Range.clip(movementXpower - movementYpower - movementTurnPower, -speed, speed));
-            FRMotor.setPower(Range.clip(movementXpower + movementYpower + movementTurnPower, -speed, speed));
-            BLMotor.setPower(Range.clip(movementXpower + movementYpower - movementTurnPower, -speed, speed));
-            BRMotor.setPower(Range.clip(movementXpower - movementYpower + movementTurnPower, -speed, speed));
-
-            telemetry.addData("movementXpower", movementXpower);
-            telemetry.addData("movementYpower", movementYpower);
-            telemetry.addData("movementTurnPower", movementTurnPower);
-            telemetry.addData("relativeYToTarget", relativeYToTarget);
-            telemetry.addData("sign:", Math.signum(Math.cos(GlobalH)));
-            telemetry.addData("maxPower", maxPower);
-            telemetry.addData("GlobalX", GlobalX);
-            telemetry.addData("GlobalY", GlobalY);
-            telemetry.addData("GlobalH", Math.toDegrees(GlobalH));
-            telemetry.update();
             refresh();
-        }
+            double distanceToTarget = Math.hypot(x - GlobalX, y - GlobalY);
+            double absoluteTurnAngle = Math.atan2(y - GlobalY, x - GlobalX);
+            double relativeAngleToTarget = angleWrapRad(absoluteTurnAngle - GlobalH);
+            double relativeXToTarget = distanceToTarget * Math.cos(relativeAngleToTarget);
+            double relativeYToTarget = distanceToTarget * Math.sin(relativeAngleToTarget);
+            double relativeTurnAngle = angleWrapRad(h - GlobalH);
+
+            double correctFactor=300;
+            double maxPower = Math.abs(relativeXToTarget) + Math.abs(relativeYToTarget) + correctFactor * Math.abs(relativeTurnAngle);
+
+            double movementXpower = speed * relativeXToTarget / maxPower ;
+            double movementYpower = speed * relativeYToTarget / maxPower ;
+            double movementTurnPower = speed * correctFactor * relativeTurnAngle / maxPower;
+
+            while (Math.abs(x - GlobalX) > moveAccuracyX || Math.abs(y - GlobalY) > moveAccuracyY || Math.abs(angleWrapRad(h - GlobalH)) > angleAccuracy) {
+                // while(true){
+
+                FLMotor.setPower(Range.clip(movementXpower - movementYpower - movementTurnPower, -speed, speed));
+                FRMotor.setPower(Range.clip(movementXpower + movementYpower + movementTurnPower, -speed, speed));
+                BLMotor.setPower(Range.clip(movementXpower + movementYpower - movementTurnPower, -speed, speed));
+                BRMotor.setPower(Range.clip(movementXpower - movementYpower + movementTurnPower, -speed, speed));
+
+                telemetry.addData("movementXpower", movementXpower);
+                telemetry.addData("movementYpower", movementYpower);
+                telemetry.addData("movementTurnPower", movementTurnPower);
+                telemetry.addData("relativeYToTarget", relativeYToTarget);
+                telemetry.addData("sign:", Math.signum(Math.cos(GlobalH)));
+                telemetry.addData("maxPower", maxPower);
+                telemetry.addData("GlobalX", GlobalX);
+                telemetry.addData("GlobalY", GlobalY);
+                telemetry.addData("GlobalH", Math.toDegrees(GlobalH));
+                telemetry.update();
+                refresh();
+            }
     }
 
     public void goToPosStop (){
