@@ -1,3 +1,4 @@
+
 /* Copyright (c) 2021 FIRST. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification,
@@ -66,8 +67,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name="REAL_TELEOP", group="Linear OpMode")
-public class REAL_TELEOP extends LinearOpMode {
+@TeleOp(name="TestTele", group="Linear OpMode")
+public class TestTele extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors.
     private ElapsedTime runtime = new ElapsedTime();
@@ -78,16 +79,13 @@ public class REAL_TELEOP extends LinearOpMode {
 
     private DcMotor intakie = null;
     private DcMotor droppie = null;
-    private DcMotor hangie = null;
-    private DcMotor mike = null;
-//    private DcMotor testy = null;
+    private DcMotor revy = null;
 
     private Servo flipity = null;
     private Servo flopity = null;
-    private Servo logan = null;
     private CRServo indulgey = null;
     private CRServo bobby = null;
-//    private CRServo bobby2 = null;
+    private CRServo bobby2 = null;
 
     double FRPower;
     double FLPower;
@@ -131,13 +129,13 @@ public class REAL_TELEOP extends LinearOpMode {
 
         intakie = hardwareMap.get(DcMotor.class, "intakie");
         droppie = hardwareMap.get(DcMotor.class, "droppie");
-//        testy = hardwareMap.get(DcMotor.class, "revy");
+        revy = hardwareMap.get(DcMotor.class, "revy");
 
         flipity = hardwareMap.get(Servo.class, "flipity");
         flopity = hardwareMap.get(Servo.class, "flopity");
         indulgey = hardwareMap.get(CRServo.class, "indulgey");
         bobby = hardwareMap.get(CRServo.class, "bobby");
-//        bobby2 = hardwareMap.get(CRServo.class, "bobby2");
+        bobby2 = hardwareMap.get(CRServo.class, "bobby2");
 
         // ########################################################################################
         // !!!            IMPORTANT Drive Information. Test your motor directions.            !!!!!
@@ -161,9 +159,7 @@ public class REAL_TELEOP extends LinearOpMode {
 
         intakie.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         droppie.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//        testy.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//        hangie.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//        mike.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        revy.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 //        droppie.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 //        droppie.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -311,7 +307,7 @@ public class REAL_TELEOP extends LinearOpMode {
             //Added by Aish
 
             intakie.setPower(extendArm);
-            droppie.setPower(extendLeg);
+            revy.setPower(-extendLeg);
 //            droppiePos += round(gamepad2.left_stick_y * 6);
 //            droppie.setTargetPosition(droppiePos);
 //            droppie.setPower(-1);
@@ -325,22 +321,26 @@ public class REAL_TELEOP extends LinearOpMode {
 //                indulgey.setPower(0);
 //            }
 
-//            if (gamepad2.x) {
-//                bobby2.setPower(0.7);
-//            } else if (gamepad2.b) {
-//                bobby2.setPower(-0.7);
-//
+//            if (gamepad1.x) {
+//                bobby2.setPower(1);
+//            } else if (gamepad1.y) {
+//                bobby2.setPower(-1);
+//            } else {
+//                bobby2.setPower(0);
 //            }
-//            if (gamepad1.dpad_up) {
-//                testy.setPower(0.4);
-//            } else if (gamepad1.dpad_down) {
-//                testy.setPower(0.4);
-//            }
+
+            if (gamepad2.y) {
+                droppie.setPower(1);
+            } else if (gamepad2.a) {
+                droppie.setPower(-0.8);
+            } else {
+                droppie.setPower(0);
+            }
 
             if (gamepad2.dpad_up) {
                 flopity.setPosition(0.25);
             } else if (gamepad2.dpad_down) {
-                flopity.setPosition(0.425);
+                flopity.setPosition(0.4);
             }
 
 
@@ -352,11 +352,11 @@ public class REAL_TELEOP extends LinearOpMode {
 
 
             if (gamepad2.left_bumper) {
-                bobby.setPower(0.7);
+                bobby2.setPower(-0.7);
             } else if (gamepad2.right_bumper) {
-                bobby.setPower(-0.7);
+                bobby2.setPower(0.7);
             } else {
-                bobby.setPower(0);
+                bobby2.setPower(0);
             }
 
             if (gamepad2.left_trigger > 0.35) {
@@ -367,28 +367,6 @@ public class REAL_TELEOP extends LinearOpMode {
                 indulgey.setPower(0);
             }
 
-            if (gamepad1.x) {
-                logan.setPosition(.7);
-            } else if (gamepad1.a) {
-                logan.setPosition(-1);
-            }
-
-
-            if (gamepad1.y) {
-                hangie.setPower(1);
-            } else if (gamepad1.b) {
-                hangie.setPower(-1);
-            } else {
-                hangie.setPower(0);
-            }
-
-            if (gamepad1.left_trigger > 0.3) {
-                mike.setPower(1);
-            } else if (gamepad1.left_bumper) {
-                mike.setPower(-1);
-            } else {
-                mike.setPower(0);
-            }
 
             // This is test code:
             //

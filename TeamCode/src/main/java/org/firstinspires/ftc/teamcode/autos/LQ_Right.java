@@ -193,6 +193,7 @@ public class LQ_Right extends LinearOpMode {
 
         // Wait for the game to start (driver presses START)
         waitForStart();
+        
 
         //*******************************************
         //SAMPLE PICK AND DEPOSIT MODE!!!

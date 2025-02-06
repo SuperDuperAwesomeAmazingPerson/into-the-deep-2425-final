@@ -44,6 +44,9 @@ public class OdometryExperiment extends LinearOpMode
     private DcMotor BRMotor = null;
     private DcMotor BLMotor = null;
 
+    private DcMotor revy = null;
+
+
 
 
     double FRPower;
@@ -60,6 +63,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode
     private DcMotor leftBackDrive = null;
     private DcMotor rightFrontDrive = null;
     private DcMotor rightBackDrive = null;
+    private DcMotor revy = null;
 
     @Override
     public void runOpMode() {
@@ -70,6 +74,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode
         leftBackDrive  = hardwareMap.get(DcMotor.class, "left_back_drive");
         rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
         rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
+        revy = hardwareMap.get(DcMotor.class, "revy");
 
         // ########################################################################################
         // !!!            IMPORTANT Drive Information. Test your motor directions.            !!!!!
@@ -176,6 +181,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode
         BRMotor = hardwareMap.get(DcMotor.class, "BR");
         BLMotor = hardwareMap.get(DcMotor.class, "BL");
 
+        revy = hardwareMap.get(DcMotor.class, "revy");
 
 
         FRMotor.setDirection(DcMotor.Direction.REVERSE);
@@ -188,6 +194,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode
         BLMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         FRMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         BRMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        revy.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
 
@@ -213,10 +220,18 @@ public class BasicOmniOpMode_Linear extends LinearOpMode
             speedMode = .6;
         }
 
-        if (gamepad1.right_trigger > 0.5) {
+        if (gamepad1.left_bumper) {
             speedMode = 1;
         } else {
             speedMode = .6;
+        }
+
+        if (gamepad1.dpad_down) {
+            revy.setPower(0.7);
+        } else if (gamepad1.dpad_up) {
+            revy.setPower(-0.5);
+        } else {
+            revy.setPower(0);
         }
 
         boolean needToScale = false;
