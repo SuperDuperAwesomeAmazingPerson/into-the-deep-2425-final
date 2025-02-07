@@ -187,7 +187,7 @@ public class TestTele extends LinearOpMode {
             double yaw = gamepad1.right_stick_x;
 
             double extendArm = gamepad2.right_stick_y/1.5;
-            double extendLeg = gamepad2.left_stick_y;
+            double extendLeg = gamepad2.left_stick_y/0.7;
 
 //            if (gamepad2.y) {
 //                droppie.setTargetPosition(specimenRack);
