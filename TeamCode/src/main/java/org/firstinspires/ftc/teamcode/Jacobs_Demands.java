@@ -67,8 +67,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name="REAL_TELEOP", group="Linear OpMode")
-public class REAL_TELEOP extends LinearOpMode {
+@TeleOp(name="Jacobs_Demands", group="Linear OpMode")
+public class Jacobs_Demands extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors.
     private ElapsedTime runtime = new ElapsedTime();
@@ -182,9 +182,9 @@ public class REAL_TELEOP extends LinearOpMode {
             double max;
 
             // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
-            double axial = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
-            double lateral = gamepad1.left_stick_x;
-            double yaw = gamepad1.right_stick_x;
+            double axial = -gamepad1.right_stick_y;  // Note: pushing stick forward gives negative value
+            double lateral = gamepad1.right_stick_x;
+            double yaw = gamepad1.left_stick_x;
 
             double extendArm = gamepad2.right_stick_y/1.5;
             double extendLeg = gamepad2.left_stick_y/0.7;
@@ -329,10 +329,10 @@ public class REAL_TELEOP extends LinearOpMode {
 //                bobby2.setPower(0);
 //            }
 
-            if (gamepad2.a) {
+            if (gamepad2.y) {
                 droppie.setPower(1);
-            } else if (gamepad2.y) {
-                droppie.setPower(-1);
+            } else if (gamepad2.a) {
+                droppie.setPower(-0.8);
             } else {
                 droppie.setPower(0);
             }
@@ -348,8 +348,6 @@ public class REAL_TELEOP extends LinearOpMode {
                 flipity.setPosition(0.825);
             } else if (gamepad2.dpad_right) {
                 flipity.setPosition(0.1);
-            } else if (gamepad2.b) {
-                flipity.setPosition(0.65);
             }
 
 
@@ -363,7 +361,7 @@ public class REAL_TELEOP extends LinearOpMode {
 
             if (gamepad2.right_trigger > 0.3) {
                 indulgey.setPower(-1);
-            } else if (gamepad2.left_trigger > 0.3) {
+            } else if (gamepad2.left_trigger > 0.35) {
                 indulgey.setPower(1);
             } else {
                 indulgey.setPower(0);
