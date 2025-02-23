@@ -248,117 +248,144 @@ public class State_Right extends LinearOpMode {
 //        ********************
 //           5 Specimens!!!
 //        ********************
+//        makeRevieWork(1);
+//        goToPos(745, 0, Math.toRadians(0), 0.8, 50, 100, Math.toRadians(10), 2);
+//        makeRevieWork(-1);
+//        goToPos(945, 0, Math.toRadians(0), 0.8, 190, 100, Math.toRadians(10), 1);
+//        makeBobbyWork(-1);
+//        goToPos(750, 0, Math.toRadians(0), 0.8, 50, 100, Math.toRadians(10), 2);
+//        makeRevieWork(0);
+//        makeBobbyWork(0);
+
+
+
+
+        makeIntakieWork(0);
+        makeFlipityWork(0.2);
+
         //Push #1
-        goToPos(900, 500, Math.toRadians(0), 0.9, 150, 200, Math.toRadians(20), 2);
-        goToPos(1100, 600, Math.toRadians(0), 0.9, 150, 150, Math.toRadians(20), 2);
-        goToPos(1300, 700, Math.toRadians(0), 0.7, 150, 150, Math.toRadians(20), 2);
+        goToPos(600, -450, Math.toRadians(0), 0.7, 200, 200, Math.toRadians(15), 1);
+        goToPos(1150, -475, Math.toRadians(0), 0.7, 200, 150, Math.toRadians(15), 2);
+        goToPos(1300, -650, Math.toRadians(0), 0.8, 200, 150, Math.toRadians(15), 2);
         goToPosStop();
-        goToPos(300, 700, Math.toRadians(0), 1, 200, 200, Math.toRadians(20), 2);
+        goToPos(175, -650, Math.toRadians(0), 1, 200, 200, Math.toRadians(15), 2);
 
         //Push #2
-        goToPos(1200, 800, Math.toRadians(0), 0.9, 200,150, Math.toRadians(20), 2);
-        goToPos(1320, 1060, Math.toRadians(0), 0.7, 200, 200, Math.toRadians(20), 2);
+        goToPos(1200, -650, Math.toRadians(0), 0.8, 200,150, Math.toRadians(15), 2);
+        goToPos(1320, -900, Math.toRadians(-10), 0.7, 200, 200, Math.toRadians(15), 2);
         goToPosStop();
-        goToPos(300, 1050, Math.toRadians(0), 1, 200, 200, Math.toRadians(20), 2);
+        goToPos(190, -950, Math.toRadians(-10), 1, 200, 200, Math.toRadians(15), 2);
 
         //Push #3
-        goToPos(1200, 1150, Math.toRadians(0), 0.9, 200,150, Math.toRadians(20), 2);
-        goToPos(1320, 1350, Math.toRadians(0), 0.7, 200, 200, Math.toRadians(20), 2);
+        goToPos(1300, -1050, Math.toRadians(0), 0.8, 200,150, Math.toRadians(15), 2);
+        goToPos(1400, -1200, Math.toRadians(0), 0.7, 200, 200, Math.toRadians(15), 1);
         goToPosStop();
-        goToPos(350, 1350, Math.toRadians(0), 1, 200, 200, Math.toRadians(15), 2);
+        goToPos(100, -1200, Math.toRadians(0), 1, 200, 200, Math.toRadians(15), 3);
 
         //Pickup #1
-        goToPos(-200, 600, Math.toRadians(0), 1, 205, 50, Math.toRadians(10), 2);
+        goToPos(-200, -450, Math.toRadians(0), 0.8, 205, 50, Math.toRadians(10), 1);
         goToPosStop();
-        makeBobbyWork(-1);
-        sleep(250);
-        makeBobbyWork(-0.5);
-        makeRevieWork(0.5);
+        makeBobbyWork(1);
+        sleep(800);
+        makeBobbyWork(0.5);
+        makeRevieWork(1);
 
         //Place #1
-        goToPos(750, -300, Math.toRadians(0), 0.8, 50, 20, Math.toRadians(10), 2);
+        goToPos(400, 480, Math.toRadians(0), 0.8, 70, 70, Math.toRadians(10), 1);
+        goToPos(750, 520, Math.toRadians(0), 0.8, 100, 100, Math.toRadians(10), 2);
+        goToPos(945, 520, Math.toRadians(0), 0.6, 190, 100, Math.toRadians(10), 1);
         makeRevieWork(-1);
-        goToPos(945, -300, Math.toRadians(0), 0.8, 50, 190, Math.toRadians(10), 1);
+        sleep(500);
+        makeBobbyWork(-1);
+        sleep(500);
         goToPosStop();
-        makeBobbyWork(1);
 
         //Pickup #2
-        goToPos(750, -300, Math.toRadians(0), 0.8, 50, 20, Math.toRadians(10), 2);
+        goToPos(750, 490, Math.toRadians(0), 0.8, 50, 50, Math.toRadians(10), 2);
         makeBobbyWork(0);
-        makeRevieWork(0);
-        goToPos(-200, 300, Math.toRadians(0), 0.8, 205, 50, Math.toRadians(10), 2);
+        makeRevieWork(-0.7);
+        goToPos(-200, -400, Math.toRadians(0), 0.8, 210, 50, Math.toRadians(10), 2);
         goToPosStop();
-        makeBobbyWork(-1);
-        sleep(500);
-        makeBobbyWork(-0.5);
-        makeRevieWork(0.5);
+        makeBobbyWork(1);
+        sleep(800);
+        makeBobbyWork(0.5);
+        makeRevieWork(0.8);
 
         //Place #2
-        goToPos(750, -360, Math.toRadians(0), 0.8, 50, 20, Math.toRadians(10), 2);
+        goToPos(400, 510, Math.toRadians(0), 0.8, 70, 100, Math.toRadians(10), 2);
+        goToPos(750, 540, Math.toRadians(0), 0.8, 100, 100, Math.toRadians(10), 2);
+        goToPos(945, 540, Math.toRadians(0), 0.6, 190, 100, Math.toRadians(10), 1);
         makeRevieWork(-1);
-        goToPos(945, -360, Math.toRadians(0), 0.8, 50, 190, Math.toRadians(10), 1);
-        goToPosStop();
-        makeBobbyWork(1);
-
-        //Pickup #3
-        goToPos(750, -360, Math.toRadians(0), 0.8, 50, 20, Math.toRadians(10), 2);
-        makeBobbyWork(0);
-        makeRevieWork(0);
-        goToPos(-200, 300, Math.toRadians(0), 0.8, 205, 50, Math.toRadians(10), 2);
-        goToPosStop();
+        sleep(500);
         makeBobbyWork(-1);
         sleep(500);
-        makeBobbyWork(-0.5);
-        makeRevieWork(0.5);
+        goToPosStop();
 
-        //Place #3
-        goToPos(750, -420, Math.toRadians(0), 0.8, 50, 20, Math.toRadians(10), 2);
-        makeRevieWork(-1);
-        goToPos(945, -420, Math.toRadians(0), 0.8, 50, 190, Math.toRadians(10), 1);
+//        //Pickup #3
+        goToPos(750, 530, Math.toRadians(0), 0.8, 50, 50, Math.toRadians(10), 2);
+        makeBobbyWork(0);
+        makeRevieWork(-0.7);
+        goToPos(-200, -400, Math.toRadians(0), 0.8, 210, 50, Math.toRadians(10), 2);
         goToPosStop();
         makeBobbyWork(1);
+        sleep(800);
+        makeBobbyWork(0.5);
+        makeRevieWork(0.8);
 
-        //Pickup #4
-        goToPos(750, -420, Math.toRadians(0), 0.8, 50, 20, Math.toRadians(10), 2);
-        makeBobbyWork(0);
-        makeRevieWork(0);
-        goToPos(-200, 300, Math.toRadians(0), 0.8, 205, 50, Math.toRadians(10), 2);
-        goToPosStop();
+//        //Place #3
+        goToPos(400, 530, Math.toRadians(0), 0.8, 70, 100, Math.toRadians(10), 2);
+        goToPos(750, 560, Math.toRadians(0), 0.8, 100, 100, Math.toRadians(10), 2);
+        goToPos(945, 560, Math.toRadians(0), 0.6, 190, 100, Math.toRadians(10), 1);
+        makeRevieWork(-1);
+        sleep(500);
         makeBobbyWork(-1);
         sleep(500);
-        makeBobbyWork(-0.5);
-        makeRevieWork(0.5);
-
-        //Place #4
-        goToPos(750, -480, Math.toRadians(0), 0.8, 50, 20, Math.toRadians(10), 2);
-        makeRevieWork(-1);
-        goToPos(945, -480, Math.toRadians(0), 0.8, 50, 190, Math.toRadians(10), 1);
         goToPosStop();
-        makeBobbyWork(1);
 
-        //Pickup #5
-        goToPos(750, -480, Math.toRadians(0), 0.8, 50, 20, Math.toRadians(10), 2);
-        makeBobbyWork(0);
-        makeRevieWork(0);
-        goToPos(-200, 300, Math.toRadians(0), 0.8, 205, 50, Math.toRadians(10), 2);
-        goToPosStop();
-        makeBobbyWork(-1);
-        sleep(500);
-        makeBobbyWork(-0.5);
-        makeRevieWork(0.5);
-
-        //Place #5
-        goToPos(750, -540, Math.toRadians(0), 0.8, 50, 20, Math.toRadians(10), 2);
-        makeRevieWork(-1);
-        goToPos(945, -540, Math.toRadians(0), 0.8, 50, 190, Math.toRadians(10), 1);
-        goToPosStop();
-        makeBobbyWork(1);
-
-        //Park
-        goToPos(750, -540, Math.toRadians(0), 1, 50, 20, Math.toRadians(10), 2);
-        makeBobbyWork(0);
-        makeRevieWork(0);
-        goToPos(300, 300, Math.toRadians(0), 1, 205, 50, Math.toRadians(10), 2);
+//
+//        //Pickup #4
+//        goToPos(750, 800, Math.toRadians(0), 0.8, 50, 50, Math.toRadians(10), 2);
+//        makeBobbyWork(0);
+//        makeRevieWork(0);
+//        goToPos(-200, -300, Math.toRadians(0), 0.8, 205, 100, Math.toRadians(10), 2);
+//        goToPosStop();
+//        makeBobbyWork(1);
+//        sleep(500);
+//        makeBobbyWork(0.5);
+//        makeRevieWork(0.8);
+//
+//        //Place #4
+//        goToPos(400, 480, Math.toRadians(0), 0.8, 50, 100, Math.toRadians(10), 2);
+//        goToPos(750, 680, Math.toRadians(0), 0.8, 50, 100, Math.toRadians(10), 2);
+//        makeRevieWork(-1);
+//        goToPos(945, 680, Math.toRadians(0), 0.8, 190, 100, Math.toRadians(10), 1);
+//        goToPosStop();
+//        makeBobbyWork(-1);
+//
+//        //Pickup #5
+//        goToPos(750, 800, Math.toRadians(0), 0.8, 50, 50, Math.toRadians(10), 2);
+//        makeBobbyWork(0);
+//        makeRevieWork(0);
+//        goToPos(-200, -300, Math.toRadians(0), 0.8, 205, 100, Math.toRadians(10), 2);
+//        goToPosStop();
+//        makeBobbyWork(1);
+//        sleep(500);
+//        makeBobbyWork(0.5);
+//        makeRevieWork(0.8);
+//
+//        //Place #5
+//        goToPos(400, 560, Math.toRadians(0), 0.8, 50, 100, Math.toRadians(10), 2);
+//        goToPos(750, 740, Math.toRadians(0), 0.8, 50, 100, Math.toRadians(10), 2);
+//        makeRevieWork(-1);
+//        goToPos(945, 740, Math.toRadians(0), 0.8, 190, 50, Math.toRadians(10), 1);
+//        goToPosStop();
+//        makeBobbyWork(-1);
+//
+//        //Park
+//        goToPos(750, 540, Math.toRadians(0), 1, 200, 200, Math.toRadians(10), 2);
+//        makeBobbyWork(0);
+//        makeRevieWork(0);
+//        goToPos(300, -300, Math.toRadians(0), 1, 250, 250, Math.toRadians(10), 2);
     }
 
     public void moveForward(double x, double speed) {
