@@ -32,7 +32,6 @@ package org.firstinspires.ftc.teamcode;
 
 import static java.lang.Math.round;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -68,11 +67,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-//In Memory of Jacob
-
-@Disabled
-@TeleOp(name="Jacobs_Demands", group="Linear OpMode")
-public class Jacobs_Demands extends LinearOpMode {
+@TeleOp(name="BASKET_TELE", group="Linear OpMode")
+public class BASKET_TELE extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors.
     private ElapsedTime runtime = new ElapsedTime();
@@ -89,13 +85,19 @@ public class Jacobs_Demands extends LinearOpMode {
     private Servo flopity = null;
     private CRServo indulgey = null;
     private CRServo bobby = null;
-    private CRServo bobby2 = null;
+    private Servo bobby2 = null;
 
     double FRPower;
     double FLPower;
     double BRPower;
     double BLPower;
     double speedMode = 0.6;
+
+    boolean toggle = true;
+    boolean toggle2 = false;
+    boolean lastButtonState = false;
+
+    int armToggle = 1;
 
     double stopBuffer = 0;
 
@@ -139,7 +141,9 @@ public class Jacobs_Demands extends LinearOpMode {
         flopity = hardwareMap.get(Servo.class, "flopity");
         indulgey = hardwareMap.get(CRServo.class, "indulgey");
         bobby = hardwareMap.get(CRServo.class, "bobby");
-        bobby2 = hardwareMap.get(CRServo.class, "bobby2");
+        bobby2 = hardwareMap.get(Servo.class, "bobby2");
+
+
 
         // ########################################################################################
         // !!!            IMPORTANT Drive Information. Test your motor directions.            !!!!!
@@ -186,9 +190,9 @@ public class Jacobs_Demands extends LinearOpMode {
             double max;
 
             // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
-            double axial = -gamepad1.right_stick_y;  // Note: pushing stick forward gives negative value
-            double lateral = gamepad1.right_stick_x;
-            double yaw = gamepad1.left_stick_x;
+            double axial = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
+            double lateral = gamepad1.left_stick_x;
+            double yaw = gamepad1.right_stick_x;
 
             double extendArm = gamepad2.right_stick_y/1.5;
             double extendLeg = gamepad2.left_stick_y/0.7;
@@ -311,7 +315,7 @@ public class Jacobs_Demands extends LinearOpMode {
             //Added by Aish
 
             intakie.setPower(extendArm);
-            revy.setPower(-extendLeg);
+//            revy.setPower(-extendLeg);
 //            droppiePos += round(gamepad2.left_stick_y * 6);
 //            droppie.setTargetPosition(droppiePos);
 //            droppie.setPower(-1);
@@ -333,16 +337,59 @@ public class Jacobs_Demands extends LinearOpMode {
 //                bobby2.setPower(0);
 //            }
 
-            if (gamepad2.y) {
-                droppie.setPower(1);
-            } else if (gamepad2.a) {
-                droppie.setPower(-0.8);
-            } else {
-                droppie.setPower(0);
+//            boolean currentButtonState = gamepad2.b;
+//
+//            if (currentButtonState && !lastButtonState && toggle) {
+//                toggle = false;
+//
+//                if (!toggle2) {
+//                    revy.setPower(-extendLeg);
+//                    toggle2 = true;
+//                } else {
+//                    droppie.setPower(-extendLeg);
+//                    toggle2=false;
+//                }
+//            }
+//
+//            if (!currentButtonState) {
+//                toggle = true;
+//            }
+//
+//            lastButtonState = currentButtonState;
+
+            if (!gamepad2.b) {
+                droppie.setPower(extendLeg);
             }
 
+            if (gamepad2.b) {
+                revy.setPower(-extendLeg);
+            }
+
+
+//            if (armToggle == 1){
+//                revy.setPower(-gamepad2.left_stick_y);
+//                if (gamepad2.b){
+//                    armToggle = 2;
+//                }
+//            } else if (armToggle == 2){
+//                droppie.setPower(gamepad2.left_stick_y);
+//                if (gamepad2.b){
+//                    armToggle = 1;
+//                }
+//            } else {
+//                armToggle = 1;
+//            }
+
+//            if (gamepad2.a) {
+//                droppie.setPower(1);
+//            } else if (gamepad2.y) {
+//                droppie.setPower(-1);
+//            } else {
+//                droppie.setPower(0);
+//            }
+
             if (gamepad2.dpad_up) {
-                flopity.setPosition(0.25);
+                flopity.setPosition(0.15);
             } else if (gamepad2.dpad_down) {
                 flopity.setPosition(0.4);
             }
@@ -351,21 +398,19 @@ public class Jacobs_Demands extends LinearOpMode {
             if (gamepad2.dpad_left) {
                 flipity.setPosition(0.825);
             } else if (gamepad2.dpad_right) {
-                flipity.setPosition(0.1);
+                flipity.setPosition(0.2);
             }
 
 
             if (gamepad2.left_bumper) {
-                bobby2.setPower(-0.7);
+                bobby2.setPosition(0);
             } else if (gamepad2.right_bumper) {
-                bobby2.setPower(0.7);
-            } else {
-                bobby2.setPower(0);
+                bobby2.setPosition(1);
             }
 
             if (gamepad2.right_trigger > 0.3) {
                 indulgey.setPower(-1);
-            } else if (gamepad2.left_trigger > 0.35) {
+            } else if (gamepad2.left_trigger > 0.3) {
                 indulgey.setPower(1);
             } else {
                 indulgey.setPower(0);

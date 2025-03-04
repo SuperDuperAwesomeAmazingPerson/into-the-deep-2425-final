@@ -27,6 +27,7 @@ package org.firstinspires.ftc.teamcode.notUsing;/* Copyright (c) 2017 FIRST. All
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -37,7 +38,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 
 import java.util.Locale;
 
-
+@Disabled
 @TeleOp(name="TeleOp", group="Iterative OpMode")
 public class Summer_School_SS extends OpMode {
     //put variables here

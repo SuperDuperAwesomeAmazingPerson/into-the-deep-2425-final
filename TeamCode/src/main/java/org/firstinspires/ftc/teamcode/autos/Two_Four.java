@@ -63,10 +63,10 @@ For support, contact tech@gobilda.com
 -Ethan Doak
  */
 
-@Autonomous(name="State_Right", group="Linear OpMode")
+@Autonomous(name="2_4", group="Linear OpMode")
 //@Disabled
 
-public class State_Right extends LinearOpMode {
+public class Two_Four extends LinearOpMode {
 
     private DcMotor FRMotor = null;
     private DcMotor FLMotor = null;
@@ -80,7 +80,7 @@ public class State_Right extends LinearOpMode {
     private Servo flipity = null;
     private Servo flopity = null;
     private CRServo indulgey = null;
-    private CRServo bobby = null;
+    private Servo bobby = null;
 
     GoBildaPinpointDriver odo; // Declare OpMode member for the Odometry Computer
 
@@ -109,7 +109,7 @@ public class State_Right extends LinearOpMode {
         flipity = hardwareMap.get(Servo.class, "flipity");
         flopity = hardwareMap.get(Servo.class, "flopity");
         indulgey = hardwareMap.get(CRServo.class, "indulgey");
-        bobby = hardwareMap.get(CRServo.class, "bobby2");
+        bobby = hardwareMap.get(Servo.class, "bobby2");
 
         odo = hardwareMap.get(GoBildaPinpointDriver.class,"odo");
 
@@ -126,18 +126,21 @@ public class State_Right extends LinearOpMode {
         FRMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         BRMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         droppie.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        revie.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         FLMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         FRMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         BRMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         BLMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         droppie.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        intakie.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         FLMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         FRMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         BRMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         BLMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         droppie.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        intakie.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
         //intakie.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -196,196 +199,111 @@ public class State_Right extends LinearOpMode {
         // Wait for the game to start (driver presses START)
         waitForStart();
 
-//        //Pickup Sample #1
-//        makeFlipityWork(0.5);
-//        makeIntakieWork(-700);
-//        goToPos(150, 500,Math.toRadians(35), 0.7, 30, 30, Math.toRadians(20), 1);
-//        makeFlipityWork(0.837);
-//        makeIndulgeyWork(-1);
-//        makeIntakieWork(-2400);
-//        goToPos(300, 625, Math.toRadians(35), 0.55, 20, 20, Math.toRadians(20), 2);
-//        goToPosStop();
-//
-//        //Spit Sample #1
-//        makeIndulgeyWork(0);
-//        makeIntakieWork(-1800);
-//        goToPos(300, 625, Math.toRadians(-60), 0.85, 30, 30, Math.toRadians(25), 2);
-//        goToPosStop();
-//        makeIndulgeyWork(1);
-//        sleep(300);
-//
-//        //Pickup Sample #2
-//        goToPos(300, 625, Math.toRadians(30), 0.65, 20, 20, Math.toRadians(20), 2);
-//        makeIndulgeyWork(0);
-//        makeIndulgeyWork(-1);
-//        makeIntakieWork(-2600);
-//        goToPos(500, 625, Math.toRadians(30), 0.7, 15, 15, Math.toRadians(15), 2);
-//        makeIndulgeyWork(0);
-//
-//        //Spit Sample #2
-//        makeIntakieWork(-1900);
-//        goToPos(450, 625, Math.toRadians(-60), 0.85, 30, 30, Math.toRadians(20), 2);
-//        goToPosStop();
-//        makeIndulgeyWork(1);
-//        sleep(300);
-//
-//        //Pickup Sample #3
-//        goToPos(400, 500, Math.toRadians(30), 0.75, 20, 20, Math.toRadians(15), 2);
-//        makeIndulgeyWork(0);
-//        makeIntakieWork(-2600);
-//        makeIndulgeyWork(-1);
-//        goToPos(650, 625, Math.toRadians(30), 0.65, 15, 15, Math.toRadians(15), 2);
-//        goToPosStop();
-//        makeIndulgeyWork(0);
-//
-//        //Spit Sample #3
-//        makeIntakieWork(-2400);
-//        goToPos(500, 400, Math.toRadians(-55), 0.8, 30, 30, Math.toRadians(20), 2);
-//        goToPosStop();
-//        makeIndulgeyWork(1);
-//        sleep(250);
-
-//        ********************
-//           5 Specimens!!!
-//        ********************
-//        makeRevieWork(1);
-//        goToPos(745, 0, Math.toRadians(0), 0.8, 50, 100, Math.toRadians(10), 2);
-//        makeRevieWork(-1);
-//        goToPos(945, 0, Math.toRadians(0), 0.8, 190, 100, Math.toRadians(10), 1);
-//        makeBobbyWork(-1);
-//        goToPos(750, 0, Math.toRadians(0), 0.8, 50, 100, Math.toRadians(10), 2);
-//        makeRevieWork(0);
-//        makeBobbyWork(0);
-
-
 
 
         makeIntakieWork(0);
         makeFlipityWork(0.2);
+        makeBobbyWork(0.15);
 
         //Push #1
-        goToPos(600, -450, Math.toRadians(0), 0.7, 200, 200, Math.toRadians(15), 1);
-        goToPos(1150, -475, Math.toRadians(0), 0.7, 200, 150, Math.toRadians(15), 2);
-        goToPos(1300, -650, Math.toRadians(0), 0.8, 200, 150, Math.toRadians(15), 2);
+        goToPos(600, -450, Math.toRadians(0), 0.8, 200, 200, Math.toRadians(15), 1);
+        goToPos(1250, -475, Math.toRadians(0), 0.9, 200, 150, Math.toRadians(15), 2);
+        goToPos(1300, -575, Math.toRadians(0), 0.7, 200, 150, Math.toRadians(15), 2);
         goToPosStop();
-        goToPos(175, -650, Math.toRadians(0), 1, 200, 200, Math.toRadians(15), 2);
+        goToPos(175, -550, Math.toRadians(-10), 1, 200, 200, Math.toRadians(15), 1.5);
 
         //Push #2
-        goToPos(1200, -650, Math.toRadians(0), 0.8, 200,150, Math.toRadians(15), 2);
-        goToPos(1320, -900, Math.toRadians(-10), 0.7, 200, 200, Math.toRadians(15), 2);
+        goToPos(1200, -725, Math.toRadians(-10), 0.9, 150,150, Math.toRadians(10), 1);
+        goToPos(1320, -835, Math.toRadians(-10), 0.8, 200, 200, Math.toRadians(15), 1);
         goToPosStop();
-        goToPos(190, -950, Math.toRadians(-10), 1, 200, 200, Math.toRadians(15), 2);
-
-        //Push #3
-        goToPos(1300, -1050, Math.toRadians(0), 0.8, 200,150, Math.toRadians(15), 2);
-        goToPos(1400, -1200, Math.toRadians(0), 0.7, 200, 200, Math.toRadians(15), 1);
-        goToPosStop();
-        goToPos(100, -1200, Math.toRadians(0), 1, 200, 200, Math.toRadians(15), 3);
+        goToPos(190, -825, Math.toRadians(-10), 1, 200, 200, Math.toRadians(15), 1.5);
 
         //Pickup #1
-        goToPos(-200, -450, Math.toRadians(0), 0.8, 205, 50, Math.toRadians(10), 1);
+        goToPos(200, -450, Math.toRadians(0), 0.7, 100, 50, Math.toRadians(10), 1);
+        goToPos(-200, -450, Math.toRadians(0), 0.6, 205, 50, Math.toRadians(10), 1);
         goToPosStop();
         makeBobbyWork(1);
-        sleep(800);
-        makeBobbyWork(0.5);
+        sleep(750);
         makeRevieWork(1);
 
         //Place #1
-        goToPos(400, 480, Math.toRadians(0), 0.8, 70, 70, Math.toRadians(10), 1);
-        goToPos(750, 520, Math.toRadians(0), 0.8, 100, 100, Math.toRadians(10), 2);
-        goToPos(945, 520, Math.toRadians(0), 0.6, 190, 100, Math.toRadians(10), 1);
+        goToPos(250, 600, Math.toRadians(0), 0.9, 100, 100, Math.toRadians(10), 3);
+        goToPos(750, 505, Math.toRadians(0), 0.8, 100, 100, Math.toRadians(10), 2);
+        goToPos(945, 460, Math.toRadians(0), 0.6, 190, 200, Math.toRadians(10), 0.);
+        sleep(300);
         makeRevieWork(-1);
-        sleep(500);
-        makeBobbyWork(-1);
-        sleep(500);
+        sleep(400);
+        makeBobbyWork(0);
+        sleep(200);
         goToPosStop();
 
         //Pickup #2
         goToPos(750, 490, Math.toRadians(0), 0.8, 50, 50, Math.toRadians(10), 2);
-        makeBobbyWork(0);
         makeRevieWork(-0.7);
-        goToPos(-200, -400, Math.toRadians(0), 0.8, 210, 50, Math.toRadians(10), 2);
+        goToPos(150, -450, Math.toRadians(0), 0.8, 50, 50, Math.toRadians(10), 2);
+        goToPos(-200, -450, Math.toRadians(0), 0.7, 210, 50, Math.toRadians(10), 2);
         goToPosStop();
         makeBobbyWork(1);
-        sleep(800);
-        makeBobbyWork(0.5);
+        sleep(750);
         makeRevieWork(0.8);
 
         //Place #2
-        goToPos(400, 510, Math.toRadians(0), 0.8, 70, 100, Math.toRadians(10), 2);
-        goToPos(750, 540, Math.toRadians(0), 0.8, 100, 100, Math.toRadians(10), 2);
-        goToPos(945, 540, Math.toRadians(0), 0.6, 190, 100, Math.toRadians(10), 1);
-        makeRevieWork(-1);
+        goToPos(250, 600, Math.toRadians(0), 0.9, 100, 100, Math.toRadians(10), 3);
+        goToPos(750, 485, Math.toRadians(0), 0.8, 100, 100, Math.toRadians(10), 2);
+        goToPos(945, 460, Math.toRadians(0), 0.6, 190, 100, Math.toRadians(10), 1);
         sleep(500);
-        makeBobbyWork(-1);
+        makeRevieWork(-1);
+        sleep(250);
+        makeBobbyWork(0);
         sleep(500);
         goToPosStop();
 
 //        //Pickup #3
         goToPos(750, 530, Math.toRadians(0), 0.8, 50, 50, Math.toRadians(10), 2);
-        makeBobbyWork(0);
         makeRevieWork(-0.7);
-        goToPos(-200, -400, Math.toRadians(0), 0.8, 210, 50, Math.toRadians(10), 2);
+        goToPos(150, -450, Math.toRadians(0), 0.8, 50, 50, Math.toRadians(10), 2);
+        goToPos(-200, -450, Math.toRadians(0), 0.7, 210, 50, Math.toRadians(10), 2);
         goToPosStop();
         makeBobbyWork(1);
-        sleep(800);
-        makeBobbyWork(0.5);
+        sleep(750);
         makeRevieWork(0.8);
 
 //        //Place #3
-        goToPos(400, 530, Math.toRadians(0), 0.8, 70, 100, Math.toRadians(10), 2);
-        goToPos(750, 560, Math.toRadians(0), 0.8, 100, 100, Math.toRadians(10), 2);
-        goToPos(945, 560, Math.toRadians(0), 0.6, 190, 100, Math.toRadians(10), 1);
-        makeRevieWork(-1);
+        goToPos(250, 575, Math.toRadians(0), 0.9, 100, 100, Math.toRadians(10), 3);
+        goToPos(750, 690, Math.toRadians(0), 0.8, 100, 100, Math.toRadians(10), 2);
+        goToPos(945, 660, Math.toRadians(0), 0.6, 190, 100, Math.toRadians(10), 1.5);
         sleep(500);
-        makeBobbyWork(-1);
+        makeRevieWork(-1);
+        sleep(250);
+        makeBobbyWork(0);
         sleep(500);
         goToPosStop();
 
-//
-//        //Pickup #4
-//        goToPos(750, 800, Math.toRadians(0), 0.8, 50, 50, Math.toRadians(10), 2);
-//        makeBobbyWork(0);
-//        makeRevieWork(0);
-//        goToPos(-200, -300, Math.toRadians(0), 0.8, 205, 100, Math.toRadians(10), 2);
-//        goToPosStop();
-//        makeBobbyWork(1);
-//        sleep(500);
-//        makeBobbyWork(0.5);
-//        makeRevieWork(0.8);
-//
-//        //Place #4
-//        goToPos(400, 480, Math.toRadians(0), 0.8, 50, 100, Math.toRadians(10), 2);
-//        goToPos(750, 680, Math.toRadians(0), 0.8, 50, 100, Math.toRadians(10), 2);
-//        makeRevieWork(-1);
-//        goToPos(945, 680, Math.toRadians(0), 0.8, 190, 100, Math.toRadians(10), 1);
-//        goToPosStop();
-//        makeBobbyWork(-1);
-//
-//        //Pickup #5
-//        goToPos(750, 800, Math.toRadians(0), 0.8, 50, 50, Math.toRadians(10), 2);
-//        makeBobbyWork(0);
-//        makeRevieWork(0);
-//        goToPos(-200, -300, Math.toRadians(0), 0.8, 205, 100, Math.toRadians(10), 2);
-//        goToPosStop();
-//        makeBobbyWork(1);
-//        sleep(500);
-//        makeBobbyWork(0.5);
-//        makeRevieWork(0.8);
-//
-//        //Place #5
-//        goToPos(400, 560, Math.toRadians(0), 0.8, 50, 100, Math.toRadians(10), 2);
-//        goToPos(750, 740, Math.toRadians(0), 0.8, 50, 100, Math.toRadians(10), 2);
-//        makeRevieWork(-1);
-//        goToPos(945, 740, Math.toRadians(0), 0.8, 190, 50, Math.toRadians(10), 1);
-//        goToPosStop();
-//        makeBobbyWork(-1);
-//
-//        //Park
-//        goToPos(750, 540, Math.toRadians(0), 1, 200, 200, Math.toRadians(10), 2);
-//        makeBobbyWork(0);
-//        makeRevieWork(0);
-//        goToPos(300, -300, Math.toRadians(0), 1, 250, 250, Math.toRadians(10), 2);
+        //Pickup #4
+        goToPos(750, 600, Math.toRadians(0), 0.8, 50, 50, Math.toRadians(10), 2);
+        makeRevieWork(-0.7);
+        goToPos(150, -450, Math.toRadians(0), 0.8, 50, 50, Math.toRadians(10), 2);
+        goToPos(-200, -450, Math.toRadians(0), 0.7, 210, 50, Math.toRadians(10), 2);
+        goToPosStop();
+        makeBobbyWork(1);
+        sleep(750);
+        makeRevieWork(0.8);
+
+////        Place #4
+        goToPos(250, 575, Math.toRadians(0), 0.9, 100, 100, Math.toRadians(10), 3);
+        goToPos(750, 755, Math.toRadians(0), 0.8, 100, 100, Math.toRadians(10), 2);
+        goToPos(945, 740, Math.toRadians(0), 0.6, 190, 100, Math.toRadians(10), 1);
+        sleep(500);
+        makeRevieWork(-1);
+        sleep(250);
+        makeBobbyWork(0.05);
+        sleep(500);
+        goToPosStop();
+
+          //Park
+        goToPos(500, 550, Math.toRadians(0), 1, 200, 200, Math.toRadians(10), 2);
+        makeRevieWork(0);
+        goToPos(100, -450, Math.toRadians(0), 1, 250, 250, Math.toRadians(10), 2);
     }
 
     public void moveForward(double x, double speed) {
@@ -433,22 +351,22 @@ public class State_Right extends LinearOpMode {
     double integralSum = 0;
     double feedfoward = 0;
     double Kp = 0.475;
-    double Ki = 0.2;
-    double Kd = 0.25;
-    double Kf = 0.15;
+    double Ki = 0.0;
+    double Kd = 0.3;
+    double Kf = 0.2;
     private double lastError = 0;
 
     double integralSumX = 0;
-    double KpX=0.0423;
-    double KiX=0.0009;   //Kxp/KYp ratio is affected by the robot weight balance
-    double KdX=0.011;// KXf/KYf ratio is affected by the robot weight balance
+    double KpX=0.04;
+    double KiX=0.0000;   //Kxp/KYp ratio is affected by the robot weight balance
+    double KdX=0.005;// KXf/KYf ratio is affected by the robot weight balance
     double feedfowardX = 0;
     private double lastErrorX = 0;
 
     double integralSumY = 0;
-    double KpY=0.042;
-    double KiY=0.001;   //Kxp/KYp ratio is affected by the robot weight balance
-    double KdY=0.015;// KXf/KYf ratio is affected by the robot weight balance
+    double KpY=0.04;
+    double KiY=0.000;   //Kxp/KYp ratio is affected by the robot weight balance
+    double KdY=0.005;// KXf/KYf ratio is affected by the robot weight balance
     double feedfowardY = 0;
     private double lastErrorY = 0;
 
@@ -710,8 +628,8 @@ public class State_Right extends LinearOpMode {
         intakie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
-    public void makeBobbyWork(double power){
-        bobby.setPower(power);//-0.6
+    public void makeBobbyWork(double pos){
+        bobby.setPosition(pos);//-0.6
     }
 
     public void makeFlipityWork(double pos){

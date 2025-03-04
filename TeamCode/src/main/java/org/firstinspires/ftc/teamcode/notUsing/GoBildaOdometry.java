@@ -22,6 +22,7 @@
 
 package org.firstinspires.ftc.teamcode.notUsing;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -56,7 +57,7 @@ For support, contact tech@gobilda.com
 
 -Ethan Doak
  */
-
+@Disabled
 @TeleOp(name="GoBildaOdometry", group="Linear OpMode")
 //@Disabled
 

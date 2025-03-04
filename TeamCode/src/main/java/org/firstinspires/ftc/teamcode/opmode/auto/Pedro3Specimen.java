@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.opmode.auto;
 import static android.os.SystemClock.*;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import  com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.teamcode.pedroPathing.follower.*;
 import org.firstinspires.ftc.teamcode.pedroPathing.localization.Pose;
@@ -22,7 +23,7 @@ import org.firstinspires.ftc.teamcode.pedroPathing.util.Timer;
  * @author Baron Henderson - 20077 The Indubitables
  * @version 2.0, 11/28/2024
  */
-
+@Disabled
 @Autonomous(name = "Pedro3Specimen Auto Blue", group = "Examples")
 public class Pedro3Specimen extends OpMode {
 

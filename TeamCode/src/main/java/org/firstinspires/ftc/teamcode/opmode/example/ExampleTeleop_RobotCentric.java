@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmode.example;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.pedroPathing.localization.Pose;
@@ -14,7 +15,7 @@ import org.firstinspires.ftc.teamcode.config.subsystem.ClawSubsystem;
  * @author Baron Henderson - 20077 The Indubitables
  * @version 2.0, 11/28/2024
  */
-
+@Disabled
 @TeleOp(name = "Example Robot-Centric Teleop", group = "Examples")
 public class ExampleTeleop_RobotCentric extends OpMode {
     private Follower follower;

@@ -67,8 +67,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name="REAL_TELEOP", group="Linear OpMode")
-public class REAL_TELEOP extends LinearOpMode {
+@TeleOp(name="SPECIMEN_TELE", group="Linear OpMode")
+public class SPEC_TELE extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors.
     private ElapsedTime runtime = new ElapsedTime();
@@ -85,13 +85,19 @@ public class REAL_TELEOP extends LinearOpMode {
     private Servo flopity = null;
     private CRServo indulgey = null;
     private CRServo bobby = null;
-    private CRServo bobby2 = null;
+    private Servo bobby2 = null;
 
     double FRPower;
     double FLPower;
     double BRPower;
     double BLPower;
     double speedMode = 0.6;
+
+    boolean toggle = true;
+    boolean toggle2 = false;
+    boolean lastButtonState = false;
+
+    int armToggle = 1;
 
     double stopBuffer = 0;
 
@@ -135,7 +141,9 @@ public class REAL_TELEOP extends LinearOpMode {
         flopity = hardwareMap.get(Servo.class, "flopity");
         indulgey = hardwareMap.get(CRServo.class, "indulgey");
         bobby = hardwareMap.get(CRServo.class, "bobby");
-        bobby2 = hardwareMap.get(CRServo.class, "bobby2");
+        bobby2 = hardwareMap.get(Servo.class, "bobby2");
+
+
 
         // ########################################################################################
         // !!!            IMPORTANT Drive Information. Test your motor directions.            !!!!!
@@ -307,7 +315,7 @@ public class REAL_TELEOP extends LinearOpMode {
             //Added by Aish
 
             intakie.setPower(extendArm);
-            revy.setPower(-extendLeg);
+//            revy.setPower(-extendLeg);
 //            droppiePos += round(gamepad2.left_stick_y * 6);
 //            droppie.setTargetPosition(droppiePos);
 //            droppie.setPower(-1);
@@ -329,36 +337,75 @@ public class REAL_TELEOP extends LinearOpMode {
 //                bobby2.setPower(0);
 //            }
 
-            if (gamepad2.a) {
-                droppie.setPower(1);
-            } else if (gamepad2.y) {
-                droppie.setPower(-1);
-            } else {
-                droppie.setPower(0);
+//            boolean currentButtonState = gamepad2.b;
+//
+//            if (currentButtonState && !lastButtonState && toggle) {
+//                toggle = false;
+//
+//                if (!toggle2) {
+//                    revy.setPower(-extendLeg);
+//                    toggle2 = true;
+//                } else {
+//                    droppie.setPower(-extendLeg);
+//                    toggle2=false;
+//                }
+//            }
+//
+//            if (!currentButtonState) {
+//                toggle = true;
+//            }
+//
+//            lastButtonState = currentButtonState;
+
+            if (gamepad2.b) {
+                droppie.setPower(extendLeg);
             }
 
+            if (!gamepad2.b) {
+                revy.setPower(-extendLeg);
+            }
+
+
+//            if (armToggle == 1){
+//                revy.setPower(-gamepad2.left_stick_y);
+//                if (gamepad2.b){
+//                    armToggle = 2;
+//                }
+//            } else if (armToggle == 2){
+//                droppie.setPower(gamepad2.left_stick_y);
+//                if (gamepad2.b){
+//                    armToggle = 1;
+//                }
+//            } else {
+//                armToggle = 1;
+//            }
+
+//            if (gamepad2.a) {
+//                droppie.setPower(1);
+//            } else if (gamepad2.y) {
+//                droppie.setPower(-1);
+//            } else {
+//                droppie.setPower(0);
+//            }
+
             if (gamepad2.dpad_up) {
-                flopity.setPosition(0.25);
+                flopity.setPosition(0.2);
             } else if (gamepad2.dpad_down) {
                 flopity.setPosition(0.4);
             }
 
 
             if (gamepad2.dpad_left) {
-                flipity.setPosition(0.825);
+                flipity.setPosition(0.85);
             } else if (gamepad2.dpad_right) {
-                flipity.setPosition(0.1);
-            } else if (gamepad2.b) {
-                flipity.setPosition(0.65);
+                flipity.setPosition(0.2);
             }
 
 
             if (gamepad2.left_bumper) {
-                bobby2.setPower(-0.7);
+                bobby2.setPosition(0);
             } else if (gamepad2.right_bumper) {
-                bobby2.setPower(0.7);
-            } else {
-                bobby2.setPower(0);
+                bobby2.setPosition(1);
             }
 
             if (gamepad2.right_trigger > 0.3) {

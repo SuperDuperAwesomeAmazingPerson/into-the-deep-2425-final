@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.notUsing;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -8,6 +9,7 @@ import com.qualcomm.robotcore.util.Range;
  * to get an axis to the desired setpoint value.
  * It also implements an acceleration limit, and a max power output.
  */
+@Disabled
 class ProportionalControl {
     double lastOutput;
     double gain;

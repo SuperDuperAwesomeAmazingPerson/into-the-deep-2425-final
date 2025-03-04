@@ -23,6 +23,7 @@
 package org.firstinspires.ftc.teamcode.notUsing;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -59,7 +60,7 @@ For support, contact tech@gobilda.com
 
 -Ethan Doak
  */
-
+@Disabled
 @Autonomous(name="BlueLefttester", group="Linear OpMode")
 
 public class BlueLefttester extends LinearOpMode {

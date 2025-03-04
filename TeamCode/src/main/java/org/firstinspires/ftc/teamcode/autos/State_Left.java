@@ -80,7 +80,7 @@ public class State_Left extends LinearOpMode {
     private Servo flipity = null;
     private Servo flopity = null;
     private CRServo indulgey = null;
-    private CRServo bobby = null;
+    private Servo bobby = null;
 
     GoBildaPinpointDriver odo; // Declare OpMode member for the Odometry Computer
 
@@ -109,7 +109,7 @@ public class State_Left extends LinearOpMode {
         flipity = hardwareMap.get(Servo.class, "flipity");
         flopity = hardwareMap.get(Servo.class, "flopity");
         indulgey = hardwareMap.get(CRServo.class, "indulgey");
-        bobby = hardwareMap.get(CRServo.class, "bobby2");
+        bobby = hardwareMap.get(Servo.class, "bobby2");
 
         odo = hardwareMap.get(GoBildaPinpointDriver.class,"odo");
 
@@ -126,18 +126,21 @@ public class State_Left extends LinearOpMode {
         FRMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         BRMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         droppie.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        intakie.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         FLMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         FRMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         BRMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         BLMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         droppie.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        intakie.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         FLMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         FRMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         BRMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         BLMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         droppie.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        intakie.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
         //intakie.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -196,8 +199,78 @@ public class State_Left extends LinearOpMode {
         // Wait for the game to start (driver presses START)
         waitForStart();
 
+        //Place #1 (Preload)
+        makeFlopityWork(0.7);
+        sleep(250);
+        makeDroppieWork(-3000);
+        makeIntakieWork(-600);
+        makeFlipityWork(0.837);
+        goToPos(250, 200, Math.toRadians(-55), 0.6, 20, 20, Math.toRadians(15), 2);
+        goToPos(100, 550, Math.toRadians(-65), 0.7, 30, 30, Math.toRadians(15), 1.5);
+        goToPosStop();
+        makeFlopityWork(0.4);
+        sleep(500);
 
+        //Pickup #1
+        goToPos(300, 400, Math.toRadians(0), 0.8, 30, 30, Math.toRadians(15), 2);
+        goToPosStop();
+        sleep(500);
+        makeFlopityWork(0.6);
+        makeDroppieWork(0);
+        sleep(1000);
+        makeIndulgeyWork(-1);
+        makeIntakieWork(-1500);
+        sleep(1000);
+        makeFlipityWork(0.2);
+        makeIntakieWork(200);
+        sleep(1000);
+        makeIndulgeyWork(1);
+        sleep(1000);
 
+        //Place #2
+        makeDroppieWork(-3000);
+        makeFlopityWork(0.7);
+        sleep(1750);
+        goToPos(100, 550, Math.toRadians(-65), 0.7, 30, 30, Math.toRadians(15), 1.5);
+        goToPosStop();
+        makeFlopityWork(0.4);
+        sleep(500);
+
+        //Pickup #2
+        goToPos(300, 250, Math.toRadians(30), 0.8, 30, 30, Math.toRadians(15), 2);
+        goToPosStop();
+        sleep(500);
+        makeFlopityWork(0.6);
+        makeDroppieWork(0);
+        sleep(1000);
+        makeIndulgeyWork(-1);
+        makeIntakieWork(-1500);
+        sleep(1000);
+        makeFlipityWork(0.2);
+        makeIntakieWork(200);
+        sleep(1000);
+        makeIndulgeyWork(1);
+        sleep(1000);
+
+        //Place #3
+        makeDroppieWork(-3000);
+        makeFlopityWork(0.7);
+        sleep(1750);
+        goToPos(100, 550, Math.toRadians(-65), 0.7, 30, 30, Math.toRadians(15), 1.5);
+        goToPosStop();
+        makeFlopityWork(0.4);
+        sleep(1000);
+
+        //Park
+        makeFlopityWork(0.6);
+        goToPos(1000, 450, Math.toRadians(-80), 0.8, 50 ,50, Math.toRadians(20), 2);
+        goToPos(1400, -350, Math.toRadians(-110), 0.7, 50 ,50, Math.toRadians(20), 2);
+        goToPosStop();
+        makeRevieWork(1);
+        sleep(500);
+        makeRevieWork(0);
+        makeDroppieWork(0);
+        sleep(5000);
     }
 
     public void moveForward(double x, double speed) {
@@ -245,22 +318,22 @@ public class State_Left extends LinearOpMode {
     double integralSum = 0;
     double feedfoward = 0;
     double Kp = 0.475;
-    double Ki = 0.2;
-    double Kd = 0.25;
-    double Kf = 0.15;
+    double Ki = 0.0;
+    double Kd = 0.3;
+    double Kf = 0.2;
     private double lastError = 0;
 
     double integralSumX = 0;
-    double KpX=0.0423;
-    double KiX=0.0009;   //Kxp/KYp ratio is affected by the robot weight balance
-    double KdX=0.011;// KXf/KYf ratio is affected by the robot weight balance
+    double KpX=0.04;
+    double KiX=0.0000;   //Kxp/KYp ratio is affected by the robot weight balance
+    double KdX=0.005;// KXf/KYf ratio is affected by the robot weight balance
     double feedfowardX = 0;
     private double lastErrorX = 0;
 
     double integralSumY = 0;
-    double KpY=0.042;
-    double KiY=0.001;   //Kxp/KYp ratio is affected by the robot weight balance
-    double KdY=0.015;// KXf/KYf ratio is affected by the robot weight balance
+    double KpY=0.04;
+    double KiY=0.000;   //Kxp/KYp ratio is affected by the robot weight balance
+    double KdY=0.005;// KXf/KYf ratio is affected by the robot weight balance
     double feedfowardY = 0;
     private double lastErrorY = 0;
 
@@ -287,8 +360,8 @@ public class State_Left extends LinearOpMode {
         double derivative = (error - lastErrorX) / (timerX.seconds());
         lastErrorX = error;
         timerX.reset();
-        double output = (Math.sqrt(Math.abs(error)) * Math.signum(error) * KpX) + (derivative*KdX) + (integralSumX*KiX);
-        //double output = (error*KpX) + (derivative*KdX) + (integralSumX*KiX);
+//        double output = (Math.sqrt(Math.abs(error)) * Math.signum(error) * KpX) + (derivative*KdX) + (integralSumX*KiX);
+        double output = (error*KpX) + (derivative*KdX) + (integralSumX*KiX);
         return output;
     }
 
@@ -298,8 +371,8 @@ public class State_Left extends LinearOpMode {
         double derivative = (error - lastErrorY) / (timerY.seconds());
         lastErrorY = error;
         timerY.reset();
-        double output = (Math.sqrt(Math.abs(error)) * Math.signum(error) * KpY) + (derivative*KdY) + (integralSumY*KiY);
-        //double output = (error*KpY) + (derivative*KdY) + (integralSumY*KiY);
+ //       double output = (Math.sqrt(Math.abs(error)) * Math.signum(error) * KpY) + (derivative*KdY) + (integralSumY*KiY);
+        double output = (error*KpY) + (derivative*KdY) + (integralSumY*KiY);
         return output;
     }
 
@@ -524,8 +597,8 @@ public class State_Left extends LinearOpMode {
         intakie.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
-    public void makeBobbyWork(double power){
-        bobby.setPower(power);//-0.6
+    public void makeBobbyWork(double pos){
+        bobby.setPosition(pos);//-0.6
     }
 
     public void makeFlipityWork(double pos){

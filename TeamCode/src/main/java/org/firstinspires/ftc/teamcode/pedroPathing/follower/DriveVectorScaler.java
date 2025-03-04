@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.pedroPathing.follower;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+
 import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.MathFunctions;
 import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.Vector;
 
@@ -12,6 +14,7 @@ import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.Vector;
  * @author Harrison Womack - 10158 Scott's Bots
  * @version 1.0, 3/4/2024
  */
+@Disabled
 public class DriveVectorScaler {
     // This is ordered left front, left back, right front, right back. These are also normalized.
     private Vector[] mecanumVectors;

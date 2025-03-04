@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.TestAuto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -9,7 +10,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 
 
 import static java.lang.Thread.sleep;
-
+@Disabled
 @Autonomous(name="stolenOdo", group="Robot")
 
 public class IntoDeepAuto extends LinearOpMode {

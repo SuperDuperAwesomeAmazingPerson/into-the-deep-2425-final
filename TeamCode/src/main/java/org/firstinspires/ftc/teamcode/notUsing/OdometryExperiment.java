@@ -27,6 +27,7 @@ package org.firstinspires.ftc.teamcode.notUsing;/* Copyright (c) 2017 FIRST. All
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -34,7 +35,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 
-
+@Disabled
 @TeleOp(name="Odometry Experiment", group="Linear OpMode")
 public class OdometryExperiment extends LinearOpMode
 {

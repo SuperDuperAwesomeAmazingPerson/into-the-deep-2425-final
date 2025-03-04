@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.pedroPathing.tuning;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.MathFunctions;
 import org.firstinspires.ftc.teamcode.pedroPathing.pathGeneration.Point;
@@ -20,6 +21,7 @@ import org.firstinspires.ftc.teamcode.pedroPathing.util.KalmanFilterParameters;
  * @version 1.0, 3/4/2024
  */
 @Config
+@Disabled
 public class FollowerConstants {
 
     // This section is for configuring your motors

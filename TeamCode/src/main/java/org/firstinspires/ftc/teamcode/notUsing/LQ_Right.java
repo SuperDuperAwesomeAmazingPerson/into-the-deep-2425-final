@@ -23,6 +23,7 @@
 package org.firstinspires.ftc.teamcode.notUsing;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -61,7 +62,7 @@ For support, contact tech@gobilda.com
 
 -Ethan Doak
  */
-
+@Disabled
 @Autonomous(name="LQ_Right", group="Linear OpMode")
 //@Disabled
 

@@ -23,11 +23,12 @@
 package org.firstinspires.ftc.teamcode.notUsing;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
-
+@Disabled
 @Autonomous(name="BlueLeft_Encoder", group="Linear OpMode")
 public class BlueLeft_Encoder extends LinearOpMode{
 
