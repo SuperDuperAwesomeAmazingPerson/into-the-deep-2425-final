@@ -389,9 +389,9 @@ public class BASKET_TELE extends LinearOpMode {
 //            }
 
             if (gamepad2.dpad_up) {
-                flopity.setPosition(0.15);
+                flopity.setPosition(0.1);
             } else if (gamepad2.dpad_down) {
-                flopity.setPosition(0.4);
+                flopity.setPosition(0.33);
             }
 
 
@@ -411,7 +411,7 @@ public class BASKET_TELE extends LinearOpMode {
             if (gamepad2.right_trigger > 0.3) {
                 indulgey.setPower(-1);
             } else if (gamepad2.left_trigger > 0.3) {
-                indulgey.setPower(1);
+                indulgey.setPower(0.7);
             } else {
                 indulgey.setPower(0);
             }

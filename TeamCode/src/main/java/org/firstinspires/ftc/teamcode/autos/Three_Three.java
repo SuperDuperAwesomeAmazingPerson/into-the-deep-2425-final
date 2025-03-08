@@ -284,7 +284,7 @@ public class Three_Three extends LinearOpMode {
         goToPos(1300, -1050, Math.toRadians(0), 0.7, 200,150, Math.toRadians(15), 2);
         goToPos(1400, -1150, Math.toRadians(0), 0.6, 200, 200, Math.toRadians(15), 1);
         goToPosStop();
-        goToPos(100, -1200, Math.toRadians(0), 0.8, 200, 200, Math.toRadians(15), 3);
+        goToPos(100, -1200, Math.toRadians(0), 0.8, 200, 200, Math.toRadians(15), 1.5);
 
         //Pickup #1
         goToPos(200, -450, Math.toRadians(0), 0.5, 100, 50, Math.toRadians(10), 1);
@@ -295,9 +295,9 @@ public class Three_Three extends LinearOpMode {
         makeRevieWork(1);
 
         //Place #1
-        goToPos(400, 650, Math.toRadians(0), 0.7, 100, 100, Math.toRadians(10), 2);
-        goToPos(750, 700, Math.toRadians(0), 0.7, 100, 100, Math.toRadians(10), 2);
-        goToPos(945, 700, Math.toRadians(0), 0.5, 190, 100, Math.toRadians(10), 1);
+        goToPos(400, 550, Math.toRadians(0), 0.7, 100, 100, Math.toRadians(10), 2);
+        goToPos(750, 540, Math.toRadians(0), 0.7, 100, 100, Math.toRadians(10), 2);
+        goToPos(945, 525, Math.toRadians(0), 0.5, 190, 100, Math.toRadians(10), 1);
         sleep(500);
         makeRevieWork(-1);
         sleep(250);
@@ -315,9 +315,9 @@ public class Three_Three extends LinearOpMode {
         makeRevieWork(0.8);
 
         //Place #2
-        goToPos(400, 700, Math.toRadians(0), 0.7, 100, 100, Math.toRadians(10), 2);
-        goToPos(750, 750, Math.toRadians(0), 0.7, 100, 100, Math.toRadians(10), 2);
-        goToPos(945, 750, Math.toRadians(0), 0.5, 190, 100, Math.toRadians(10), 1);
+        goToPos(400, 640, Math.toRadians(0), 0.7, 100, 100, Math.toRadians(10), 2);
+        goToPos(750, 650, Math.toRadians(0), 0.7, 100, 100, Math.toRadians(10), 2);
+        goToPos(945, 630, Math.toRadians(0), 0.5, 190, 100, Math.toRadians(10), 1);
         sleep(500);
         makeRevieWork(-1);
         sleep(250);
@@ -335,9 +335,9 @@ public class Three_Three extends LinearOpMode {
         makeRevieWork(0.8);
 
 //        //Place #3
-        goToPos(400, 730, Math.toRadians(0), 0.7, 100, 100, Math.toRadians(10), 2);
-        goToPos(750, 780, Math.toRadians(0), 0.7, 100, 100, Math.toRadians(10), 2);
-        goToPos(945, 780, Math.toRadians(0), 0.5, 190, 100, Math.toRadians(10), 1);
+        goToPos(400, 670, Math.toRadians(0), 0.7, 100, 100, Math.toRadians(10), 2);
+        goToPos(750, 680, Math.toRadians(0), 0.7, 100, 100, Math.toRadians(10), 2);
+        goToPos(945, 700, Math.toRadians(0), 0.5, 190, 100, Math.toRadians(10), 1);
         sleep(500);
         makeRevieWork(-1);
         sleep(250);

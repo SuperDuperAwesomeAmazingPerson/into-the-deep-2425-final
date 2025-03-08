@@ -389,7 +389,7 @@ public class SPEC_TELE extends LinearOpMode {
 //            }
 
             if (gamepad2.dpad_up) {
-                flopity.setPosition(0.2);
+                flopity.setPosition(0.15);
             } else if (gamepad2.dpad_down) {
                 flopity.setPosition(0.4);
             }

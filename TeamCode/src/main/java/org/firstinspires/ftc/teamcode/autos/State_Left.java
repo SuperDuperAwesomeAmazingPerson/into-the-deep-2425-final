@@ -200,76 +200,85 @@ public class State_Left extends LinearOpMode {
         waitForStart();
 
         //Place #1 (Preload)
-        makeFlopityWork(0.7);
+        makeFlopityWork(0.33);
         sleep(250);
         makeDroppieWork(-3000);
         makeIntakieWork(-600);
         makeFlipityWork(0.837);
+        sleep(750);
         goToPos(250, 200, Math.toRadians(-55), 0.6, 20, 20, Math.toRadians(15), 2);
         goToPos(100, 550, Math.toRadians(-65), 0.7, 30, 30, Math.toRadians(15), 1.5);
         goToPosStop();
-        makeFlopityWork(0.4);
+        makeFlopityWork(0.1);
         sleep(500);
 
         //Pickup #1
-        goToPos(300, 400, Math.toRadians(0), 0.8, 30, 30, Math.toRadians(15), 2);
+        goToPos(450, 500, Math.toRadians(-15), 0.8, 30, 30, Math.toRadians(15), 3);
         goToPosStop();
-        sleep(500);
-        makeFlopityWork(0.6);
         makeDroppieWork(0);
         sleep(1000);
         makeIndulgeyWork(-1);
-        makeIntakieWork(-1500);
-        sleep(1000);
+        makeIntakieWork(-1800);
+        sleep(1200);
         makeFlipityWork(0.2);
-        makeIntakieWork(200);
-        sleep(1000);
-        makeIndulgeyWork(1);
+        makeIntakieWork(75);
+        sleep(500);
+        makeFlopityWork(0.33);
+        sleep(500);
+        makeIndulgeyWork(0.7);
         sleep(1000);
 
         //Place #2
         makeDroppieWork(-3000);
-        makeFlopityWork(0.7);
+        makeIntakieWork(-700);
+        makeIndulgeyWork(0);
         sleep(1750);
+        makeFlopityWork(0.5);
+        goToPos(200, 450, Math.toRadians(-65), 0.7, 30, 30, Math.toRadians(15), 1.5);
         goToPos(100, 550, Math.toRadians(-65), 0.7, 30, 30, Math.toRadians(15), 1.5);
         goToPosStop();
-        makeFlopityWork(0.4);
+        makeFlopityWork(0.1);
+        sleep(1000);
+        makeFlopityWork(0.33);
         sleep(500);
 
         //Pickup #2
-        goToPos(300, 250, Math.toRadians(30), 0.8, 30, 30, Math.toRadians(15), 2);
+        goToPos(400, 100, Math.toRadians(50), 0.8, 30, 30, Math.toRadians(15), 2);
         goToPosStop();
+        makeFlipityWork(0.84);
         sleep(500);
-        makeFlopityWork(0.6);
         makeDroppieWork(0);
         sleep(1000);
         makeIndulgeyWork(-1);
-        makeIntakieWork(-1500);
-        sleep(1000);
+        makeIntakieWork(-1800);
+        sleep(1500);
         makeFlipityWork(0.2);
-        makeIntakieWork(200);
-        sleep(1000);
-        makeIndulgeyWork(1);
+        makeIntakieWork(75);
+        sleep(500);
+        makeFlopityWork(0.33);
+        sleep(500);
+        makeIndulgeyWork(0.7);
         sleep(1000);
 
         //Place #3
         makeDroppieWork(-3000);
-        makeFlopityWork(0.7);
-        sleep(1750);
-        goToPos(100, 550, Math.toRadians(-65), 0.7, 30, 30, Math.toRadians(15), 1.5);
+        makeIntakieWork(-700);
+        sleep(1500);
+        makeIndulgeyWork(0);
+        goToPos(300, 600, Math.toRadians(-65), 0.7, 30, 30, Math.toRadians(15), 1.5);
+        goToPos(100, 600, Math.toRadians(-65), 0.7, 30, 30, Math.toRadians(15), 0.5);
         goToPosStop();
-        makeFlopityWork(0.4);
+        makeFlopityWork(0.1);
         sleep(1000);
+        makeFlopityWork(0.33);
 
         //Park
-        makeFlopityWork(0.6);
-        goToPos(1000, 450, Math.toRadians(-80), 0.8, 50 ,50, Math.toRadians(20), 2);
-        goToPos(1400, -350, Math.toRadians(-110), 0.7, 50 ,50, Math.toRadians(20), 2);
+        makeFlopityWork(0.33);
+        goToPos(1000, 200, Math.toRadians(-80), 1, 50 ,50, Math.toRadians(20), 2.5);
+        goToPos(1400, -450, Math.toRadians(-115), 0.9, 150 ,50, Math.toRadians(20), 3);
         goToPosStop();
-        makeRevieWork(1);
-        sleep(500);
-        makeRevieWork(0);
         makeDroppieWork(0);
+        makeRevieWork(0.7);
         sleep(5000);
     }
 
