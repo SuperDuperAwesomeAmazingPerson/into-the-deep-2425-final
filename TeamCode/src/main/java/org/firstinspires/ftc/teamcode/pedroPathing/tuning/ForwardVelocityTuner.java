@@ -41,7 +41,6 @@ import java.util.List;
  * @version 1.0, 3/13/2024
  */
 @Config
-@Disabled
 @Autonomous(name = "Forward Velocity Tuner", group = "Autonomous Pathing Tuning")
 public class ForwardVelocityTuner extends OpMode {
     private ArrayList<Double> velocities = new ArrayList<>();
@@ -155,6 +154,7 @@ public class ForwardVelocityTuner extends OpMode {
             average /= (double) velocities.size();
 
             telemetryA.addData("forward velocity:", average);
+            telemetryA.addData("x:",poseUpdater.getPose().getX());
             telemetryA.update();
         }
     }

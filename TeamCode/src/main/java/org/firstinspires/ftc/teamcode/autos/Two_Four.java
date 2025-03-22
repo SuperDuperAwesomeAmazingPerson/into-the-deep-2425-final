@@ -216,7 +216,7 @@ public class Two_Four extends LinearOpMode {
         goToPos(1200, -750, Math.toRadians(-15), 0.9, 150,150, Math.toRadians(10), 1);
         goToPos(1320, -845, Math.toRadians(-10), 0.8, 200, 200, Math.toRadians(15), 1);
         goToPosStop();
-        goToPos(190, -835, Math.toRadians(-10), 1, 200, 200, Math.toRadians(15), 1.5);
+        goToPos(190, -835, Math.toRadians(-10), 1, 200, 200, Math.toRadians(15), 2);
 
         //Pickup #1
         goToPos(200, -450, Math.toRadians(0), 0.7, 100, 50, Math.toRadians(10), 1);
@@ -227,9 +227,9 @@ public class Two_Four extends LinearOpMode {
         makeRevieWork(1);
 
         //Place #1
-        goToPos(250, 600, Math.toRadians(0), 0.9, 100, 100, Math.toRadians(10), 3);
-        goToPos(750, 505, Math.toRadians(0), 0.8, 100, 50, Math.toRadians(10), 2);
-        goToPos(945, 470, Math.toRadians(0), 0.6, 190, 40, Math.toRadians(10), 1);
+        goToPos(250, 550, Math.toRadians(0), 0.9, 100, 100, Math.toRadians(10), 3);
+        goToPos(750, 510, Math.toRadians(0), 0.8, 100, 40, Math.toRadians(10), 2);
+        goToPos(945, 470, Math.toRadians(0), 0.6, 190, 40, Math.toRadians(10), 0.3);
         sleep(300);
         makeRevieWork(-1);
         sleep(400);
@@ -249,8 +249,8 @@ public class Two_Four extends LinearOpMode {
 
         //Place #2
         goToPos(250, 600, Math.toRadians(0), 0.9, 100, 100, Math.toRadians(10), 3);
-        goToPos(750, 515, Math.toRadians(0), 0.8, 100, 50, Math.toRadians(10), 2);
-        goToPos(945, 505, Math.toRadians(0), 0.6, 190, 50, Math.toRadians(10), 1);
+        goToPos(750, 510, Math.toRadians(0), 0.8, 100, 50, Math.toRadians(10), 2);
+        goToPos(945, 490, Math.toRadians(0), 0.6, 190, 50, Math.toRadians(10), 1);
         sleep(500);
         makeRevieWork(-1);
         sleep(250);
@@ -270,7 +270,7 @@ public class Two_Four extends LinearOpMode {
 
 //        //Place #3
         goToPos(250, 575, Math.toRadians(0), 0.9, 100, 100, Math.toRadians(10), 3);
-        goToPos(750, 660, Math.toRadians(0), 0.8, 100, 50, Math.toRadians(10), 2);
+        goToPos(750, 640, Math.toRadians(0), 0.8, 100, 50, Math.toRadians(10), 2);
         goToPos(945, 620, Math.toRadians(0), 0.6, 190, 50, Math.toRadians(10), 1);
         sleep(500);
         makeRevieWork(-1);
@@ -290,7 +290,7 @@ public class Two_Four extends LinearOpMode {
         makeRevieWork(0.8);
 
 ////        Place #4
-        goToPos(250, 575, Math.toRadians(0), 0.9, 100, 100, Math.toRadians(10), 3);
+        goToPos(250, 625, Math.toRadians(0), 0.9, 100, 100, Math.toRadians(10), 3);
         goToPos(750, 760, Math.toRadians(0), 0.8, 100, 50, Math.toRadians(10), 2);
         goToPos(945, 740, Math.toRadians(0), 0.6, 190, 50, Math.toRadians(10), 1);
         sleep(500);

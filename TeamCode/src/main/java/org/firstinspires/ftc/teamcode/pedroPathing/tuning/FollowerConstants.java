@@ -21,19 +21,18 @@ import org.firstinspires.ftc.teamcode.pedroPathing.util.KalmanFilterParameters;
  * @version 1.0, 3/4/2024
  */
 @Config
-@Disabled
 public class FollowerConstants {
 
     // This section is for configuring your motors
-    public static String leftFrontMotorName = "leftFront";
-    public static String leftRearMotorName = "leftRear";
-    public static String rightFrontMotorName = "rightFront";
-    public static String rightRearMotorName = "rightRear";
+    public static String leftFrontMotorName = "FL";
+    public static String leftRearMotorName = "BL";
+    public static String rightFrontMotorName = "FR";
+    public static String rightRearMotorName = "BR";
 
     // This section is for setting the actual drive vector for the front left wheel, if the robot
     // is facing a heading of 0 radians with the wheel centered at (0,0)
-    private static double xMovement = 63.859;
-    private static double yMovement = 54.7016;
+    private static double xMovement = 68.118;
+    private static double yMovement = 61.1213;
     private static double[] convertToPolar = Point.cartesianToPolar(xMovement, -yMovement);
     public static Vector frontLeftVector = MathFunctions.normalizeVector(new Vector(convertToPolar[0], convertToPolar[1]));
 
@@ -85,7 +84,7 @@ public class FollowerConstants {
 
 
     // Mass of robot in kilograms
-    public static double mass = 5;
+    public static double mass = 4.5;
 
     // Centripetal force to power scaling
     public static double centripetalScaling = 0.0005;
